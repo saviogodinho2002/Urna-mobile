@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_party_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="TextView"
+        android:maxWidth="200dp"
         app:layout_constraintBottom_toBottomOf="@+id/img_logo_party"
         app:layout_constraintStart_toEndOf="@+id/img_logo_party"
         app:layout_constraintTop_toTopOf="@+id/img_logo_party" />
@@ -31,11 +33,11 @@
         android:id="@+id/txt_party_initial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginEnd="10dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_party_name"
-        app:layout_constraintStart_toEndOf="@+id/txt_party_name"
-        app:layout_constraintTop_toTopOf="@+id/txt_party_name" />
+        app:layout_constraintBottom_toBottomOf="@+id/txt_party_number"
+        app:layout_constraintEnd_toStartOf="@+id/txt_party_number"
+        app:layout_constraintTop_toTopOf="@+id/txt_party_number" />
 
     <ImageView
         android:id="@+id/img_icon_delet"
@@ -51,9 +53,9 @@
         android:id="@+id/txt_party_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_party_initial"
-        app:layout_constraintStart_toEndOf="@+id/txt_party_initial"
-        app:layout_constraintTop_toTopOf="@+id/txt_party_initial" />
+        app:layout_constraintBottom_toBottomOf="@+id/img_icon_delet"
+        app:layout_constraintEnd_toStartOf="@+id/img_icon_delet"
+        app:layout_constraintTop_toTopOf="@+id/img_icon_delet" />
 </androidx.constraintlayout.widget.ConstraintLayout>

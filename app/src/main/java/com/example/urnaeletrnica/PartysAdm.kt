@@ -11,12 +11,10 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,8 +28,8 @@ class PartysAdm : AppCompatActivity() {
     private lateinit var editPartyName:EditText;
     private lateinit var editPartyInitials:EditText;
     private lateinit var editPartyNumber:EditText;
-    private lateinit var btnSave:Button;
-    private lateinit var btnUpdate:Button;
+    private lateinit var btnSaveOrUpdate:Button;
+
     private lateinit var recyclerView: RecyclerView;
     private lateinit var imgToParty:ImageView;
 
@@ -39,6 +37,8 @@ class PartysAdm : AppCompatActivity() {
     private lateinit var adapter:ListPartyAdapter;
 
     private var imgUri: Uri? = null;
+    private var partyOnFocus:Party? = null;
+    private var partyOnFocusView:ConstraintLayout? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +48,8 @@ class PartysAdm : AppCompatActivity() {
         editPartyInitials = findViewById(R.id.edit_party_initials);
         editPartyNumber = findViewById(R.id.edit_party_number);
 
-        btnSave = findViewById(R.id.btn_party_save);
-        btnUpdate = findViewById(R.id.btn_party_update);
+        btnSaveOrUpdate = findViewById(R.id.btn_party_save);
+
 
         imgToParty = findViewById(R.id.img_party_photo);
 
@@ -75,12 +75,17 @@ class PartysAdm : AppCompatActivity() {
 
         }.start()
 
-        btnSave.setOnClickListener {
-            saveParty()
+        btnSaveOrUpdate.setOnClickListener {
+            if (partyOnFocus == null)
+                saveParty()
+            else
+                updateParty()
+            btnSaveOrUpdate.setText(R.string.btn_save);
         }
         imgToParty.setOnClickListener {
             selectPhoto()
         }
+
 
 
     }
@@ -90,9 +95,122 @@ class PartysAdm : AppCompatActivity() {
         editPartyNumber.setText("");
         imgToParty.setImageResource(R.drawable.ic_add_photo);
     }
-    private fun removePhotoFile(photo:String){
-        val file = File(photo);
-         file.delete()
+
+
+    private fun formIsValid():Boolean{
+        return (editPartyName.text.toString().isNotEmpty() &&
+            editPartyInitials.text.toString().isNotEmpty() &&
+            editPartyNumber.text.toString().isNotEmpty())
+
+    }
+    private fun updateParty(){
+        if(!formIsValid() && partyOnFocus == null)
+            return;
+        var imgDirectory:String? = null;
+        Thread{
+
+            if(imgUri != null){
+                imgDirectory = saveAndGetDirPhoto(imgUri!!);
+            }else if(partyOnFocus!!.logoPhoto != null){
+                imgDirectory = partyOnFocus!!.logoPhoto;
+            }
+            val party = Party(
+                id = partyOnFocus!!.id,
+                name = editPartyName.text.toString().trim(),
+                logoPhoto = imgDirectory,
+                initials =  editPartyInitials.text.toString().trim(),
+                number = editPartyNumber.text.toString().trim(),
+                timeStamp = System.currentTimeMillis());
+
+            val app = application as App;
+            val dao = app.db.PartyDao()
+
+
+            if( (partyOnFocus!!.logoPhoto != null) && ((imgDirectory == null) || (partyOnFocus!!.logoPhoto != imgDirectory)) )
+                removePhotoFile(partyOnFocus!!.logoPhoto!!);
+
+            partyData[partyData.indexOf(partyOnFocus!!)] = party;
+            dao.updateParty(party);
+            partyOnFocus = null;
+            partyOnFocusView!!.setBackgroundColor(resources.getColor(android.R.color.transparent));
+            partyOnFocusView = null;
+            imgUri = null;
+
+            runOnUiThread{
+                adapter.notifyDataSetChanged()
+                resetForm();
+            }
+
+        }.start()
+
+    }
+    private fun saveParty(){
+        if(!formIsValid())
+            return;
+        var imgDirectory:String? = null;
+
+        Thread{
+
+            if(imgUri != null){
+                imgDirectory = saveAndGetDirPhoto(imgUri!!);
+            }
+            val party = Party(
+                name = editPartyName.text.toString().trim(),
+                logoPhoto = imgDirectory,
+                initials =  editPartyInitials.text.toString().trim(),
+                number = editPartyNumber.text.toString().trim(),
+                timeStamp = System.currentTimeMillis());
+
+            val app = application as App;
+            val dao = app.db.PartyDao()
+
+            partyData.add(party)
+            dao.insertParty(party)
+
+            runOnUiThread{
+                adapter.notifyDataSetChanged()
+                resetForm();
+            }
+
+        }.start()
+    }
+
+    private fun deleteParty(party:Party){
+        Thread{
+            val app = application as App;
+            val dao = app.db.PartyDao()
+
+            if (party.logoPhoto != null)
+                removePhotoFile(party.logoPhoto);
+            partyData.remove(party);
+            dao.deleteParty(party);
+
+            runOnUiThread {
+
+                adapter.notifyDataSetChanged()
+            }
+        }.start()
+    }
+
+    private fun insertDataInFom(party: Party){
+        editPartyName.setText(party.name);
+        editPartyInitials.setText(party.initials)
+        editPartyNumber.setText(party.number);
+
+        imgToParty.setImageURI(party.logoPhoto?.toUri())
+    }
+
+    private fun selectPhoto(){
+        val intent = Intent(Intent.ACTION_PICK);
+        intent.type = "image/*";
+        selectPhotoLauncher.launch(intent);
+
+    }
+    private var selectPhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            imgUri = result.data?.data;
+            imgToParty.setImageURI(imgUri);
+        }
     }
     private fun saveAndGetDirPhoto(uri:Uri):String?{
         try {
@@ -112,64 +230,9 @@ class PartysAdm : AppCompatActivity() {
         }
         return  null;
     }
-
-    private fun saveParty(){
-        if(editPartyName.text.toString().isEmpty() ||
-            editPartyInitials.text.toString().isEmpty() ||
-            editPartyNumber.text.toString().isEmpty())
-            return;
-        var imgDirectory:String? = null;
-        if(imgUri != null){
-            imgDirectory = saveAndGetDirPhoto(imgUri!!);
-        }
-        val party = Party(
-            name = editPartyName.text.toString().trim(),
-            logoPhoto = imgDirectory,
-            initials =  editPartyInitials.text.toString().trim(),
-            number = editPartyNumber.text.toString().trim(),
-            timeStamp = System.currentTimeMillis());
-        Thread{
-            val app = application as App;
-            val dao = app.db.PartyDao()
-
-            partyData.add(party)
-            dao.insertParty(party)
-
-            runOnUiThread{
-                adapter.notifyDataSetChanged()
-                resetForm();
-            }
-
-        }.start()
-    }
-
-    private fun deletParty(party:Party){
-        Thread{
-            val app = application as App;
-            val dao = app.db.PartyDao()
-
-            if (party.logoPhoto != null)
-                removePhotoFile(party.logoPhoto);
-            partyData.remove(party);
-            dao.deleteParty(party);
-
-            runOnUiThread {
-
-                adapter.notifyDataSetChanged()
-            }
-        }.start()
-    }
-    private fun selectPhoto(){
-        val intent = Intent(Intent.ACTION_PICK);
-        intent.type = "image/*";
-        selectPhotoLauncher.launch(intent);
-
-    }
-    private var selectPhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            imgUri = result.data?.data;
-            imgToParty.setImageURI(imgUri);
-        }
+    private fun removePhotoFile(photo:String){
+        val file = File(photo);
+        file.delete()
     }
 
     private inner class ListPartyAdapter(private val partyList:List<Party>):RecyclerView.Adapter<ListPartyAdapter.ListPartyViewHolder>(){
@@ -186,9 +249,7 @@ class PartysAdm : AppCompatActivity() {
         override fun getItemCount(): Int {
             return partyList.size
         }
-
-
-
+        
         private inner class ListPartyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
             fun bind(item:Party){
 
@@ -200,17 +261,38 @@ class PartysAdm : AppCompatActivity() {
 
                 val imgDelet = itemView.findViewById<ImageView>(R.id.img_icon_delet);
 
+                val layoutThisParty = itemView.findViewById<ConstraintLayout>(R.id.cl_party_item);
                 if(item.logoPhoto != null){
                     imgPhoto.setImageURI(item.logoPhoto.toUri());
                 }
+
 
                 txtName.text = item.name;
                 txtInitial.text = item.initials;
                 txtNumber.text = item.number;
 
+
+
+                layoutThisParty.setOnClickListener {
+                    partyOnFocusView?.setBackgroundColor(resources.getColor(android.R.color.transparent));
+                    if(partyOnFocus == item){
+                        partyOnFocus = null;
+                        partyOnFocusView = null;
+                        btnSaveOrUpdate.setText(R.string.btn_save);
+                        resetForm();
+                        return@setOnClickListener;
+                    }
+                    insertDataInFom(item);
+                    btnSaveOrUpdate.setText(R.string.btn_update);
+                    partyOnFocusView = layoutThisParty;
+                    partyOnFocus = item;
+                    layoutThisParty.setBackgroundColor(resources.getColor(android.R.color.holo_blue_dark) );
+
+                }
+
                 imgDelet.setOnClickListener {
                     Log.i("teste","clickdelete")
-                    deletParty(item);
+                    deleteParty(item);
                 }
 
             }
