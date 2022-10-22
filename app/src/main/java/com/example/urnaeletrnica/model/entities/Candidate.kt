@@ -10,7 +10,7 @@ data class Candidate(
     @ColumnInfo(name = "name") val name:String,
     @ColumnInfo(name = "photoUrl") val photoUrl:String?,
     @ColumnInfo(name = "partyId") val partyId:Int, // chave estrangeira
-    @ColumnInfo(name = "number") val number: Int,
+    @ColumnInfo(name = "number") val number: String,
     @ColumnInfo(name = "timeStamp") val timestamp: Long
 
 )

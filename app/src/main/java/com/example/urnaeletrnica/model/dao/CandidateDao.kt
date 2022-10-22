@@ -14,7 +14,7 @@ interface CandidateDao {
     fun getCandidateByID(id:Int):Candidate;
 
     @Query("SELECT * FROM Candidate Where number = :number") //variavel dinamica, mesma da função de baixo
-    fun getCandidateByNumber(number:Int):Candidate;
+    fun getCandidateByNumber(number:String):Candidate;
 
     @Query("SELECT * FROM Candidate Where partyId = :partyId")
     fun getRegistersByParty(partyId: Int):List<Candidate>;

@@ -1,9 +1,13 @@
 package com.example.urnaeletrnica
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var btnPartyActivity:Button;
@@ -12,7 +16,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main);
 
-        //supportActionBar?.hide()
+
+        if ( ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+            } else {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+            }
+        }
+        if ( ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+            } else {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+            }
+        }
+
 
         btnPartyActivity = findViewById(R.id.btn_view_partys);
         btnOfficeActivity = findViewById(R.id.btn_office);
