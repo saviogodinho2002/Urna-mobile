@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        style="@style/ButtonsMainActiity"
+        android:id="@+id/btn_view_candidates"
+
+        android:text="@string/btn_candidate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_vote"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        style="@style/ButtonsMainActiity"
+        android:id="@+id/btn_view_partys"
+
+        android:text="@string/btn_partys"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_vote"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        style="@style/ButtonsMainActiity"
+        android:id="@+id/btn_vote"
+
+        android:text="@string/btn_vote"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/btn_office"
+        style="@style/ButtonsMainActiity"
+
+        android:text="@string/btn_office"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_vote"
+        app:layout_constraintStart_toStartOf="@+id/btn_vote"
+        app:layout_constraintTop_toBottomOf="@+id/btn_vote" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

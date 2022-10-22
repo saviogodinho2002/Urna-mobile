@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">UrnaEletrônica</string>
+    <string name="btn_candidate">Candidatos</string>
+    <string name="btn_partys">Partidos</string>
+    <string name="btn_vote">Votar</string>
+    <string name="party_name_hint">Nome do Partido</string>
+    <string name="party_initial_hint">Sigla</string>
+    <string name="party_number_hint">Numero</string>
+    <string name="btn_save">Salvar</string>
+    <string name="btn_update">Atulizar</string>
+    <string name="btn_office">Cargos</string>
+    <string name="cargo_hint">Cargo</string>
+    <string name="cargo_numberLimt_hint">Numero maximo</string>
+</resources>
