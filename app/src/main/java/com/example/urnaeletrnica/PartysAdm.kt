@@ -20,6 +20,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.model.entities.Party
+import com.example.urnaeletrnica.utils.InternalPhotosController
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -40,6 +41,7 @@ class PartysAdm : AppCompatActivity() {
     private var imgUri: Uri? = null
     private var partyOnFocus:Party? = null
     private var partyOnFocusView:ConstraintLayout? = null
+    private val directory = "party_photos";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +136,7 @@ class PartysAdm : AppCompatActivity() {
         Thread{
 
             if(imgUri != null){
-                imgDirectory = saveAndGetDirPhoto(imgUri!!)
+                imgDirectory = InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directory,imgUri!! )
             }else if(partyOnFocus!!.logoPhoto != null){
                 imgDirectory = partyOnFocus!!.logoPhoto
             }
@@ -151,7 +153,7 @@ class PartysAdm : AppCompatActivity() {
 
 
             if( (partyOnFocus!!.logoPhoto != null) && ((imgDirectory == null) || (partyOnFocus!!.logoPhoto != imgDirectory)) )
-                removePhotoFile(partyOnFocus!!.logoPhoto!!)
+                InternalPhotosController.removePhotoFile(partyOnFocus!!.logoPhoto!!)
 
             partyData[partyData.indexOf(partyOnFocus!!)] = party
             dao.updateParty(party)
@@ -176,7 +178,8 @@ class PartysAdm : AppCompatActivity() {
         Thread{
 
             if(imgUri != null){
-                imgDirectory = saveAndGetDirPhoto(imgUri!!)
+                //imgDirectory = saveAndGetDirPhoto(imgUri!!)
+                imgDirectory =  InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directory,imgUri!! )
             }
             val party = Party(
                 name = editPartyName.text.toString().trim(),
@@ -205,7 +208,7 @@ class PartysAdm : AppCompatActivity() {
             val dao = app.db.PartyDao()
 
             if (party.logoPhoto != null)
-                removePhotoFile(party.logoPhoto)
+                InternalPhotosController.removePhotoFile(party.logoPhoto)
             partyData.remove(party)
             dao.deleteParty(party)
 
