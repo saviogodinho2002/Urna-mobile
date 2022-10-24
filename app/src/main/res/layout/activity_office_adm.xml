@@ -62,12 +62,6 @@
                     android:layout_marginRight="5dp"
                     android:text="@string/btn_save" />
 
-                <Button
-                    android:id="@+id/btn_office_update"
-                    style="@style/ButtonsPartyForm"
-
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/btn_update" />
             </LinearLayout>
 
 

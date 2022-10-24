@@ -6,7 +6,9 @@
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.30158730158730157" />
         <entry key="app/src/main/res/layout/activity_cargos_adm.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35625" />
+        <entry key="app/src/main/res/layout/activity_office_adm.xml" value="0.27692307692307694" />
         <entry key="app/src/main/res/layout/activity_partys_adm.xml" value="0.340625" />
+        <entry key="app/src/main/res/layout/office_layout.xml" value="0.28020833333333334" />
         <entry key="app/src/main/res/layout/party_layout.xml" value="0.35625" />
       </map>
     </option>
