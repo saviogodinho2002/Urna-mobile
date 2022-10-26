@@ -2,11 +2,11 @@ package com.example.urnaeletrnica
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.model.entities.Office
@@ -18,6 +18,7 @@ class OfficeAdm : AppCompatActivity() {
     private lateinit var editOfficeMaxNumber: EditText;
 
     private lateinit var btnSaveUpdate: Button;
+    private lateinit var switchExecutive:SwitchCompat;
 
     private lateinit var adapter: ListOfficeAdapter;
     private lateinit var recyclerView: RecyclerView;
@@ -30,10 +31,13 @@ class OfficeAdm : AppCompatActivity() {
         editOfficeName = findViewById(R.id.edit_office_name);
         editOfficeMaxNumber = findViewById(R.id.edit_office_initials);
         btnSaveUpdate = findViewById(R.id.btn_office_save);
+        switchExecutive = findViewById(R.id.switch_executive)
 
         officeData = mutableListOf();
         adapter = ListOfficeAdapter(officeData){id, office, view ->
-
+            when(id){
+                0 ->deleteOffice(office);
+            }
         }
 
         recyclerView = findViewById(R.id.recycler_office);
@@ -41,7 +45,19 @@ class OfficeAdm : AppCompatActivity() {
         recyclerView.adapter = adapter;
 
 
-        //fetch data
+        fetchData()
+
+        btnSaveUpdate.setOnClickListener {
+            saveOffice();
+        }
+        switchExecutive.setOnCheckedChangeListener { compoundButton, b ->
+            Log.i("teste",""+b)
+            editOfficeMaxNumber.isEnabled = !b;
+        }
+
+
+    }
+    private fun fetchData(){
         Thread{
             val app = application as App
             val dao = app.db.OfficeDao()
@@ -56,11 +72,48 @@ class OfficeAdm : AppCompatActivity() {
         }.start()
 
 
-        btnSaveUpdate.setOnClickListener {
+    }
+    private fun deleteOffice(office: Office){
+        Thread{
+            val app = application as App
+            val dao = app.db.OfficeDao()
 
+            val index = officeData.indexOf(office)
+            dao.deleteOffice(office)
+            officeData.remove(office)
+            runOnUiThread {
+                adapter.notifyItemRemoved(index);
+            }
+
+        }.start()
+    }
+    private fun saveOffice(){
+        if(!formIsValid()){
+            return;
         }
+        Thread{
+            val app = application as App
+            val dao = app.db.OfficeDao()
+            val number = if(switchExecutive.isChecked) 2 else Integer.parseInt(editOfficeMaxNumber.text.toString());
+
+            val office = Office(name = editOfficeName.text.toString().trim(),
+                                numberQuant = number,
+                                timestamp = System.currentTimeMillis(),
+                                isExecutive = switchExecutive.isChecked)// dao.getOffices()
+            dao.insertOffice(office)
+            officeData.add(office)
+
+            runOnUiThread {
+                adapter.notifyItemInserted(officeData.size-1)
+            }
+
+        }.start()
 
 
+
+    }
+    private fun formIsValid():Boolean{
+        return (editOfficeName.text.toString().trim().isNotEmpty() && editOfficeMaxNumber.text.toString().trim().isNotEmpty())
     }
 
     private inner class ListOfficeAdapter(
@@ -84,9 +137,14 @@ class OfficeAdm : AppCompatActivity() {
             fun bind(item: Office){
                 val txtName = itemView.findViewById<TextView>(R.id.txt_office_name);
                 val txtNumMax = itemView.findViewById<TextView>(R.id.txt_office_nummax);
+                val iconDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
 
                 txtName.text = item.name;
                 txtNumMax.text = item.numberQuant.toString();
+
+                iconDelete.setOnClickListener {
+                    actions.invoke(0,item,itemView)
+                }
             }
         }
 

@@ -40,7 +40,6 @@
                 android:hint="@string/cargo_numberLimt_hint"
                 android:inputType="number"
                 android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="@+id/edit_office_name"
                 app:layout_constraintStart_toStartOf="@+id/edit_office_name"
                 app:layout_constraintTop_toBottomOf="@+id/edit_office_name" />
@@ -63,6 +62,17 @@
                     android:text="@string/btn_save" />
 
             </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_executive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:minHeight="48dp"
+                android:text="@string/switch_executive"
+                app:layout_constraintEnd_toEndOf="@+id/edit_office_initials"
+                app:layout_constraintStart_toStartOf="@+id/edit_office_initials"
+                app:layout_constraintTop_toBottomOf="@+id/edit_office_initials" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

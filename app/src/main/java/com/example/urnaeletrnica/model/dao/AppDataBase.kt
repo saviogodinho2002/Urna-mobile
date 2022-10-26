@@ -9,7 +9,7 @@ import com.example.urnaeletrnica.model.entities.Candidate
 import com.example.urnaeletrnica.model.entities.Office
 import com.example.urnaeletrnica.model.entities.Party
 
-@Database(entities = [Candidate::class,Party::class,Office::class], version = 3)
+@Database(entities = [Candidate::class,Party::class,Office::class], version = 5)
 //@TypeConverters(DateConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 

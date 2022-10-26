@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Party(
-    @PrimaryKey(autoGenerate = true) var id:Int = 0,
+    @PrimaryKey(autoGenerate = true) val id:Int = 0,
     @ColumnInfo(name = "initials") val initials:String,
     @ColumnInfo(name = "logoPhoto") val logoPhoto:String?,
     @ColumnInfo(name = "name") val name:String,

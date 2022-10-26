@@ -7,45 +7,67 @@
     tools:context=".MainActivity">
 
     <Button
-        style="@style/ButtonsMainActiity"
         android:id="@+id/btn_view_candidates"
+        style="@style/ButtonsMainActiity"
 
-        android:text="@string/btn_candidate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_vote"
+        android:layout_marginTop="20dp"
+        android:text="@string/btn_candidate_legislative"
+        app:layout_constraintEnd_toEndOf="@+id/btn_voter_activity"
+        app:layout_constraintStart_toStartOf="@+id/btn_voter_activity"
+        app:layout_constraintTop_toBottomOf="@+id/btn_voter_activity" />
+
+
+    <Button
+        android:id="@+id/btn_view_partys"
+        style="@style/ButtonsMainActiity"
+
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/btn_partys"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        style="@style/ButtonsMainActiity"
-        android:id="@+id/btn_view_partys"
-
-        android:text="@string/btn_partys"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_vote"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        style="@style/ButtonsMainActiity"
         android:id="@+id/btn_vote"
+        style="@style/ButtonsMainActiity"
 
         android:text="@string/btn_vote"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.943" />
 
     <Button
         android:id="@+id/btn_office"
         style="@style/ButtonsMainActiity"
 
+        android:layout_marginTop="20dp"
         android:text="@string/btn_office"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btn_vote"
-        app:layout_constraintStart_toStartOf="@+id/btn_vote"
-        app:layout_constraintTop_toBottomOf="@+id/btn_vote" />
+        app:layout_constraintEnd_toEndOf="@+id/btn_view_partys"
+        app:layout_constraintStart_toStartOf="@+id/btn_view_partys"
+        app:layout_constraintTop_toBottomOf="@+id/btn_view_partys" />
+
+    <Button
+        android:id="@+id/btn_voter_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="84dp"
+        android:text="@string/btn_voter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/ButtonsMainActiity"
+
+        android:layout_marginTop="20dp"
+        android:text="@string/btn_plates"
+        app:layout_constraintEnd_toEndOf="@+id/btn_view_candidates"
+        app:layout_constraintStart_toStartOf="@+id/btn_view_candidates"
+        app:layout_constraintTop_toBottomOf="@+id/btn_view_candidates" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

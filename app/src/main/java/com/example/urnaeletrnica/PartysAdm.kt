@@ -140,6 +140,7 @@ class PartysAdm : AppCompatActivity() {
             }else if(partyOnFocus!!.logoPhoto != null){
                 imgDirectory = partyOnFocus!!.logoPhoto
             }
+            val index =  partyData.indexOf(partyOnFocus)
             val party = Party(
                 id = partyOnFocus!!.id,
                 name = editPartyName.text.toString().trim(),
@@ -163,7 +164,7 @@ class PartysAdm : AppCompatActivity() {
             imgUri = null
 
             runOnUiThread{
-                adapter.notifyDataSetChanged()
+                adapter.notifyItemChanged(index)
                 resetForm()
             }
 
@@ -194,8 +195,10 @@ class PartysAdm : AppCompatActivity() {
             partyData.add(party)
             dao.insertParty(party)
 
+            imgUri = null;
+
             runOnUiThread{
-                adapter.notifyDataSetChanged()
+                adapter.notifyItemInserted(partyData.size-1)
                 resetForm()
             }
 
@@ -209,13 +212,14 @@ class PartysAdm : AppCompatActivity() {
 
             if (party.logoPhoto != null)
                 InternalPhotosController.removePhotoFile(party.logoPhoto)
+            val index = partyData.indexOf(party)
             partyData.remove(party)
             dao.deleteParty(party)
 
             runOnUiThread {
-
-                adapter.notifyDataSetChanged()
+                adapter.notifyItemRemoved(index)
             }
+
         }.start()
     }
 
@@ -238,28 +242,6 @@ class PartysAdm : AppCompatActivity() {
             imgUri = result.data?.data
             imgToParty.setImageURI(imgUri)
         }
-    }
-    private fun saveAndGetDirPhoto(uri:Uri):String?{
-        try {
-            val cw = ContextWrapper(applicationContext)
-            val directory = cw.getDir("party_photos",Context.MODE_PRIVATE)
-            val path = File(directory,"${UUID.randomUUID().toString()}.jpg")
-
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imgUri)
-            val out = FileOutputStream(path)
-
-            bitmap.compress( Bitmap.CompressFormat.PNG,100,out)
-            out.close()
-            return path.absolutePath
-
-        }catch (error:Exception){
-
-        }
-        return  null
-    }
-    private fun removePhotoFile(photo:String){
-        val file = File(photo)
-        file.delete()
     }
 
     private inner class ListPartyAdapter(
