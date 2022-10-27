@@ -78,11 +78,12 @@ class OfficeAdm : AppCompatActivity() {
             val app = application as App
             val dao = app.db.OfficeDao()
 
-            val index = officeData.indexOf(office)
-            dao.deleteOffice(office)
-            officeData.remove(office)
+            dao.deleteOffice(office);
+
             runOnUiThread {
-                adapter.notifyItemRemoved(index);
+                val index = officeData.indexOf(office)
+                officeData.remove(office)
+                adapter.notifyItemRemoved(index)
             }
 
         }.start()

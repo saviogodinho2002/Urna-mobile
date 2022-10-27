@@ -210,11 +210,13 @@ class PartysAdm : AppCompatActivity() {
 
             if (party.logoPhoto != null)
                 InternalPhotosController.removePhotoFile(party.logoPhoto)
-            val index = partyData.indexOf(party)
-            partyData.remove(party)
+
             dao.deleteParty(party)
 
+
             runOnUiThread {
+                val index = partyData.indexOf(party)
+                partyData.remove(party)
                 adapter.notifyItemRemoved(index)
             }
 

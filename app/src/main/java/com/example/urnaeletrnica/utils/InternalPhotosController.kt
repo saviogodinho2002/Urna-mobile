@@ -26,7 +26,7 @@ class InternalPhotosController(){
                 val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imgUri)
                 val out = FileOutputStream(path)
 
-                bitmap.compress( Bitmap.CompressFormat.PNG,100,out)
+                bitmap.compress( Bitmap.CompressFormat.PNG,15,out)
                 out.close()
                 return path.absolutePath
 
