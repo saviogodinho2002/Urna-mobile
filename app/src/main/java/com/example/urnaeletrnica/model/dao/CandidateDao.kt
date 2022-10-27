@@ -13,11 +13,13 @@ interface CandidateDao {
     @Query("SELECT * FROM Candidate Where id = :id") //variavel dinamica, mesma da função de baixo
     fun getCandidateByID(id:Int):Candidate;
 
-    @Query("SELECT * FROM Candidate Where number = :number") //variavel dinamica, mesma da função de baixo
+    @Query("SELECT * FROM Candidate Where numberCandidate = :number") //variavel dinamica, mesma da função de baixo
     fun getCandidateByNumber(number:String):Candidate;
 
-    @Query("SELECT * FROM Candidate Where partyId = :partyId")
-    fun getRegistersByParty(partyId: Int):List<Candidate>;
+
+
+    @Query("SELECT * FROM Candidate Where officeId = :officeId")
+    fun getCandidatesByOffice(officeId: Int):List<Candidate>;
 
     @Delete
     fun deleteCandidate(candidate: Candidate): Int

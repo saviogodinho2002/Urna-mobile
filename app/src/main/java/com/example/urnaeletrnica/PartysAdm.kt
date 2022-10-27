@@ -146,8 +146,7 @@ class PartysAdm : AppCompatActivity() {
                 name = editPartyName.text.toString().trim(),
                 logoPhoto = imgDirectory,
                 initials =  editPartyInitials.text.toString().trim(),
-                number = editPartyNumber.text.toString().trim(),
-                timeStamp = System.currentTimeMillis())
+                number = editPartyNumber.text.toString().trim())
 
             val app = application as App
             val dao = app.db.PartyDao()
@@ -186,8 +185,7 @@ class PartysAdm : AppCompatActivity() {
                 name = editPartyName.text.toString().trim(),
                 logoPhoto = imgDirectory,
                 initials =  editPartyInitials.text.toString().trim(),
-                number = editPartyNumber.text.toString().trim(),
-                timeStamp = System.currentTimeMillis())
+                number = editPartyNumber.text.toString().trim())
 
             val app = application as App
             val dao = app.db.PartyDao()

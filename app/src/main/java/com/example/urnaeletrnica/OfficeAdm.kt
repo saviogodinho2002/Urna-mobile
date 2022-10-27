@@ -98,7 +98,6 @@ class OfficeAdm : AppCompatActivity() {
 
             val office = Office(name = editOfficeName.text.toString().trim(),
                                 numberQuant = number,
-                                timestamp = System.currentTimeMillis(),
                                 isExecutive = switchExecutive.isChecked)// dao.getOffices()
             dao.insertOffice(office)
             officeData.add(office)

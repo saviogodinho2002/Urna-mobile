@@ -13,5 +13,5 @@
     <string name="cargo_numberLimt_hint">Numero maximo</string>
     <string name="btn_voter">Eleitores</string>
     <string name="switch_executive">Executivo</string>
-    <string name="btn_plates">Chapas</string>
+    <string name="btn_plates">Chapas Executivas</string>
 </resources>

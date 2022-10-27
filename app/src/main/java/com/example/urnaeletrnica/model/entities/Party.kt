@@ -11,5 +11,4 @@ data class Party(
     @ColumnInfo(name = "logoPhoto") val logoPhoto:String?,
     @ColumnInfo(name = "name") val name:String,
     @ColumnInfo(name = "number") val number:String,
-    @ColumnInfo(name = "timeStamp") val timeStamp: Long
 )
