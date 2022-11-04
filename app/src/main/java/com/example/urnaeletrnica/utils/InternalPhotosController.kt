@@ -12,9 +12,9 @@ import java.util.*
 
 class InternalPhotosController(){
     companion object{
-        public fun saveAndGetDirPhoto(contentContext:Context,contentResolver:ContentResolver,directoryName:String,imgUri:Uri):String?{
+        public fun saveAndGetDirPhoto(applicationContext:Context,contentResolver:ContentResolver,directoryName:String,imgUri:Uri):String?{
             try {
-                val cw = ContextWrapper(contentContext)
+                val cw = ContextWrapper(applicationContext)
                 val directory = cw.getDir(directoryName, Context.MODE_PRIVATE)
                 val path = File(directory,"${UUID.randomUUID().toString()}.jpg")
 

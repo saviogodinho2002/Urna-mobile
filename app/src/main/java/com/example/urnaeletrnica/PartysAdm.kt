@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urnaeletrnica.controllers.DataBankPartyController
 import com.example.urnaeletrnica.model.entities.Party
 import com.example.urnaeletrnica.utils.InternalPhotosController
 import java.io.File
@@ -42,7 +43,7 @@ class PartysAdm : AppCompatActivity() {
     private var partyOnFocus:Party? = null
     private var partyOnFocusView:ConstraintLayout? = null
     private val directory = "party_photos";
-
+    private lateinit var partyController:DataBankPartyController;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_partys_adm)
@@ -69,19 +70,11 @@ class PartysAdm : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+        val app = application as App
+        val dao = app.db.PartyDao()
+        partyController = DataBankPartyController(applicationContext,contentResolver,dao)
 
-        Thread{
-            val app = application as App
-            val dao = app.db.PartyDao()
-
-            val response = dao.getPartRegisters()
-
-            runOnUiThread {
-                partyData.addAll(response)
-                adapter.notifyDataSetChanged()
-            }
-
-        }.start()
+         fetchData()
 
         btnSaveOrUpdate.setOnClickListener {
             if (partyOnFocus == null)
@@ -94,6 +87,17 @@ class PartysAdm : AppCompatActivity() {
             selectPhoto()
         }
 
+    }
+    private fun fetchData(){
+        Thread{
+        val response = partyController.getPartys()
+
+        runOnUiThread {
+            partyData.addAll(response)
+            adapter.notifyDataSetChanged()
+        }
+
+        }.start()
     }
     private fun resetPartyFocus(){
         partyOnFocus = null
@@ -124,9 +128,9 @@ class PartysAdm : AppCompatActivity() {
 
 
     private fun formIsValid():Boolean{
-        return (editPartyName.text.toString().isNotEmpty() &&
-            editPartyInitials.text.toString().isNotEmpty() &&
-            editPartyNumber.text.toString().isNotEmpty())
+        return (editPartyName.text.toString().trim().isNotEmpty() &&
+            editPartyInitials.text.toString().trim().isNotEmpty() &&
+            editPartyNumber.text.toString().trim().isNotEmpty())
 
     }
     private fun updateParty(){
@@ -141,22 +145,16 @@ class PartysAdm : AppCompatActivity() {
                 imgDirectory = partyOnFocus!!.logoPhoto
             }
             val index =  partyData.indexOf(partyOnFocus)
-            val party = Party(
-                id = partyOnFocus!!.id,
-                name = editPartyName.text.toString().trim(),
-                logoPhoto = imgDirectory,
-                initials =  editPartyInitials.text.toString().trim(),
-                number = editPartyNumber.text.toString().trim())
-
-            val app = application as App
-            val dao = app.db.PartyDao()
-
-
-            if( (partyOnFocus!!.logoPhoto != null) && ((imgDirectory == null) || (partyOnFocus!!.logoPhoto != imgDirectory)) )
-                InternalPhotosController.removePhotoFile(partyOnFocus!!.logoPhoto!!)
-
+            val party =
+                    partyController.updateParty(
+                        partyOnFocus!!,
+                        imgUri,
+                        editPartyName.text.toString().trim(),
+                        editPartyInitials.text.toString().trim(),
+                        editPartyNumber.text.toString().trim()
+                    )
+            
             partyData[partyData.indexOf(partyOnFocus!!)] = party
-            dao.updateParty(party)
             partyOnFocus = null
             partyOnFocusView!!.setBackgroundColor(resources.getColor(android.R.color.transparent))
             partyOnFocusView = null
@@ -173,26 +171,17 @@ class PartysAdm : AppCompatActivity() {
     private fun saveParty(){
         if(!formIsValid())
             return
-        var imgDirectory:String? = null
 
         Thread{
 
-            if(imgUri != null){
-                //imgDirectory = saveAndGetDirPhoto(imgUri!!)
-                imgDirectory =  InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directory,imgUri!! )
-            }
-            val party = Party(
-                name = editPartyName.text.toString().trim(),
-                logoPhoto = imgDirectory,
-                initials =  editPartyInitials.text.toString().trim(),
-                number = editPartyNumber.text.toString().trim())
-
-            val app = application as App
-            val dao = app.db.PartyDao()
+            val party =
+                        partyController.saveParty(
+                            imgUri,
+                            editPartyName.text.toString().trim(),
+                            editPartyInitials.text.toString().trim(),editPartyNumber.text.toString().trim()
+                        )
 
             partyData.add(party)
-            dao.insertParty(party)
-
             imgUri = null;
 
             runOnUiThread{
@@ -205,14 +194,7 @@ class PartysAdm : AppCompatActivity() {
 
     private fun deleteParty(party:Party){
         Thread{
-            val app = application as App
-            val dao = app.db.PartyDao()
-
-            if (party.logoPhoto != null)
-                InternalPhotosController.removePhotoFile(party.logoPhoto)
-
-            dao.deleteParty(party)
-
+            partyController.deleteParty(party);
 
             runOnUiThread {
                 val index = partyData.indexOf(party)
