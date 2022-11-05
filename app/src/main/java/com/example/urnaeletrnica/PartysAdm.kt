@@ -135,15 +135,9 @@ class PartysAdm : AppCompatActivity() {
     }
     private fun updateParty(){
         if(!formIsValid() && partyOnFocus == null)
-            return
-        var imgDirectory:String? = null
+            return;
         Thread{
 
-            if(imgUri != null){
-                imgDirectory = InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directory,imgUri!! )
-            }else if(partyOnFocus!!.logoPhoto != null){
-                imgDirectory = partyOnFocus!!.logoPhoto
-            }
             val index =  partyData.indexOf(partyOnFocus)
             val party =
                     partyController.updateParty(

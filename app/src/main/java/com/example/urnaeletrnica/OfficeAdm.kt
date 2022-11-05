@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urnaeletrnica.controllers.DataBankOfficeController
 import com.example.urnaeletrnica.model.entities.Office
 
 class OfficeAdm : AppCompatActivity() {
@@ -23,6 +24,8 @@ class OfficeAdm : AppCompatActivity() {
     private lateinit var adapter: ListOfficeAdapter;
     private lateinit var recyclerView: RecyclerView;
     private lateinit var officeData:MutableList<Office>
+
+    private lateinit var officeController: DataBankOfficeController;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,9 @@ class OfficeAdm : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter;
 
+        val app = application as App
+        val dao = app.db.OfficeDao()
+        officeController = DataBankOfficeController(applicationContext,contentResolver,dao);
 
         fetchData()
 
@@ -59,10 +65,9 @@ class OfficeAdm : AppCompatActivity() {
     }
     private fun fetchData(){
         Thread{
-            val app = application as App
-            val dao = app.db.OfficeDao()
 
-            val response = dao.getOffices()
+
+            val response = officeController.getOffices()
 
             runOnUiThread {
                 officeData.addAll(response)
@@ -75,10 +80,7 @@ class OfficeAdm : AppCompatActivity() {
     }
     private fun deleteOffice(office: Office){
         Thread{
-            val app = application as App
-            val dao = app.db.OfficeDao()
-
-            dao.deleteOffice(office);
+            officeController.deleteOffice(office)
 
             runOnUiThread {
                 val index = officeData.indexOf(office)
@@ -93,16 +95,13 @@ class OfficeAdm : AppCompatActivity() {
             return;
         }
         Thread{
-            val app = application as App
-            val dao = app.db.OfficeDao()
+
             val number = if(switchExecutive.isChecked) 2 else Integer.parseInt(editOfficeMaxNumber.text.toString());
 
-            val office = Office(name = editOfficeName.text.toString().trim(),
-                                numberQuant = number,
-                                isExecutive = switchExecutive.isChecked)// dao.getOffices()
-            dao.insertOffice(office)
+            val office = officeController.saveOffice(editOfficeName.text.toString().trim(),
+                                 number,
+                                switchExecutive.isChecked)
             officeData.add(office)
-
             runOnUiThread {
                 adapter.notifyItemInserted(officeData.size-1)
             }
@@ -113,7 +112,8 @@ class OfficeAdm : AppCompatActivity() {
 
     }
     private fun formIsValid():Boolean{
-        return (editOfficeName.text.toString().trim().isNotEmpty() && editOfficeMaxNumber.text.toString().trim().isNotEmpty())
+        return (editOfficeName.text.toString().trim().isNotEmpty()
+                && (switchExecutive.isChecked || editOfficeMaxNumber.text.toString().trim().isNotEmpty()   ))
     }
 
     private inner class ListOfficeAdapter(
