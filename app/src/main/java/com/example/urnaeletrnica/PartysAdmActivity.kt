@@ -21,10 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankPartyController
 import com.example.urnaeletrnica.model.entities.Party
-import com.example.urnaeletrnica.utils.InternalPhotosController
-import java.io.File
-import java.io.FileOutputStream
-import java.util.*
+import kotlin.Exception
 
 class PartysAdmActivity : AppCompatActivity() {
 
@@ -167,23 +164,29 @@ class PartysAdmActivity : AppCompatActivity() {
             return
 
         Thread{
+            try {
+                val party =partyController.saveParty(
+                    imgUri,
+                    editPartyName.text.toString().trim(),
+                    editPartyInitials.text.toString().trim(),editPartyNumber.text.toString().trim()
+                )
 
-            val party =
-                        partyController.saveParty(
-                            imgUri,
-                            editPartyName.text.toString().trim(),
-                            editPartyInitials.text.toString().trim(),editPartyNumber.text.toString().trim()
-                        )
+                partyData.add(party)
+                imgUri = null;
 
-            partyData.add(party)
-            imgUri = null;
-
-            runOnUiThread{
-                adapter.notifyItemInserted(partyData.size-1)
-                resetForm()
+                runOnUiThread{
+                    adapter.notifyItemInserted(partyData.size-1)
+                    resetForm()
+                }
+            }catch (e:Exception){
+                runOnUiThread {
+                    Toast.makeText(this@PartysAdmActivity,e.message,Toast.LENGTH_SHORT).show()
+                }
             }
 
         }.start()
+
+
     }
 
     private fun deleteParty(party:Party){

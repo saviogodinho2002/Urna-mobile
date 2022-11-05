@@ -3,30 +3,41 @@ package com.example.urnaeletrnica.controllers
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import com.example.urnaeletrnica.App
+import android.util.Log
 import com.example.urnaeletrnica.model.dao.PartyDao
 import com.example.urnaeletrnica.model.entities.Party
 import com.example.urnaeletrnica.utils.InternalPhotosController
+import kotlin.Exception
 
 class DataBankPartyController(private val applicationContext:Context,private val contentResolver:ContentResolver, private val dao:PartyDao) {
     private val directory = "party_photos";
 
+    fun existSomePartyWithInitials(initials:String):Boolean{
+        return  dao.getPartyByInitials(initials) is Party
+    }
+
     fun getPartys():List<Party>{
-        val response = dao.getPartRegisters();
+        val response = dao.getPartyRegisters();
         return  response;
     }
+
+
     fun saveParty(imgUri:Uri?, partyName:String,partyInitials:String,partyNumber:String):Party{
+
+        if(existSomePartyWithInitials(partyInitials.uppercase())){
+            throw Exception("Ja existe um partido com essa sigla")
+        }
+
 
         var imgDirectory:String? = null
 
         if(imgUri != null){
-            //imgDirectory = saveAndGetDirPhoto(imgUri!!)
             imgDirectory =  InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directory,imgUri!! )
         }
         val party = Party(
                 name = partyName,
                 logoPhoto = imgDirectory,
-                initials =  partyInitials,
+                initials =  partyInitials.uppercase(),
                 number = partyNumber)
 
         dao.insertParty(party)

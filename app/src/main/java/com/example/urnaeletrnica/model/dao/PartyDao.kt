@@ -11,7 +11,10 @@ interface PartyDao {
     fun insertParty(party: Party)
 
     @Query("SELECT * FROM Party")
-    fun getPartRegisters():List<Party>;
+    fun getPartyRegisters():List<Party>;
+
+    @Query("SELECT * FROM PARTY WHERE initials = :initials")
+    fun getPartyByInitials(initials:String):Party
 
     @Query("SELECT * FROM Party Where id = :id") //variavel dinamica, mesma da função de baixo
     fun getPartyByID(id:Int): Party;
