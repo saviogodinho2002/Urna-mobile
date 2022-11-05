@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankOfficeController
 import com.example.urnaeletrnica.model.entities.Office
 
-class OfficeAdm : AppCompatActivity() {
+class OfficeAdmActivity : AppCompatActivity() {
 
 
     private lateinit var editOfficeName: EditText;
@@ -140,7 +140,7 @@ class OfficeAdm : AppCompatActivity() {
                 val iconDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
 
                 txtName.text = item.name;
-                txtNumMax.text = item.numberQuant.toString();
+                txtNumMax.text = item.numberLength.toString();
 
                 iconDelete.setOnClickListener {
                     actions.invoke(0,item,itemView)

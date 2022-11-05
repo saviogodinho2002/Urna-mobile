@@ -21,11 +21,11 @@
         android:id="@+id/btn_view_partys"
         style="@style/ButtonsMainActiity"
 
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/btn_partys"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/btn_section"
+        app:layout_constraintStart_toStartOf="@+id/btn_section"
+        app:layout_constraintTop_toBottomOf="@+id/btn_section" />
 
     <Button
         android:id="@+id/btn_vote"
@@ -43,7 +43,7 @@
         android:id="@+id/btn_office"
         style="@style/ButtonsMainActiity"
 
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/btn_office"
         app:layout_constraintEnd_toEndOf="@+id/btn_view_partys"
         app:layout_constraintStart_toStartOf="@+id/btn_view_partys"
@@ -68,6 +68,26 @@
         app:layout_constraintEnd_toEndOf="@+id/btn_view_candidates"
         app:layout_constraintStart_toStartOf="@+id/btn_view_candidates"
         app:layout_constraintTop_toBottomOf="@+id/btn_view_candidates" />
+
+    <Button
+        android:id="@+id/btn_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/btn_section"
+        app:layout_constraintEnd_toEndOf="@+id/btn_zone"
+        app:layout_constraintStart_toStartOf="@+id/btn_zone"
+        app:layout_constraintTop_toBottomOf="@+id/btn_zone" />
+
+    <Button
+        android:id="@+id/btn_zone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/btn_zone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

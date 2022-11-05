@@ -5,9 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Plate(
+data class Section(
     @PrimaryKey(autoGenerate = true) val id:Int = 0,
-    @ColumnInfo(name = "mainId") val mainId:Int,
-    @ColumnInfo(name = "viceId") val viceId:Int,
-    @ColumnInfo(name = "plateName") val plateName:String
+    @ColumnInfo (name = "zoneId") val zoneId:Int,
+    @ColumnInfo(name = "sectionNumber") val sectionNumber:String
 )

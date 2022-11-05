@@ -10,5 +10,5 @@ data class Voter(
     @ColumnInfo(name = "name") val name:String,
     @ColumnInfo(name = "photoUri") val photoUri: String?,
     @ColumnInfo(name = "voterTitle") val voterTitle:String,
-    @ColumnInfo(name = "partyAffiliateId") val partyAffiliate:Int?
+    @ColumnInfo(name = "sectionId") val sectionId:Int
 )

@@ -26,7 +26,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-class PartysAdm : AppCompatActivity() {
+class PartysAdmActivity : AppCompatActivity() {
 
     private lateinit var editPartyName:EditText
     private lateinit var editPartyInitials:EditText

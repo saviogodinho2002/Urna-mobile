@@ -7,7 +7,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.urnaeletrnica.model.entities.*
 
-@Database(entities = [Candidate::class,Party::class,Office::class,Plate::class,Voter::class], version = 9)
+@Database(entities = [
+    Candidate::class,
+    Party::class,
+    Office::class,
+    Plate::class,
+    Voter::class,
+    Zone::class,
+    Section::class], version = 10)
 //@TypeConverters(DateConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
@@ -16,6 +23,8 @@ abstract class AppDataBase : RoomDatabase() {
    abstract fun PartyDao():PartyDao
    abstract fun PlateDao():PlateDao
    abstract fun VoterDao():VoterDao
+   abstract fun ZoneDao():ZoneDao
+   abstract fun SectionDao():SectionDao
 
     companion object {
 

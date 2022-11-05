@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 class MainActivity : AppCompatActivity() {
     private lateinit var btnPartyActivity:Button;
     private lateinit var btnOfficeActivity: Button;
+    private lateinit var btnZoneAdmActivity: Button;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main);
@@ -43,15 +44,20 @@ class MainActivity : AppCompatActivity() {
 
         btnPartyActivity = findViewById(R.id.btn_view_partys);
         btnOfficeActivity = findViewById(R.id.btn_office);
+        btnZoneAdmActivity = findViewById(R.id.btn_zone)
 
         btnOfficeActivity.setOnClickListener {
-            val intent = Intent(this@MainActivity,OfficeAdm::class.java)
+            val intent = Intent(this@MainActivity,OfficeAdmActivity::class.java)
             startActivity(intent)
         }
 
         btnPartyActivity.setOnClickListener {
-            val intent = Intent(this@MainActivity,PartysAdm::class.java);
+            val intent = Intent(this@MainActivity,PartysAdmActivity::class.java);
             startActivity(intent);
+        }
+        btnZoneAdmActivity.setOnClickListener {
+            val intent = Intent(this@MainActivity,ZoneAdmActivity::class.java);
+            startActivity(intent)
         }
 
     }

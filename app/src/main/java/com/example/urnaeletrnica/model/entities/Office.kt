@@ -9,7 +9,7 @@ import java.sql.Timestamp
 data class Office(
     @PrimaryKey(autoGenerate = true) val id:Int = 0,
     @ColumnInfo(name = "name") val name:String,
-    @ColumnInfo(name = "numberQuant") val numberQuant:Int,
+    @ColumnInfo(name = "numberLength") val numberLength:Int,
     @ColumnInfo(name = "isExecutive") val isExecutive:Boolean,
 
 )

@@ -16,7 +16,7 @@ class DataBankOfficeController (private val applicationContext: Context, private
     fun saveOffice(nameOffice:String,number:Int, executive:Boolean):Office{
         val office = Office(
             name = nameOffice,
-            numberQuant = number,
+            numberLength = number,
             isExecutive = executive
         )
         dao.insertOffice(

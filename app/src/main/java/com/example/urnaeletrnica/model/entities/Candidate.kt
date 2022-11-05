@@ -9,6 +9,7 @@ data class Candidate(
     @PrimaryKey(autoGenerate = true) val id:Int = 0,
     @ColumnInfo(name = "voterID") val voterID:Int, //chaveestrangeira
     @ColumnInfo(name = "officeId") val officeId:Int,
+    @ColumnInfo(name = "partyId") val partyId:Int,
     @ColumnInfo(name = "numberCandidate") val numberCandidate: String?,
 
 )
