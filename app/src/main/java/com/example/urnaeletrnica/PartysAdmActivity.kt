@@ -147,7 +147,7 @@ class PartysAdmActivity : AppCompatActivity() {
             
             partyData[partyData.indexOf(partyOnFocus!!)] = party
             partyOnFocus = null
-            partyOnFocusView!!.setBackgroundColor(resources.getColor(android.R.color.transparent))
+            partyOnFocusView!!.setBackgroundColor(ContextCompat.getColor(this,android.R.color.transparent))
             partyOnFocusView = null
             imgUri = null
 

@@ -16,4 +16,5 @@
     <string name="btn_plates">Chapas Executivas</string>
     <string name="btn_zone">Zonas</string>
     <string name="btn_section">Seções</string>
+    <string name="already_exist_party_signals">Ja existe um partido com essa sigla</string>
 </resources>

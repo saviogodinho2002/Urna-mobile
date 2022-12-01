@@ -50,7 +50,6 @@ class OfficeAdmActivity : AppCompatActivity() {
         val app = application as App
         val dao = app.db.OfficeDao()
         officeController = DataBankOfficeController(applicationContext,contentResolver,dao);
-
         fetchData()
 
         btnSaveUpdate.setOnClickListener {

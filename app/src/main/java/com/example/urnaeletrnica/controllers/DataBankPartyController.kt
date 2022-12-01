@@ -12,7 +12,9 @@ import kotlin.Exception
 class DataBankPartyController(private val applicationContext:Context,private val contentResolver:ContentResolver, private val dao:PartyDao) {
     private val directory = "party_photos";
 
-    fun existSomePartyWithInitials(initials:String):Boolean{
+
+
+    private fun existSomePartyWithInitials(initials:String):Boolean{
         return  dao.getPartyByInitials(initials) is Party
     }
 
@@ -25,7 +27,8 @@ class DataBankPartyController(private val applicationContext:Context,private val
     fun saveParty(imgUri:Uri?, partyName:String,partyInitials:String,partyNumber:String):Party{
 
         if(existSomePartyWithInitials(partyInitials.uppercase())){
-            throw Exception("Ja existe um partido com essa sigla")
+            throw Exception( applicationContext.resources.getString(com.example.urnaeletrnica.R.string.already_exist_party_signals))
+
         }
 
 
