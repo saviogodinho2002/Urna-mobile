@@ -5,11 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OfficeAdmActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_office"
@@ -17,11 +21,11 @@
             android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/edit_office_name"
@@ -44,29 +48,25 @@
                 app:layout_constraintStart_toStartOf="@+id/edit_office_name"
                 app:layout_constraintTop_toBottomOf="@+id/edit_office_name" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal"
+
+            <Button
+                android:id="@+id/btn_office_save"
+                style="@style/ButtonsPartyForm"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/btn_save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <Button
-                    android:id="@+id/btn_office_save"
-                    style="@style/ButtonsPartyForm"
 
-                    android:layout_marginRight="5dp"
-                    android:text="@string/btn_save" />
-
-            </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_executive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="20dp"
                 android:minHeight="48dp"
                 android:text="@string/switch_executive"

@@ -65,7 +65,6 @@ class OfficeAdmActivity : AppCompatActivity() {
     private fun fetchData(){
         Thread{
 
-
             val response = officeController.getOffices()
 
             runOnUiThread {
@@ -95,7 +94,10 @@ class OfficeAdmActivity : AppCompatActivity() {
         }
         Thread{
 
-            val number = if(switchExecutive.isChecked) 2 else Integer.parseInt(editOfficeMaxNumber.text.toString());
+            val number =if(switchExecutive.isChecked)
+                            2
+                        else
+                            Integer.parseInt(editOfficeMaxNumber.text.toString());
 
             val office = officeController.saveOffice(editOfficeName.text.toString().trim(),
                                  number,

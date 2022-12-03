@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Zone(
     @PrimaryKey(autoGenerate = true) val id:Int = 0,
-    @ColumnInfo(name = "sectionNumber") val sectionNumber:String,
-    @ColumnInfo(name = "sectionName") val sectionName:String
+    @ColumnInfo(name = "zoneNumber") val zoneNumber:String,
+    @ColumnInfo(name = "zoneName") val zoneName:String
 )

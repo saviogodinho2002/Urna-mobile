@@ -7,16 +7,15 @@ import com.example.urnaeletrnica.model.entities.Zone
 @Dao
 interface ZoneDao {
     @Insert
-    fun insertZoneO(zone:Zone)
+    fun insertZone(zone:Zone)
 
     @Query("SELECT * FROM Zone")
     fun getZones():List<Zone>
 
-
     @Query("SELECT * FROM Zone WHERE id = :id")
     fun getZoneById(id:Int):Zone
 
-    @Query("SELECT * FROM ZONE WHERE sectionNumber = :number")
+    @Query("SELECT * FROM ZONE WHERE zoneNumber = :number")
     fun getZoneByNumber(number:String):Zone
 
     @Delete

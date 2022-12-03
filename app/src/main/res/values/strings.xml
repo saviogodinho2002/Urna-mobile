@@ -17,4 +17,8 @@
     <string name="btn_zone">Zonas</string>
     <string name="btn_section">Seções</string>
     <string name="already_exist_party_signals">Ja existe um partido com essa sigla</string>
+    <string name="zone_name_edittext">Nome da zona</string>
+    <string name="zone_number_edittext">Número da zona</string>
+    <string name="forms_invalid">Preencha devidamente os itens</string>
+    <string name="exist_another_zone">Ja existe outra zona com esse número</string>
 </resources>
