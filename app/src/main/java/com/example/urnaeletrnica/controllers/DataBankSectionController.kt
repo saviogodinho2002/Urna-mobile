@@ -12,8 +12,9 @@ class DataBankSectionController (private val applicationContext: Context, privat
     fun deleteOffice(section: Section){
         daoSection.deleteSection(section);
     }
-    fun saveOffice(nameOffice:String,number:Int, executive:Boolean): Section? {
 
+    fun saveSection(sectionNum:String, zoneId: Int): Section? {
+        val section = Section( sectionNumber = sectionNum, zoneId = zoneId)
         return null
     }
 }

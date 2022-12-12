@@ -16,7 +16,7 @@ class DataBankZoneController (private val applicationContext: Context, private v
     }
     fun getZoneNumbers():List<String> = dao.getZonesNumber()
 
-    fun existAnotherZoneWithNumber(number: String):Boolean{
+    private fun existAnotherZoneWithNumber(number: String):Boolean{
         return dao.getZoneByNumber(number) is Zone
     }
     fun saveZone(nameZone:String,number:String): Zone {
