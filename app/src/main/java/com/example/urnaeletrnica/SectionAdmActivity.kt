@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView;
+import com.example.urnaeletrnica.controllers.DataBankZoneController
+
 class SectionAdmActivity : AppCompatActivity() {
     private lateinit var  dropZoneNumbers:AutoCompleteTextView;
-
+    private lateinit var zoneController:DataBankZoneController
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -18,10 +20,12 @@ class SectionAdmActivity : AppCompatActivity() {
         val daoZone = app.db.ZoneDao()
         val daoSection = app.db.SectionDao()
 
+         zoneController = DataBankZoneController(applicationContext,contentResolver,daoZone)
+
         dropZoneNumbers = findViewById(R.id.auto_section)
 
         Thread{
-            val items = daoZone.getZonesNumber()
+            val items = zoneController.getZoneNumbers()   // daoZone.getZonesNumber()
 
             runOnUiThread{
 

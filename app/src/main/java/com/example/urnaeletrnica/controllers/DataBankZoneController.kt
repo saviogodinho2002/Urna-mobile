@@ -14,6 +14,8 @@ class DataBankZoneController (private val applicationContext: Context, private v
     fun deleteZone(zone: Zone){
         dao.deleteZone(zone);
     }
+    fun getZoneNumbers():List<String> = dao.getZonesNumber()
+
     fun existAnotherZoneWithNumber(number: String):Boolean{
         return dao.getZoneByNumber(number) is Zone
     }
