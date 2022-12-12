@@ -2,19 +2,12 @@ package com.example.urnaeletrnica
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.net.toUri
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankZoneController
-import com.example.urnaeletrnica.model.entities.Party
 import com.example.urnaeletrnica.model.entities.Zone
 import java.lang.Exception
 
@@ -117,7 +110,7 @@ class ZoneAdmActivity : AppCompatActivity() {
     ):RecyclerView.Adapter<ListZoneAdapter.ListZoneViewHolder>(){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListZoneViewHolder {
-            val view = layoutInflater.inflate(R.layout.zone_layout,parent,false)
+            val view = layoutInflater.inflate(R.layout.two_text_layout,parent,false)
             return ListZoneViewHolder(view)
         }
 
@@ -132,8 +125,8 @@ class ZoneAdmActivity : AppCompatActivity() {
 
         private inner class ListZoneViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
             fun bind(item: Zone){
-                val txtZoneName = itemView.findViewById<TextView>(R.id.txt_zone_name)
-                val txtZoneNumber = itemView.findViewById<TextView>(R.id.txt_zone_num)
+                val txtZoneName = itemView.findViewById<TextView>(R.id.txt_item_name)
+                val txtZoneNumber = itemView.findViewById<TextView>(R.id.txt_item_detail)
                 val imgDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
 
                 txtZoneName.text = item.zoneName

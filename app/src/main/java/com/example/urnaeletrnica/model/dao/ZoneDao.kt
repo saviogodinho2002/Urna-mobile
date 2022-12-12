@@ -18,6 +18,9 @@ interface ZoneDao {
     @Query("SELECT * FROM ZONE WHERE zoneNumber = :number")
     fun getZoneByNumber(number:String):Zone
 
+    @Query("SELECT zoneNumber FROM zone")
+    fun getZonesNumber():List<String>
+
     @Delete
     fun deleteZone(zone:Zone):Int
 

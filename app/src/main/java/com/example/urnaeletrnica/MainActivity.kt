@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextWatcher
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnPartyActivity:Button;
     private lateinit var btnOfficeActivity: Button;
     private lateinit var btnZoneAdmActivity: Button;
+    private lateinit var btnSectionAdmActivity: Button;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main);
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         btnPartyActivity = findViewById(R.id.btn_view_partys);
         btnOfficeActivity = findViewById(R.id.btn_office);
         btnZoneAdmActivity = findViewById(R.id.btn_zone)
+        btnSectionAdmActivity = findViewById(R.id.btn_section)
 
         btnOfficeActivity.setOnClickListener {
             val intent = Intent(this@MainActivity,OfficeAdmActivity::class.java)
@@ -59,6 +62,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity,ZoneAdmActivity::class.java);
             startActivity(intent)
         }
+       btnSectionAdmActivity.setOnClickListener {
+           val intent = Intent(this@MainActivity,SectionAdmActivity::class.java)
+           startActivity(intent)
+       }
 
     }
 

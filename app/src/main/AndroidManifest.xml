@@ -16,14 +16,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UrnaEletrônica"
-        tools:targetApi="31"
-
-        >
+        tools:targetApi="31">
         <activity
-            android:name=".ZoneAdmActivity"
+            android:name=".SectionAdmActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             />
+        <activity
+            android:name=".ZoneAdmActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".OfficeAdmActivity"
             android:exported="false"
@@ -33,7 +35,7 @@
             android:name=".PartysAdmActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
