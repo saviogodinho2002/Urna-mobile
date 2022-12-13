@@ -2,6 +2,7 @@ package com.example.urnaeletrnica.model.dao
 
 import androidx.room.*
 import com.example.urnaeletrnica.model.entities.Section
+import com.example.urnaeletrnica.model.relationship.SectionAndZone
 
 @Dao
 interface SectionDao {

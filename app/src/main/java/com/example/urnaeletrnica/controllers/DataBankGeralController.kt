@@ -8,6 +8,7 @@ import com.example.urnaeletrnica.model.entities.Office
 import com.example.urnaeletrnica.model.entities.Party
 import com.example.urnaeletrnica.model.entities.Section
 import com.example.urnaeletrnica.model.entities.Zone
+import com.example.urnaeletrnica.model.relationship.SectionAndZone
 import com.example.urnaeletrnica.utils.InternalPhotosController
 import java.lang.IllegalArgumentException
 
@@ -49,13 +50,14 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
         return dataBankPartyController.updateParty(oldParty,imgUri,partyName,partyInitials,partyNumber);
     }
-
+    fun getSectionAndZone():List<SectionAndZone> = dataBankZoneController.getSectionAndZone()
     fun getZones():List<Zone>{
         return dataBankZoneController.getZones()
     }
     fun deleteZone(zone: Zone){
         dataBankZoneController.deleteZone(zone)
     }
+    fun getZoneByNumber(number: String):Zone = dataBankZoneController.getZoneByNumber(number)
 
     fun getZoneNumbers():List<String> = dataBankZoneController.getZoneNumbers()
 
@@ -78,13 +80,14 @@ class DataBankGeralController(private val applicationContext: Context, private v
         dataBankSectionController.deleteSection(section);
     }
 
-    fun saveSection(sectionNum:String, zoneId: Int): Section {
+    fun saveSection(sectionNum:String, zoneNumber: String): SectionAndZone {
 
-        if ( !(getZoneById(zoneId) is Zone) ){
-            throw IllegalArgumentException( applicationContext.getString(com.example.urnaeletrnica.R.string.not_exist_party_signals))
-        }
 
-        return  dataBankSectionController.saveSection(sectionNum,zoneId)
+        val zone = getZoneByNumber(zoneNumber)
+        if(!(zone is Zone))
+            throw IllegalArgumentException(applicationContext.getString(com.example.urnaeletrnica.R.string.not_exist_zone_with_number))
+
+        return  SectionAndZone(zone,  dataBankSectionController.saveSection(sectionNum,zone.id))
     }
 
 }

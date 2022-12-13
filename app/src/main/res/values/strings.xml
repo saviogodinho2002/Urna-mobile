@@ -22,5 +22,5 @@
     <string name="forms_invalid">Preencha devidamente os itens</string>
     <string name="exist_another_zone">Ja existe outra zona com esse número</string>
     <string name="section_number_edittext">Número da Seção</string>
-    <string name="not_exist_party_signals">Não existe essa Zona</string>
+    <string name="not_exist_zone_with_number">Não existe Zona com esses números</string>
 </resources>

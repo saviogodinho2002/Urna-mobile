@@ -5,23 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.controllers.DataBankSectionController
 import com.example.urnaeletrnica.controllers.DataBankZoneController
 import com.example.urnaeletrnica.model.entities.Section
+import com.example.urnaeletrnica.model.relationship.SectionAndZone
 
 class SectionAdmActivity : AppCompatActivity() {
     private lateinit var dropZoneNumbers:AutoCompleteTextView;
 
     private lateinit var adapter: ListSectionAdapter
-    private lateinit var sectionData: MutableList<Section>
+    private lateinit var sectionData: MutableList<SectionAndZone>
     private lateinit var recyclerViewSection: RecyclerView
+    private lateinit var btnSaveSection:Button
+    private lateinit var cxSectionNumber:EditText
 
     private lateinit var controller: DataBankGeralController
     @Override
@@ -48,6 +48,11 @@ class SectionAdmActivity : AppCompatActivity() {
 
         fetchZonesOnDrop()
 
+        cxSectionNumber = findViewById(R.id.edit_section_number)
+        btnSaveSection = findViewById(R.id.btn_save_section)
+        btnSaveSection.setOnClickListener {
+            saveSection()
+        }
 
     }
     private  fun fetchZonesOnDrop(){
@@ -65,13 +70,38 @@ class SectionAdmActivity : AppCompatActivity() {
             }
         }.start()
     }
-    private fun deleteSection(section: Section){
+    private fun deleteSection(sectionAndZone: SectionAndZone){
+        Thread{
+            val old = controller.deleteSection(sectionAndZone.section)
+            runOnUiThread {
+                val index = sectionData.indexOf(sectionAndZone)
+                adapter.notifyItemRemoved(index)
+                sectionData.remove(sectionAndZone)
+            }
+        }.start()
 
+    }
+    private fun formIsValid():Boolean{
+        return (dropZoneNumbers.text.toString().trim().isNotEmpty() && cxSectionNumber.text.toString().trim().isNotEmpty())
+
+    }
+    private fun saveSection(){
+        if(!formIsValid()){
+            Toast.makeText(this@SectionAdmActivity,getString(R.string.forms_invalid),Toast.LENGTH_SHORT).show()
+            return
+        }
+        Thread{
+            val sectionAndZone = controller.saveSection(cxSectionNumber.text.toString().trim(),dropZoneNumbers.text.toString().trim())
+            runOnUiThread {
+                sectionData.add(sectionAndZone)
+                adapter.notifyItemInserted(sectionData.lastIndex)
+            }
+        }.start()
     }
 
     private inner class ListSectionAdapter(
-        private val sectionList:List<Section>,
-        private val actions:((Int, Section?, View?)->Unit)
+        private val sectionList:List<SectionAndZone>,
+        private val actions:((Int, SectionAndZone?, View?)->Unit)
     ): RecyclerView.Adapter<ListSectionAdapter.ListSectionViewHolder>(){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSectionViewHolder {
@@ -89,10 +119,13 @@ class SectionAdmActivity : AppCompatActivity() {
         }
 
         private inner class ListSectionViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-            fun bind(item: Section){
+            fun bind(item: SectionAndZone){
                 val txtSectionNumber = itemView.findViewById<TextView>(R.id.txt_item_name)
                 val txtZoneNumber = itemView.findViewById<TextView>(R.id.txt_item_detail)
                 val imgDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
+
+                txtSectionNumber.text = item.section.sectionNumber
+                txtZoneNumber.text = item.zone.zoneNumber
 
                 imgDelete.setOnClickListener {
                     actions.invoke(0,item,itemView)
