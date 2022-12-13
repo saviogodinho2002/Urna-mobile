@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.controllers.DataBankOfficeController
 import com.example.urnaeletrnica.model.entities.Office
 
@@ -25,7 +26,8 @@ class OfficeAdmActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView;
     private lateinit var officeData:MutableList<Office>
 
-    private lateinit var officeController: DataBankOfficeController;
+
+    private lateinit var controller: DataBankGeralController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,8 @@ class OfficeAdmActivity : AppCompatActivity() {
 
         val app = application as App
         val dao = app.db.OfficeDao()
-        officeController = DataBankOfficeController(applicationContext,contentResolver,dao);
+
+        controller = DataBankGeralController(applicationContext,contentResolver,app.db)
         fetchData()
 
         btnSaveUpdate.setOnClickListener {
@@ -65,7 +68,7 @@ class OfficeAdmActivity : AppCompatActivity() {
     private fun fetchData(){
         Thread{
 
-            val response = officeController.getOffices()
+            val response = controller.getOffices()
 
             runOnUiThread {
                 officeData.addAll(response)
@@ -78,7 +81,7 @@ class OfficeAdmActivity : AppCompatActivity() {
     }
     private fun deleteOffice(office: Office){
         Thread{
-            officeController.deleteOffice(office)
+            controller.deleteOffice(office)
 
             runOnUiThread {
                 val index = officeData.indexOf(office)
@@ -99,7 +102,7 @@ class OfficeAdmActivity : AppCompatActivity() {
                         else
                             Integer.parseInt(editOfficeMaxNumber.text.toString());
 
-            val office = officeController.saveOffice(editOfficeName.text.toString().trim(),
+            val office = controller.saveOffice(editOfficeName.text.toString().trim(),
                                  number,
                                 switchExecutive.isChecked)
             officeData.add(office)

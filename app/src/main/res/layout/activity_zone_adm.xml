@@ -19,7 +19,7 @@
             android:layout_width="380dp"
             android:layout_height="match_parent"
             tools:itemCount="3"
-            tools:listitem="@layout/zone_layout">
+            tools:listitem="@layout/two_text_layout">
 
         </androidx.recyclerview.widget.RecyclerView>
     <androidx.constraintlayout.widget.ConstraintLayout

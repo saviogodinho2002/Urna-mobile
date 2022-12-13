@@ -2,30 +2,26 @@ package com.example.urnaeletrnica
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.net.toUri
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.controllers.DataBankZoneController
-import com.example.urnaeletrnica.model.entities.Party
 import com.example.urnaeletrnica.model.entities.Zone
 import java.lang.Exception
 
 class ZoneAdmActivity : AppCompatActivity() {
-    private lateinit var zoneController: DataBankZoneController
+
     private lateinit var recyclerViewZone: RecyclerView
     private lateinit var zoneData: MutableList<Zone>
     private lateinit var adapter:ListZoneAdapter
     private lateinit var editZoneName:EditText
     private lateinit var editZoneNumber:EditText
     private lateinit var buttonSave:Button
+
+    private lateinit var controller: DataBankGeralController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +33,9 @@ class ZoneAdmActivity : AppCompatActivity() {
 
         val app = application as App
         val dao = app.db.ZoneDao()
-        zoneController = DataBankZoneController(applicationContext,contentResolver,dao)
+
+        controller = DataBankGeralController(applicationContext,contentResolver,app.db)
+
 
         zoneData = mutableListOf()
         adapter = ListZoneAdapter(zoneData){id,item,itemView ->
@@ -75,7 +73,7 @@ class ZoneAdmActivity : AppCompatActivity() {
 
         Thread{
             try {
-                val zone = zoneController.saveZone(
+                val zone = controller.saveZone(
                     nameZone =  editZoneName.text.toString().trim(),
                     number = editZoneNumber.text.toString().trim()
                 )
@@ -96,7 +94,7 @@ class ZoneAdmActivity : AppCompatActivity() {
         Thread{
             val index = zoneData.indexOf(zone)
             zoneData.remove(zone)
-            zoneController.deleteZone(zone)
+            controller.deleteZone(zone)
             runOnUiThread {
                 adapter.notifyItemRemoved(index)
             }
@@ -104,7 +102,7 @@ class ZoneAdmActivity : AppCompatActivity() {
     }
     private fun fetchData(){
         Thread{
-            val response = zoneController.getZones()
+            val response = controller.getZones()
             zoneData.addAll(response)
             runOnUiThread {
                 adapter.notifyDataSetChanged()
@@ -117,7 +115,7 @@ class ZoneAdmActivity : AppCompatActivity() {
     ):RecyclerView.Adapter<ListZoneAdapter.ListZoneViewHolder>(){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListZoneViewHolder {
-            val view = layoutInflater.inflate(R.layout.zone_layout,parent,false)
+            val view = layoutInflater.inflate(R.layout.two_text_layout,parent,false)
             return ListZoneViewHolder(view)
         }
 
@@ -132,8 +130,8 @@ class ZoneAdmActivity : AppCompatActivity() {
 
         private inner class ListZoneViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
             fun bind(item: Zone){
-                val txtZoneName = itemView.findViewById<TextView>(R.id.txt_zone_name)
-                val txtZoneNumber = itemView.findViewById<TextView>(R.id.txt_zone_num)
+                val txtZoneName = itemView.findViewById<TextView>(R.id.txt_item_name)
+                val txtZoneNumber = itemView.findViewById<TextView>(R.id.txt_item_detail)
                 val imgDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
 
                 txtZoneName.text = item.zoneName

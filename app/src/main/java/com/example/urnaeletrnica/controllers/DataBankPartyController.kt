@@ -14,7 +14,7 @@ class DataBankPartyController(private val applicationContext:Context,private val
 
 
 
-    private fun existSomePartyWithInitials(initials:String):Boolean{
+    fun existSomePartyWithInitials(initials:String):Boolean{
         return  dao.getPartyByInitials(initials) is Party
     }
 
