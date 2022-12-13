@@ -9,12 +9,12 @@ class DataBankSectionController (private val applicationContext: Context, privat
     fun getSections():List<Section>{
         return daoSection.getSections();
     }
-    fun deleteOffice(section: Section){
+    fun deleteSection(section: Section){
         daoSection.deleteSection(section);
     }
 
-    fun saveSection(sectionNum:String, zoneId: Int): Section? {
+    fun saveSection(sectionNum:String, zoneId: Int): Section {
         val section = Section( sectionNumber = sectionNum, zoneId = zoneId)
-        return null
+        return section
     }
 }

@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.controllers.DataBankPartyController
 import com.example.urnaeletrnica.model.entities.Party
 import kotlin.Exception
@@ -40,7 +41,8 @@ class PartysAdmActivity : AppCompatActivity() {
     private var partyOnFocus:Party? = null
     private var partyOnFocusView:ConstraintLayout? = null
     private val directory = "party_photos";
-    private lateinit var partyController:DataBankPartyController;
+
+    private lateinit var controller: DataBankGeralController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_partys_adm)
@@ -69,8 +71,8 @@ class PartysAdmActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         val app = application as App
         val dao = app.db.PartyDao()
-        partyController = DataBankPartyController(applicationContext,contentResolver,dao)
 
+        controller = DataBankGeralController(applicationContext,contentResolver,app.db)
          fetchData()
 
         btnSaveOrUpdate.setOnClickListener {
@@ -87,7 +89,7 @@ class PartysAdmActivity : AppCompatActivity() {
     }
     private fun fetchData(){
         Thread{
-        val response = partyController.getPartys()
+        val response = controller.getPartys()
 
         runOnUiThread {
             partyData.addAll(response)
@@ -137,7 +139,7 @@ class PartysAdmActivity : AppCompatActivity() {
 
             val index =  partyData.indexOf(partyOnFocus)
             val party =
-                    partyController.updateParty(
+                controller.updateParty(
                         partyOnFocus!!,
                         imgUri,
                         editPartyName.text.toString().trim(),
@@ -165,7 +167,7 @@ class PartysAdmActivity : AppCompatActivity() {
 
         Thread{
             try {
-                val party =partyController.saveParty(
+                val party =controller.saveParty(
                     imgUri,
                     editPartyName.text.toString().trim(),
                     editPartyInitials.text.toString().trim(),editPartyNumber.text.toString().trim()
@@ -191,7 +193,7 @@ class PartysAdmActivity : AppCompatActivity() {
 
     private fun deleteParty(party:Party){
         Thread{
-            partyController.deleteParty(party);
+            controller.deleteParty(party);
 
             runOnUiThread {
                 val index = partyData.indexOf(party)

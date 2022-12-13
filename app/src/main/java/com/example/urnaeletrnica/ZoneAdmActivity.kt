@@ -7,18 +7,21 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.controllers.DataBankZoneController
 import com.example.urnaeletrnica.model.entities.Zone
 import java.lang.Exception
 
 class ZoneAdmActivity : AppCompatActivity() {
-    private lateinit var zoneController: DataBankZoneController
+
     private lateinit var recyclerViewZone: RecyclerView
     private lateinit var zoneData: MutableList<Zone>
     private lateinit var adapter:ListZoneAdapter
     private lateinit var editZoneName:EditText
     private lateinit var editZoneNumber:EditText
     private lateinit var buttonSave:Button
+
+    private lateinit var controller: DataBankGeralController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +33,9 @@ class ZoneAdmActivity : AppCompatActivity() {
 
         val app = application as App
         val dao = app.db.ZoneDao()
-        zoneController = DataBankZoneController(applicationContext,contentResolver,dao)
+
+        controller = DataBankGeralController(applicationContext,contentResolver,app.db)
+
 
         zoneData = mutableListOf()
         adapter = ListZoneAdapter(zoneData){id,item,itemView ->
@@ -68,7 +73,7 @@ class ZoneAdmActivity : AppCompatActivity() {
 
         Thread{
             try {
-                val zone = zoneController.saveZone(
+                val zone = controller.saveZone(
                     nameZone =  editZoneName.text.toString().trim(),
                     number = editZoneNumber.text.toString().trim()
                 )
@@ -89,7 +94,7 @@ class ZoneAdmActivity : AppCompatActivity() {
         Thread{
             val index = zoneData.indexOf(zone)
             zoneData.remove(zone)
-            zoneController.deleteZone(zone)
+            controller.deleteZone(zone)
             runOnUiThread {
                 adapter.notifyItemRemoved(index)
             }
@@ -97,7 +102,7 @@ class ZoneAdmActivity : AppCompatActivity() {
     }
     private fun fetchData(){
         Thread{
-            val response = zoneController.getZones()
+            val response = controller.getZones()
             zoneData.addAll(response)
             runOnUiThread {
                 adapter.notifyDataSetChanged()

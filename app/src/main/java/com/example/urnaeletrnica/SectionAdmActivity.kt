@@ -11,26 +11,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.controllers.DataBankSectionController
 import com.example.urnaeletrnica.controllers.DataBankZoneController
 import com.example.urnaeletrnica.model.entities.Section
 
 class SectionAdmActivity : AppCompatActivity() {
     private lateinit var dropZoneNumbers:AutoCompleteTextView;
-    private lateinit var zoneController:DataBankZoneController
-    private lateinit var sectionController:DataBankSectionController
+
     private lateinit var adapter: ListSectionAdapter
     private lateinit var sectionData: MutableList<Section>
     private lateinit var recyclerViewSection: RecyclerView
+
+    private lateinit var controller: DataBankGeralController
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_section_adm);
 
         val app = application as App
-
-        val daoZone = app.db.ZoneDao()
-        val daoSection = app.db.SectionDao()
 
         sectionData = mutableListOf()
         adapter = ListSectionAdapter(sectionData){id,item,view->
@@ -39,8 +38,7 @@ class SectionAdmActivity : AppCompatActivity() {
             }
         }
 
-        zoneController = DataBankZoneController(applicationContext,contentResolver,daoZone)
-        sectionController = DataBankSectionController(applicationContext,contentResolver,daoSection)
+        controller = DataBankGeralController(applicationContext,contentResolver,app.db)
 
         dropZoneNumbers = findViewById(R.id.auto_section)
 
@@ -54,7 +52,7 @@ class SectionAdmActivity : AppCompatActivity() {
     }
     private  fun fetchZonesOnDrop(){
         Thread{
-            val items = zoneController.getZoneNumbers()   // daoZone.getZonesNumber()
+            val items = controller.getZoneNumbers()   // daoZone.getZonesNumber()
 
             runOnUiThread{
 

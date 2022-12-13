@@ -9,16 +9,19 @@ import com.example.urnaeletrnica.model.entities.Zone
 
 class DataBankZoneController (private val applicationContext: Context, private val contentResolver: ContentResolver, private val dao: ZoneDao) {
     fun getZones():List<Zone>{
-        return dao.getZones();
+        return dao.getZones()
     }
     fun deleteZone(zone: Zone){
-        dao.deleteZone(zone);
+        dao.deleteZone(zone)
     }
+     fun getZoneById(zoneId: Int)= dao.getZoneById(zoneId)
+
     fun getZoneNumbers():List<String> = dao.getZonesNumber()
 
-    private fun existAnotherZoneWithNumber(number: String):Boolean{
+    fun existAnotherZoneWithNumber(number: String):Boolean{
         return dao.getZoneByNumber(number) is Zone
     }
+
     fun saveZone(nameZone:String,number:String): Zone {
         if (existAnotherZoneWithNumber(number)){
             throw Exception(applicationContext.getString(com.example.urnaeletrnica.R.string.exist_another_zone) )
