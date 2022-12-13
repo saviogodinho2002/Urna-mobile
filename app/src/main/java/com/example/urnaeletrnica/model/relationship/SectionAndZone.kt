@@ -6,7 +6,7 @@ import com.example.urnaeletrnica.model.entities.Section
 import com.example.urnaeletrnica.model.entities.Zone
 data class SectionAndZone(
 
-    @Embedded  val zone: Zone ,
+    @Embedded  val zone: Zone? ,
     @Relation(
         parentColumn = "id",
         entityColumn = "zoneId"

@@ -141,7 +141,7 @@ class SectionAdmActivity : AppCompatActivity() {
                 val imgDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
 
                 txtSectionNumber.text = item.section!!.sectionNumber
-                txtZoneNumber.text = item.zone.zoneNumber
+                txtZoneNumber.text = item.zone!!.zoneNumber
 
                 imgDelete.setOnClickListener {
                     actions.invoke(0,item,itemView)
