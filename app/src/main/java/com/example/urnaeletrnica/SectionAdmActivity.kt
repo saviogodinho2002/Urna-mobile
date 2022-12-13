@@ -3,6 +3,7 @@ package com.example.urnaeletrnica;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -53,7 +54,22 @@ class SectionAdmActivity : AppCompatActivity() {
         btnSaveSection.setOnClickListener {
             saveSection()
         }
+        fetchSections()
+    }
+    private fun fetchSections(){
+        Thread{
+            val response = controller.getSectionAndZone()
 
+            response.forEach {
+                if(it.section != null )
+                    sectionData.add(it)
+            }
+            runOnUiThread{
+
+                adapter.notifyDataSetChanged()
+
+            }
+        }.start()
     }
     private  fun fetchZonesOnDrop(){
         Thread{
@@ -72,7 +88,7 @@ class SectionAdmActivity : AppCompatActivity() {
     }
     private fun deleteSection(sectionAndZone: SectionAndZone){
         Thread{
-            val old = controller.deleteSection(sectionAndZone.section)
+            val old = controller.deleteSection(sectionAndZone.section!!)
             runOnUiThread {
                 val index = sectionData.indexOf(sectionAndZone)
                 adapter.notifyItemRemoved(index)
@@ -124,7 +140,7 @@ class SectionAdmActivity : AppCompatActivity() {
                 val txtZoneNumber = itemView.findViewById<TextView>(R.id.txt_item_detail)
                 val imgDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
 
-                txtSectionNumber.text = item.section.sectionNumber
+                txtSectionNumber.text = item.section!!.sectionNumber
                 txtZoneNumber.text = item.zone.zoneNumber
 
                 imgDelete.setOnClickListener {

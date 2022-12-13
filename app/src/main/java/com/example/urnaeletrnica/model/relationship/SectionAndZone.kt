@@ -4,7 +4,6 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.example.urnaeletrnica.model.entities.Section
 import com.example.urnaeletrnica.model.entities.Zone
-
 data class SectionAndZone(
 
     @Embedded  val zone: Zone ,
@@ -12,6 +11,6 @@ data class SectionAndZone(
         parentColumn = "id",
         entityColumn = "zoneId"
     )
-    val section: Section
+    val section: Section?
 
 )

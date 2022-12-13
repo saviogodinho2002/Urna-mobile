@@ -17,6 +17,7 @@ class DataBankSectionController (private val applicationContext: Context, privat
 
     fun saveSection(sectionNum:String, zoneId: Int): Section {
         val section = Section( sectionNumber = sectionNum, zoneId = zoneId)
+        daoSection.insertSection(section)
         return section
     }
 }
