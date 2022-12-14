@@ -18,10 +18,13 @@
         android:theme="@style/Theme.UrnaEletrônica"
         tools:targetApi="31">
         <activity
+            android:name=".VoterAdmActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"/>
+        <activity
             android:name=".SectionAdmActivity"
             android:exported="false"
-            android:screenOrientation="sensorLandscape"
-            />
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".ZoneAdmActivity"
             android:exported="false"

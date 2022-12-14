@@ -16,7 +16,6 @@ class SectionAdmActivity : AppCompatActivity() {
     private lateinit var dropZoneNumbers:AutoCompleteTextView;
 
     private lateinit var adapter: ListSectionAdapter
-    private lateinit var zoneAndSectionsList: MutableList<ZoneAndSections>
     private lateinit var sectionAndZoneList: MutableList<SectionAndZone>
     private lateinit var recyclerViewSection: RecyclerView
     private lateinit var btnSaveSection:Button
@@ -30,7 +29,7 @@ class SectionAdmActivity : AppCompatActivity() {
 
         val app = application as App
 
-        zoneAndSectionsList = mutableListOf()
+
         sectionAndZoneList = mutableListOf()
 
         adapter = ListSectionAdapter(sectionAndZoneList){ id, item, view->
@@ -58,11 +57,9 @@ class SectionAdmActivity : AppCompatActivity() {
     }
     private fun fetchSections(){
         Thread{
-            val response = controller.getSectionAndZone()
-
-            response.forEach {
+           controller.getSectionAndZone()
+               .forEach {
                 if(it.section != null ){
-                  //  zoneAndSectionsList.add(it)
                     val zone = it.zone
                     it.section.forEach { currentSection->
                         sectionAndZoneList.add( SectionAndZone(zone,currentSection))
@@ -70,8 +67,6 @@ class SectionAdmActivity : AppCompatActivity() {
                 }
 
             }
-
-
             runOnUiThread{
 
                 adapter.notifyDataSetChanged()
