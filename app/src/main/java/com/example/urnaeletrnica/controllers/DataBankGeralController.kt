@@ -9,7 +9,7 @@ import com.example.urnaeletrnica.model.entities.Party
 import com.example.urnaeletrnica.model.entities.Section
 import com.example.urnaeletrnica.model.entities.Zone
 import com.example.urnaeletrnica.model.relationship.SectionAndZone
-import com.example.urnaeletrnica.utils.InternalPhotosController
+import com.example.urnaeletrnica.model.relationship.ZoneAndSections
 import java.lang.IllegalArgumentException
 
 
@@ -50,7 +50,7 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
         return dataBankPartyController.updateParty(oldParty,imgUri,partyName,partyInitials,partyNumber);
     }
-    fun getSectionAndZone():List<SectionAndZone> = dataBankZoneController.getSectionAndZone()
+    fun getSectionAndZone():List<ZoneAndSections> = dataBankZoneController.getSectionAndZone()
     fun getZones():List<Zone>{
         return dataBankZoneController.getZones()
     }
@@ -87,7 +87,7 @@ class DataBankGeralController(private val applicationContext: Context, private v
         if(!(zone is Zone))
             throw IllegalArgumentException(applicationContext.getString(com.example.urnaeletrnica.R.string.not_exist_zone_with_number))
 
-        return  SectionAndZone(zone,  dataBankSectionController.saveSection(sectionNum,zone.id))
+        return SectionAndZone(zone, dataBankSectionController.saveSection(sectionNum,zone.id) )
     }
 
 }

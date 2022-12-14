@@ -3,23 +3,21 @@ package com.example.urnaeletrnica;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankGeralController
-import com.example.urnaeletrnica.controllers.DataBankSectionController
-import com.example.urnaeletrnica.controllers.DataBankZoneController
-import com.example.urnaeletrnica.model.entities.Section
 import com.example.urnaeletrnica.model.relationship.SectionAndZone
+import com.example.urnaeletrnica.model.relationship.ZoneAndSections
 
 class SectionAdmActivity : AppCompatActivity() {
     private lateinit var dropZoneNumbers:AutoCompleteTextView;
 
     private lateinit var adapter: ListSectionAdapter
-    private lateinit var sectionData: MutableList<SectionAndZone>
+    private lateinit var zoneAndSectionsList: MutableList<ZoneAndSections>
+    private lateinit var sectionAndZoneList: MutableList<SectionAndZone>
     private lateinit var recyclerViewSection: RecyclerView
     private lateinit var btnSaveSection:Button
     private lateinit var cxSectionNumber:EditText
@@ -32,8 +30,10 @@ class SectionAdmActivity : AppCompatActivity() {
 
         val app = application as App
 
-        sectionData = mutableListOf()
-        adapter = ListSectionAdapter(sectionData){id,item,view->
+        zoneAndSectionsList = mutableListOf()
+        sectionAndZoneList = mutableListOf()
+
+        adapter = ListSectionAdapter(sectionAndZoneList){ id, item, view->
             when(id){
                 0 -> deleteSection(item!!)
             }
@@ -61,9 +61,17 @@ class SectionAdmActivity : AppCompatActivity() {
             val response = controller.getSectionAndZone()
 
             response.forEach {
-                if(it.section != null )
-                    sectionData.add(it)
+                if(it.section != null ){
+                  //  zoneAndSectionsList.add(it)
+                    val zone = it.zone
+                    it.section.forEach { currentSection->
+                        sectionAndZoneList.add( SectionAndZone(zone,currentSection))
+                    }
+                }
+
             }
+
+
             runOnUiThread{
 
                 adapter.notifyDataSetChanged()
@@ -71,6 +79,7 @@ class SectionAdmActivity : AppCompatActivity() {
             }
         }.start()
     }
+
     private  fun fetchZonesOnDrop(){
         Thread{
             val items = controller.getZoneNumbers()   // daoZone.getZonesNumber()
@@ -90,9 +99,9 @@ class SectionAdmActivity : AppCompatActivity() {
         Thread{
             val old = controller.deleteSection(sectionAndZone.section!!)
             runOnUiThread {
-                val index = sectionData.indexOf(sectionAndZone)
+                val index = sectionAndZoneList.indexOf(sectionAndZone)
                 adapter.notifyItemRemoved(index)
-                sectionData.remove(sectionAndZone)
+                sectionAndZoneList.remove(sectionAndZone)
             }
         }.start()
 
@@ -109,8 +118,8 @@ class SectionAdmActivity : AppCompatActivity() {
         Thread{
             val sectionAndZone = controller.saveSection(cxSectionNumber.text.toString().trim(),dropZoneNumbers.text.toString().trim())
             runOnUiThread {
-                sectionData.add(sectionAndZone)
-                adapter.notifyItemInserted(sectionData.lastIndex)
+                sectionAndZoneList.add(sectionAndZone)
+                adapter.notifyItemInserted(sectionAndZoneList.lastIndex)
             }
         }.start()
     }

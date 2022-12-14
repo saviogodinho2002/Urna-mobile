@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import com.example.urnaeletrnica.model.dao.SectionDao
 import com.example.urnaeletrnica.model.entities.Section
-import com.example.urnaeletrnica.model.relationship.SectionAndZone
 
 class DataBankSectionController (private val applicationContext: Context, private val contentResolver: ContentResolver, private val daoSection: SectionDao) {
     fun getSections():List<Section>{

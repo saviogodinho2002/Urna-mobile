@@ -6,7 +6,7 @@ import android.content.Context
 import com.example.urnaeletrnica.model.dao.ZoneDao
 
 import com.example.urnaeletrnica.model.entities.Zone
-import com.example.urnaeletrnica.model.relationship.SectionAndZone
+import com.example.urnaeletrnica.model.relationship.ZoneAndSections
 
 class DataBankZoneController (private val applicationContext: Context, private val contentResolver: ContentResolver, private val dao: ZoneDao) {
     fun getZones():List<Zone>{
@@ -16,7 +16,7 @@ class DataBankZoneController (private val applicationContext: Context, private v
         dao.deleteZone(zone)
     }
 
-    fun getSectionAndZone():List<SectionAndZone> = dao.getSectionAndZone()
+    fun getSectionAndZone():List<ZoneAndSections> = dao.getSectionAndZone()
 
      fun getZoneById(zoneId: Int)= dao.getZoneById(zoneId)
 

@@ -2,7 +2,7 @@ package com.example.urnaeletrnica.model.dao
 
 import androidx.room.*
 import com.example.urnaeletrnica.model.entities.Zone
-import com.example.urnaeletrnica.model.relationship.SectionAndZone
+import com.example.urnaeletrnica.model.relationship.ZoneAndSections
 
 
 @Dao
@@ -30,7 +30,7 @@ interface ZoneDao {
 
     @Transaction
     @Query("SELECT * FROM Zone")
-    fun getSectionAndZone(): List<SectionAndZone>
+    fun getSectionAndZone(): List<ZoneAndSections>
 
  //   @Transaction
   //  @Query("SELECT * FROM Section WHERE id = :id")
