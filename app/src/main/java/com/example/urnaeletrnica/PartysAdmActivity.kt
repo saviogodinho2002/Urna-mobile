@@ -1,13 +1,9 @@
 package com.example.urnaeletrnica
 
 import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +16,6 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankGeralController
-import com.example.urnaeletrnica.controllers.DataBankPartyController
 import com.example.urnaeletrnica.model.entities.Party
 import kotlin.Exception
 
@@ -230,7 +225,7 @@ class PartysAdmActivity : AppCompatActivity() {
         private val actions:((Int,View?,Party?)->Unit)
     ):RecyclerView.Adapter<ListPartyAdapter.ListPartyViewHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPartyAdapter.ListPartyViewHolder {
-            val view = layoutInflater.inflate(R.layout.party_layout,parent,false)
+            val view = layoutInflater.inflate(R.layout.photo_three_text_layout,parent,false)
             return ListPartyViewHolder(view)
         }
 
@@ -246,11 +241,11 @@ class PartysAdmActivity : AppCompatActivity() {
         private inner class ListPartyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
             fun bind(item:Party){
 
-                val txtName = itemView.findViewById<TextView>(R.id.txt_party_name)
-                val txtInitial = itemView.findViewById<TextView>(R.id.txt_party_initial)
-                val txtNumber = itemView.findViewById<TextView>(R.id.txt_party_number)
+                val txtName = itemView.findViewById<TextView>(R.id.txt_text_one)
+                val txtInitial = itemView.findViewById<TextView>(R.id.txt_text_two)
+                val txtNumber = itemView.findViewById<TextView>(R.id.txt_text_three)
 
-                val imgPhoto = itemView.findViewById<ImageView>(R.id.img_logo_party)
+                val imgPhoto = itemView.findViewById<ImageView>(R.id.img_photo_profile)
 
                 val imgDelet = itemView.findViewById<ImageView>(R.id.img_icon_delet)
 

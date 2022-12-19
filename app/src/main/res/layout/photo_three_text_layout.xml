@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/img_logo_party"
+        android:id="@+id/img_photo_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
@@ -19,25 +19,25 @@
         tools:srcCompat="@drawable/ic_add_photo" />
 
     <TextView
-        android:id="@+id/txt_party_name"
+        android:id="@+id/txt_text_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="TextView"
         android:maxWidth="200dp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_logo_party"
-        app:layout_constraintStart_toEndOf="@+id/img_logo_party"
-        app:layout_constraintTop_toTopOf="@+id/img_logo_party" />
+        app:layout_constraintBottom_toBottomOf="@+id/img_photo_profile"
+        app:layout_constraintStart_toEndOf="@+id/img_photo_profile"
+        app:layout_constraintTop_toTopOf="@+id/img_photo_profile" />
 
     <TextView
-        android:id="@+id/txt_party_initial"
+        android:id="@+id/txt_text_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_party_number"
-        app:layout_constraintEnd_toStartOf="@+id/txt_party_number"
-        app:layout_constraintTop_toTopOf="@+id/txt_party_number" />
+        app:layout_constraintBottom_toBottomOf="@+id/txt_text_three"
+        app:layout_constraintEnd_toStartOf="@+id/txt_text_three"
+        app:layout_constraintTop_toTopOf="@+id/txt_text_three" />
 
     <ImageView
         android:id="@+id/img_icon_delet"
@@ -50,7 +50,7 @@
         app:srcCompat="@android:drawable/ic_menu_delete" />
 
     <TextView
-        android:id="@+id/txt_party_number"
+        android:id="@+id/txt_text_three"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"

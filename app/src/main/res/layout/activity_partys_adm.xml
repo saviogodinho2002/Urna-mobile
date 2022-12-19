@@ -20,7 +20,7 @@
             android:layout_width="380dp"
             android:layout_height="match_parent"
             tools:itemCount="3"
-            tools:listitem="@layout/party_layout">
+            tools:listitem="@layout/photo_three_text_layout">
 
 
         </androidx.recyclerview.widget.RecyclerView>

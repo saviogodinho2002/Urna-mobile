@@ -24,4 +24,6 @@
     <string name="section_number_edittext">Número da Seção</string>
     <string name="not_exist_zone_with_number">Não existe Zona com esses números</string>
     <string name="voter_name_hint">Nome do Eleitor</string>
+    <string name="empty_sections">Não existe nenhuma Seção</string>
+    <string name="voter_tittle_hint">Numero do titulo</string>
 </resources>
