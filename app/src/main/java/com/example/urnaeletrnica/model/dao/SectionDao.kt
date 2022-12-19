@@ -2,6 +2,7 @@ package com.example.urnaeletrnica.model.dao
 
 import androidx.room.*
 import com.example.urnaeletrnica.model.entities.Section
+import com.example.urnaeletrnica.model.relationship.SectionAndVoters
 
 @Dao
 interface SectionDao {
@@ -24,4 +25,8 @@ interface SectionDao {
 
     @Update
     fun updateSection(section: Section)
+
+    @Transaction
+    @Query("SELECT * FROM Section")
+    fun getVotersAndSections():List<SectionAndVoters>
 }

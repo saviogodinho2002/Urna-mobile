@@ -12,7 +12,9 @@ class DataBankSectionController (private val applicationContext: Context, privat
     fun deleteSection(section: Section){
         daoSection.deleteSection(section);
     }
+    fun getSectionAndVoters() = daoSection.getVotersAndSections()
 
+    fun getSectionById(id: Int):Section = daoSection.getSectionById(id)
 
     fun saveSection(sectionNum:String, zoneId: Int): Section {
         val section = Section( sectionNumber = sectionNum, zoneId = zoneId)

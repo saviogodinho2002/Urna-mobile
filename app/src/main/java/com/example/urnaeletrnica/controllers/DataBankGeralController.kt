@@ -4,12 +4,11 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import com.example.urnaeletrnica.model.dao.AppDataBase
-import com.example.urnaeletrnica.model.entities.Office
-import com.example.urnaeletrnica.model.entities.Party
-import com.example.urnaeletrnica.model.entities.Section
-import com.example.urnaeletrnica.model.entities.Zone
+import com.example.urnaeletrnica.model.entities.*
+import com.example.urnaeletrnica.model.relationship.SectionAndVoters
 import com.example.urnaeletrnica.model.relationship.SectionAndZone
 import com.example.urnaeletrnica.model.relationship.ZoneAndSections
+import com.example.urnaeletrnica.utils.InternalPhotosController
 import java.lang.IllegalArgumentException
 
 
@@ -18,6 +17,10 @@ class DataBankGeralController(private val applicationContext: Context, private v
     private val dataBankOfficeController = DataBankOfficeController(applicationContext,contentResolver,db.OfficeDao())
     private val dataBankPartyController = DataBankPartyController(applicationContext,contentResolver,db.PartyDao())
     private val dataBankSectionController = DataBankSectionController(applicationContext,contentResolver,db.SectionDao())
+    private val dataBankVoterController = DataBankVoterController(applicationContext,contentResolver,db.VoterDao())
+    private val directoryPartyPhotos = "party_photos";
+    private val directoryVoterPhotos = "voter_photos";
+
 
     fun getOffices():List<Office>{
         return dataBankOfficeController.getOffices();
@@ -38,8 +41,12 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
 
     fun saveParty(imgUri: Uri?, partyName:String, partyInitials:String, partyNumber:String): Party {
+        var imgDirectory:String? = null
 
-        return dataBankPartyController.saveParty(imgUri,partyName,partyInitials,partyNumber);
+        if(imgUri != null){
+            imgDirectory =  InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directoryPartyPhotos,imgUri!! )
+        }
+        return dataBankPartyController.saveParty(imgDirectory,partyName,partyInitials,partyNumber);
 
     }
     fun deleteParty(party: Party){
@@ -47,8 +54,13 @@ class DataBankGeralController(private val applicationContext: Context, private v
     }
 
     fun updateParty(oldParty: Party, imgUri: Uri?, partyName:String, partyInitials:String, partyNumber:String): Party {
-
-        return dataBankPartyController.updateParty(oldParty,imgUri,partyName,partyInitials,partyNumber);
+        var imgDirectory:String? = null;
+        if(imgUri != null){
+            imgDirectory = InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directoryPartyPhotos,imgUri!! )
+        }else if(oldParty.logoPhoto != null){
+            imgDirectory = oldParty.logoPhoto
+        }
+        return dataBankPartyController.updateParty(oldParty,imgDirectory,partyName,partyInitials,partyNumber);
     }
     fun getZoneAndSections():List<ZoneAndSections> = dataBankZoneController.getZoneAndSections()
     fun getZones():List<Zone>{
@@ -71,7 +83,7 @@ class DataBankGeralController(private val applicationContext: Context, private v
     }
     /////////////// classes com relacionamento
 
-    private fun getZoneById(zoneId: Int) = dataBankZoneController.getZoneById(zoneId)
+     fun getZoneById(zoneId: Int) = dataBankZoneController.getZoneById(zoneId)
 
     fun getSections():List<Section>{
         return dataBankSectionController.getSections();
@@ -79,7 +91,7 @@ class DataBankGeralController(private val applicationContext: Context, private v
     fun deleteSection(section: Section){
         dataBankSectionController.deleteSection(section);
     }
-
+    fun getSectionAndVoters():List<SectionAndVoters> = dataBankSectionController.getSectionAndVoters()
     fun saveSection(sectionNum:String, zoneNumber: String): SectionAndZone {
 
 
@@ -89,5 +101,16 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
         return SectionAndZone(zone, dataBankSectionController.saveSection(sectionNum,zone.id) )
     }
+
+     fun saveVoter(voterName:String,voterTittle:String, sectionId:Int,photoUri:Uri?):Voter{
+        var photoDirectory:String? = null
+
+        if(photoUri != null){
+            photoDirectory =  InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directoryVoterPhotos,photoUri )
+        }
+        return  dataBankVoterController.saveVoter(voterName,voterTittle,sectionId,photoDirectory);
+
+    }
+    fun getZoneBySectionId(sectionId: Int):Zone =  dataBankZoneController.getZoneById(  dataBankSectionController.getSectionById(sectionId).zoneId )
 
 }

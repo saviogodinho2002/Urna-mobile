@@ -10,9 +10,6 @@ import com.example.urnaeletrnica.utils.InternalPhotosController
 import kotlin.Exception
 
 class DataBankPartyController(private val applicationContext:Context,private val contentResolver:ContentResolver, private val dao:PartyDao) {
-    private val directory = "party_photos";
-
-
 
     fun existSomePartyWithInitials(initials:String):Boolean{
         return  dao.getPartyByInitials(initials) is Party
@@ -24,18 +21,11 @@ class DataBankPartyController(private val applicationContext:Context,private val
     }
 
 
-    fun saveParty(imgUri:Uri?, partyName:String,partyInitials:String,partyNumber:String):Party{
+    fun saveParty(imgDirectory:String?, partyName:String,partyInitials:String,partyNumber:String):Party{
 
         if(existSomePartyWithInitials(partyInitials.uppercase())){
             throw Exception( applicationContext.resources.getString(com.example.urnaeletrnica.R.string.already_exist_party_signals))
 
-        }
-
-
-        var imgDirectory:String? = null
-
-        if(imgUri != null){
-            imgDirectory =  InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directory,imgUri!! )
         }
         val party = Party(
                 name = partyName,
@@ -56,13 +46,7 @@ class DataBankPartyController(private val applicationContext:Context,private val
         dao.deleteParty(party)
 
     }
-    fun updateParty(oldParty:Party,imgUri:Uri?, partyName:String,partyInitials:String,partyNumber:String):Party{
-        var imgDirectory:String? = null;
-        if(imgUri != null){
-            imgDirectory = InternalPhotosController.saveAndGetDirPhoto( applicationContext ,contentResolver,directory,imgUri!! )
-        }else if(oldParty.logoPhoto != null){
-            imgDirectory = oldParty.logoPhoto
-        }
+    fun updateParty(oldParty:Party,imgDirectory:String?, partyName:String,partyInitials:String,partyNumber:String):Party{
 
         val newParty = Party(
             id = oldParty.id,
