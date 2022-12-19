@@ -13,4 +13,12 @@ data class ZoneAndSections(
     )
     val section: List<Section>?
 
-)
+){
+    fun getSectionAndZone():List<SectionAndZone>{
+        val list = mutableListOf<SectionAndZone>()
+        section?.forEach{
+            list.add(SectionAndZone(zone,it))
+        }
+        return list
+    }
+}

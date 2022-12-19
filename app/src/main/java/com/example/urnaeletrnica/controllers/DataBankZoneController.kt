@@ -16,7 +16,7 @@ class DataBankZoneController (private val applicationContext: Context, private v
         dao.deleteZone(zone)
     }
 
-    fun getSectionAndZone():List<ZoneAndSections> = dao.getSectionAndZone()
+    fun getZoneAndSections():List<ZoneAndSections> = dao.getZoneAndSections()
 
      fun getZoneById(zoneId: Int)= dao.getZoneById(zoneId)
 

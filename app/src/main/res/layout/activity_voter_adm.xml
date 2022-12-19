@@ -42,7 +42,8 @@
                 android:id="@+id/textInputLayout"
 
                 style="@style/AutoTextForm"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:minWidth="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +54,6 @@
                     android:id="@+id/auto_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/empty_sections"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 

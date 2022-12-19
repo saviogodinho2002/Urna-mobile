@@ -50,7 +50,7 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
         return dataBankPartyController.updateParty(oldParty,imgUri,partyName,partyInitials,partyNumber);
     }
-    fun getSectionAndZone():List<ZoneAndSections> = dataBankZoneController.getSectionAndZone()
+    fun getZoneAndSections():List<ZoneAndSections> = dataBankZoneController.getZoneAndSections()
     fun getZones():List<Zone>{
         return dataBankZoneController.getZones()
     }

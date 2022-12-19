@@ -30,7 +30,7 @@ interface ZoneDao {
 
     @Transaction
     @Query("SELECT * FROM Zone")
-    fun getSectionAndZone(): List<ZoneAndSections>
+    fun getZoneAndSections(): List<ZoneAndSections>
 
  //   @Transaction
   //  @Query("SELECT * FROM Section WHERE id = :id")

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.relationship.SectionAndZone
-import com.example.urnaeletrnica.model.relationship.ZoneAndSections
 
 class SectionAdmActivity : AppCompatActivity() {
     private lateinit var dropZoneNumbers:AutoCompleteTextView;
@@ -57,15 +56,9 @@ class SectionAdmActivity : AppCompatActivity() {
     }
     private fun fetchSections(){
         Thread{
-           controller.getSectionAndZone()
+           controller.getZoneAndSections()
                .forEach {
-                if(it.section != null ){
-                    val zone = it.zone
-                    it.section.forEach { currentSection->
-                        sectionAndZoneList.add( SectionAndZone(zone,currentSection))
-                    }
-                }
-
+                   sectionAndZoneList.addAll(  it.getSectionAndZone())
             }
             runOnUiThread{
 
