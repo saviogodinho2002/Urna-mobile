@@ -1,5 +1,7 @@
 package com.example.urnaeletrnica;
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +9,8 @@ import android.os.Bundle;
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankGeralController
@@ -45,7 +49,7 @@ class VoterAdmActivity : AppCompatActivity() {
         voterData = mutableListOf()
         adapter = ListVoterAdapter(voterData){id,item,view ->
             when(id){
-                0 -> deleteVoter(item?.voter!!)
+                0 -> deleteVoter(item!!)
             }
         }
         recyclerVoters.layoutManager = LinearLayoutManager(this@VoterAdmActivity)
@@ -59,6 +63,9 @@ class VoterAdmActivity : AppCompatActivity() {
 
         btnSave.setOnClickListener {
             saveVoter()
+        }
+        selectPhotoProfile.setOnClickListener {
+            selectPhoto()
         }
         fetchVoters()
     }
@@ -107,9 +114,27 @@ class VoterAdmActivity : AppCompatActivity() {
             }
         }.start()
     }
-    private fun deleteVoter(voter:Voter){
+    private fun selectPhoto(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        selectPhotoLauncher.launch(intent)
+
+    }
+    private var selectPhotoLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            imgUri = result.data?.data
+            selectPhotoProfile.setImageURI(imgUri)
+        }
+    }
+
+    private fun deleteVoter(zoneSectionVoter: ZoneSectionVoter){
         Thread{
-           // controller.deleteVoter(voter)
+            val index = voterData.indexOf(zoneSectionVoter)
+            controller.deleteVoter(zoneSectionVoter.voter)
+            voterData.remove(zoneSectionVoter)
+            runOnUiThread {
+                adapter.notifyItemRemoved(index)
+            }
         }.start()
     }
     private  fun fetchSectionsOnDrop(){
@@ -154,9 +179,16 @@ class VoterAdmActivity : AppCompatActivity() {
             fun bind(item: ZoneSectionVoter){
 
                 val imgDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
+
+                val profileImg = itemView.findViewById<ImageView>(R.id.img_photo_profile)
                 val name = itemView.findViewById<TextView>(R.id.txt_text_one)
                 val zone = itemView.findViewById<TextView>(R.id.txt_text_two)
                 val section = itemView.findViewById<TextView>(R.id.txt_text_three)
+
+                item.voter.photoUri?.let {
+                    profileImg.setImageURI(it.toUri())
+                }
+
 
                 name.text = item.voter.name
                 zone.text = item.zone.zoneNumber

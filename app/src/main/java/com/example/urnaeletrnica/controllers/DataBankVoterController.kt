@@ -17,4 +17,7 @@ class DataBankVoterController(private val applicationContext: Context, private v
         dao.insertVoter(voter)
         return voter
     }
+    fun deleteVoter(voter: Voter){
+        dao.deleteVoter(voter)
+    }
 }

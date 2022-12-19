@@ -111,6 +111,7 @@ class DataBankGeralController(private val applicationContext: Context, private v
         return  dataBankVoterController.saveVoter(voterName,voterTittle,sectionId,photoDirectory);
 
     }
+    fun deleteVoter(voter: Voter) = dataBankVoterController.deleteVoter(voter)
     fun getZoneBySectionId(sectionId: Int):Zone =  dataBankZoneController.getZoneById(  dataBankSectionController.getSectionById(sectionId).zoneId )
 
 }
