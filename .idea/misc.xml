@@ -4,16 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.30158730158730157" />
+        <entry key="app/src/main/res/layout/activity_candidate_adm.xml" value="0.2234375" />
         <entry key="app/src/main/res/layout/activity_cargos_adm.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/activity_office_adm.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_partys_adm.xml" value="0.340625" />
         <entry key="app/src/main/res/layout/activity_section_adm.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_voter_adm.xml" value="0.25364583333333335" />
+        <entry key="app/src/main/res/layout/activity_voter_adm.xml" value="0.2234375" />
         <entry key="app/src/main/res/layout/activity_zone_adm.xml" value="0.2234375" />
         <entry key="app/src/main/res/layout/office_layout.xml" value="0.290625" />
         <entry key="app/src/main/res/layout/party_layout.xml" value="0.35625" />
-        <entry key="app/src/main/res/layout/photo_three_text_layout.xml" value="0.2791666666666667" />
         <entry key="app/src/main/res/layout/zone_layout.xml" value="0.2234375" />
       </map>
     </option>
