@@ -83,7 +83,7 @@
                 android:ems="10"
                 android:hint="@string/voter_tittle_hint"
                 android:inputType="number"
-                android:maxLength="12"
+                android:maxLength="5"
                 android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

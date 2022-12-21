@@ -92,7 +92,7 @@ class VoterAdmActivity : AppCompatActivity() {
                         &&
                 dropSections.text.toString().trim().isNotEmpty()
                         &&
-                editVoterTittle.text.toString().trim().length == 12
+                editVoterTittle.text.toString().trim().length == 5
                 )
     }
     private fun saveVoter(){

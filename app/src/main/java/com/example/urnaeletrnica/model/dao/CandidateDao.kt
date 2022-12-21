@@ -9,6 +9,8 @@ interface CandidateDao {
     @Insert
     fun insertCandidate(candidate: Candidate)
 
+    @Query("SELECT * FROM Candidate") //variavel dinamica, mesma da função de baixo
+    fun getCandidates():List<Candidate> ;
 
     @Query("SELECT * FROM Candidate Where id = :id") //variavel dinamica, mesma da função de baixo
     fun getCandidateByID(id:Int):Candidate;
