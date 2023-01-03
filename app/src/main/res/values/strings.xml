@@ -26,5 +26,6 @@
     <string name="voter_name_hint">Nome do Eleitor</string>
     <string name="empty_sections">Não existe nenhuma Seção</string>
     <string name="voter_tittle_hint">Numero do titulo</string>
-    <string name="number_candidate_hint">Número do Candidato</string>
+    <string name="number_candidate_hint">Resto do Número</string>
+    <string name="empty_prefix">00</string>
 </resources>

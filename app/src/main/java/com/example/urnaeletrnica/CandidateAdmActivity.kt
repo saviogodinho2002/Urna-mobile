@@ -4,12 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
-import androidx.core.widget.addTextChangedListener
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.entities.Office
 import com.example.urnaeletrnica.model.entities.Party
@@ -28,6 +27,7 @@ class CandidateAdmActivity : AppCompatActivity() {
     private lateinit var mapVoter: MutableMap<String,Voter>
 
     private lateinit var editCandidateNumber:EditText
+    private lateinit var editCandidateNumberPrefix:EditText
 
     private var lengthLimit:Int? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +42,7 @@ class CandidateAdmActivity : AppCompatActivity() {
         dropVoter = findViewById(R.id.auto_voter)
 
         editCandidateNumber = findViewById(R.id.edit_candidate_number)
+        editCandidateNumberPrefix = findViewById(R.id.edit_candidate_number_prefix)
 
         val app = application as App
 
@@ -50,9 +51,10 @@ class CandidateAdmActivity : AppCompatActivity() {
         btnSave.setOnClickListener {
 
         }
-        fetchParty()
-        fetchOffice()
+        fetchPartyAndOffice()
+
         fetchVoters()
+
 
         editCandidateNumber.addTextChangedListener(object :TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -60,6 +62,10 @@ class CandidateAdmActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.toString().length > lengthLimit!!-2){
+                    editCandidateNumber.setText(s.toString().substring(0,lengthLimit!!-2))
+                    editCandidateNumber.setSelection(lengthLimit!!-2)
+                }
 
             }
 
@@ -67,6 +73,20 @@ class CandidateAdmActivity : AppCompatActivity() {
 
             }
 
+        })
+        dropParty.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+               editCandidateNumberPrefix.setText(mapParty[s.toString()]!!.number)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
         })
         dropOffice.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -76,17 +96,30 @@ class CandidateAdmActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(!s.isNullOrEmpty() ){
                     val key = s.toString()
+
+                    Log.i("teste","$key")
                     if(mapOffice.containsKey(key)){
                         // TODO: terminar esse caralho
                         val office = mapOffice[key]
                         if(office!!.isExecutive){
                             lengthLimit = 2
-                            val party =   mapParty[dropParty.text.toString()]
-                            editCandidateNumber.setText( party!!.number )
-                        }else{
-                            lengthLimit = office!!.numberLength
-                        }
 
+                            editCandidateNumber.setText( "" )
+                            editCandidateNumber.isEnabled = false
+                        }else{
+
+                            editCandidateNumber.isEnabled = true
+
+                            lengthLimit = office!!.numberLength
+
+                            val editText =  editCandidateNumber.text.toString()
+                            if(editText.length > lengthLimit!!-2){
+                                val numberDigited = editText.substring(0,lengthLimit!!-2)
+                                editCandidateNumber.setText(  "${numberDigited}")
+
+                            }
+
+                        }
 
                     }
                 }
@@ -98,33 +131,35 @@ class CandidateAdmActivity : AppCompatActivity() {
 
         })
     }
-    private fun fetchParty(){
+    private fun fetchPartyAndOffice(){
         Thread{
             mapParty = mutableMapOf()
             controller.getPartys().forEach {
                 mapParty[it.initials] = it
             }
-            runOnUiThread {
-                if (mapParty.isNotEmpty())
-                    dropParty.setText( mapParty.keys.first().toString())
-                dropParty.setAdapter( ArrayAdapter(this@CandidateAdmActivity,android.R.layout.simple_list_item_1, mapParty.keys.toList() ))
-            }
-        }.start()
-
-    }
-    private fun fetchOffice(){
-        Thread{
             mapOffice = mutableMapOf()
             controller.getOffices().forEach {
                 mapOffice[it.name] = it
             }
             runOnUiThread {
-                if(mapOffice.isNotEmpty())
+
+                if(mapOffice.isNotEmpty() && mapParty.isNotEmpty()) {
+                    dropParty.setText( mapParty.keys.first().toString())
+                    lengthLimit =   mapOffice[mapOffice.keys.first()]!!.numberLength
+
+                    editCandidateNumberPrefix.setText( mapParty[mapParty.keys.first()]!!.number )
+
                     dropOffice.setText(mapOffice.keys.first().toString())
+
+                }
                 dropOffice.setAdapter(ArrayAdapter(this@CandidateAdmActivity,android.R.layout.simple_list_item_1,mapOffice.keys.toList()))
+                dropParty.setAdapter( ArrayAdapter(this@CandidateAdmActivity,android.R.layout.simple_list_item_1, mapParty.keys.toList() ))
+
             }
         }.start()
+
     }
+
     private fun fetchVoters(){
         Thread{
             mapVoter = mutableMapOf()

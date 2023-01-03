@@ -94,21 +94,35 @@
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <EditText
-                android:id="@+id/edit_candidate_number"
-                android:layout_width="match_parent"
+                android:id="@+id/edit_candidate_number_prefix"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
                 android:ems="10"
                 android:enabled="false"
+                android:hint="@string/empty_prefix"
+                android:inputType="number"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutVoter" />
+
+            <EditText
+                android:id="@+id/edit_candidate_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+
+                android:ems="10"
                 android:hint="@string/number_candidate_hint"
                 android:inputType="number"
                 android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/edit_candidate_number_prefix"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutVoter" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
