@@ -16,7 +16,7 @@ class InternalPhotosController(){
             try {
                 val cw = ContextWrapper(applicationContext)
                 val directory = cw.getDir(directoryName, Context.MODE_PRIVATE)
-                val path = File(directory,"${UUID.randomUUID().toString()}.jpg")
+                val path = File(directory,"${UUID.randomUUID().toString()}.jpeg")
 
 
                 /*
@@ -26,7 +26,7 @@ class InternalPhotosController(){
                 val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imgUri)
                 val out = FileOutputStream(path)
 
-                bitmap.compress( Bitmap.CompressFormat.PNG,15,out)
+                bitmap.compress( Bitmap.CompressFormat.JPEG,15,out)
                 out.close()
                 return path.absolutePath
 
