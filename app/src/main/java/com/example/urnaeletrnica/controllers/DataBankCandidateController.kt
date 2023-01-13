@@ -19,6 +19,7 @@ class DataBankCandidateController(private val applicationContext: Context, priva
         dao.insertCandidate(candidate)
         return candidate
     }
+    fun getCandidateByVoterId(voterId: Int)= dao.getCandidateByVoterId(voterId)
     fun deleteCandidate(candidate: Candidate){
         dao.deleteCandidate(candidate)
     }

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.entities.Office
 import com.example.urnaeletrnica.model.entities.Party
@@ -130,6 +131,9 @@ class CandidateAdmActivity : AppCompatActivity() {
             }
 
         })
+        btnSave.setOnClickListener {
+            saveCandidate()
+        }
     }
     private fun fetchPartyAndOffice(){
         Thread{
@@ -171,6 +175,23 @@ class CandidateAdmActivity : AppCompatActivity() {
                 if(mapVoter.isNotEmpty())
                     dropVoter.setText(mapVoter.keys.first().toString())
                 dropVoter.setAdapter(ArrayAdapter(this@CandidateAdmActivity,android.R.layout.simple_list_item_1,mapVoter.keys.toList()))
+            }
+        }.start()
+    }
+    private fun saveCandidate(){
+        Thread{
+            try {
+
+                val party = mapParty[dropParty.text.toString()]
+                val office = mapOffice[dropOffice.text.toString()]
+                val voter = mapVoter[dropVoter.text.toString()]
+                val number = "${editCandidateNumberPrefix.text.toString()}${editCandidateNumber.text.toString()}"
+                controller.saveCandidate(partyId = party!!.id, officeId = office!!.id, voterId = voter!!.id, numberCandidate = number )
+            }catch (e:Exception){
+                runOnUiThread {
+
+                    Toast.makeText(this@CandidateAdmActivity,e.message.toString(),Toast.LENGTH_SHORT).show()
+                }
             }
         }.start()
     }

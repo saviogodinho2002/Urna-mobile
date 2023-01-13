@@ -18,6 +18,7 @@ class DataBankGeralController(private val applicationContext: Context, private v
     private val dataBankPartyController = DataBankPartyController(applicationContext,contentResolver,db.PartyDao())
     private val dataBankSectionController = DataBankSectionController(applicationContext,contentResolver,db.SectionDao())
     private val dataBankVoterController = DataBankVoterController(applicationContext,contentResolver,db.VoterDao())
+    private val dataBankCandidateController = DataBankCandidateController(applicationContext,contentResolver,db.CandidateDao())
     private val directoryPartyPhotos = "party_photos";
     private val directoryVoterPhotos = "voter_photos";
 
@@ -115,5 +116,11 @@ class DataBankGeralController(private val applicationContext: Context, private v
     fun getZoneBySectionId(sectionId: Int):Zone =  dataBankZoneController.getZoneById(  dataBankSectionController.getSectionById(sectionId).zoneId )
 
     fun getVoters():List<Voter> = dataBankVoterController.getVoters()
+    fun getCandidateByVoterId(voterId: Int) = dataBankCandidateController.getCandidateByVoterId(voterId)
+    fun saveCandidate(voterId:Int,officeId:Int,partyId:Int,numberCandidate: String?):Candidate {
+        if(getCandidateByVoterId(voterId) is Candidate)
+            throw Exception(applicationContext.getString(com.example.urnaeletrnica.R.string.candidate_already_exist))
+        return dataBankCandidateController.saveCandidate(voterId,officeId,partyId,numberCandidate)
+    }
 
 }
