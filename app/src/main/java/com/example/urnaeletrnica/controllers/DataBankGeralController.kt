@@ -122,5 +122,6 @@ class DataBankGeralController(private val applicationContext: Context, private v
             throw Exception(applicationContext.getString(com.example.urnaeletrnica.R.string.candidate_already_exist))
         return dataBankCandidateController.saveCandidate(voterId,officeId,partyId,numberCandidate)
     }
+    fun getCandidatesDto() = dataBankCandidateController.getCandidatesDto()
 
 }

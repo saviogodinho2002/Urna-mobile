@@ -5,15 +5,17 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.core.net.toUri
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.entities.Office
 import com.example.urnaeletrnica.model.entities.Party
 import com.example.urnaeletrnica.model.entities.Voter
+import com.example.urnaeletrnica.model.relationship.CandidateDto
 
 class CandidateAdmActivity : AppCompatActivity() {
     private lateinit var btnSave:Button
@@ -30,11 +32,16 @@ class CandidateAdmActivity : AppCompatActivity() {
     private lateinit var editCandidateNumber:EditText
     private lateinit var editCandidateNumberPrefix:EditText
 
+    private lateinit var adapter: ListCandidateAdapter
+    private lateinit var recyclerCandidate:RecyclerView
+    private lateinit var candidateDtoData:MutableList<CandidateDto>
+
     private var lengthLimit:Int? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_candidate_adm)
 
+        recyclerCandidate = findViewById(R.id.recycler_candidate)
 
         btnSave = findViewById(R.id.btn_save_candidate)
 
@@ -48,6 +55,16 @@ class CandidateAdmActivity : AppCompatActivity() {
         val app = application as App
 
         controller = DataBankGeralController(applicationContext,contentResolver,app.db)
+
+        candidateDtoData = mutableListOf()
+        adapter = ListCandidateAdapter(candidateDtoData){id,item,view ->
+            when(id){
+                0->removeCandidate(item!!)
+            }
+        }
+
+        recyclerCandidate.layoutManager = LinearLayoutManager(this@CandidateAdmActivity)
+        recyclerCandidate.adapter = adapter
 
         btnSave.setOnClickListener {
 
@@ -98,7 +115,7 @@ class CandidateAdmActivity : AppCompatActivity() {
                 if(!s.isNullOrEmpty() ){
                     val key = s.toString()
 
-                    Log.i("teste","$key")
+
                     if(mapOffice.containsKey(key)){
                         // TODO: terminar esse caralho
                         val office = mapOffice[key]
@@ -134,6 +151,10 @@ class CandidateAdmActivity : AppCompatActivity() {
         btnSave.setOnClickListener {
             saveCandidate()
         }
+        fetchCandidate()
+    }
+    private fun removeCandidate(candidateDto: CandidateDto){
+
     }
     private fun fetchPartyAndOffice(){
         Thread{
@@ -178,6 +199,17 @@ class CandidateAdmActivity : AppCompatActivity() {
             }
         }.start()
     }
+    private fun fetchCandidate(){
+        Thread{
+            candidateDtoData.addAll( controller.getCandidatesDto())
+            runOnUiThread {
+                candidateDtoData.forEach {
+                    Log.i("teste","${it.voterName}  ${it.officeName}")
+                }
+                adapter.notifyDataSetChanged()
+            }
+        }.start()
+    }
     private fun saveCandidate(){
         Thread{
             try {
@@ -194,5 +226,55 @@ class CandidateAdmActivity : AppCompatActivity() {
                 }
             }
         }.start()
+    }
+    private inner class ListCandidateAdapter(
+        private val candidateList:List<CandidateDto>,
+        private val actions:((Int, CandidateDto?, View?)->Unit)
+    ): RecyclerView.Adapter<ListCandidateAdapter.ListCandidateDtoViewHolder>(){
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListCandidateDtoViewHolder {
+            val view = layoutInflater.inflate(R.layout.photo_three_text_layout,parent,false)
+            return ListCandidateDtoViewHolder(view)
+        }
+
+        override fun onBindViewHolder(currentViewHolder: ListCandidateAdapter.ListCandidateDtoViewHolder, position: Int) {
+            val currentItem = candidateList[position]
+            currentViewHolder.bind(currentItem)
+        }
+
+        override fun getItemCount(): Int {
+            return candidateList.size
+        }
+
+        private inner class ListCandidateDtoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+            fun bind(item: CandidateDto){
+
+                val imgDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
+
+                val profileImg = itemView.findViewById<ImageView>(R.id.img_photo_profile)
+                val name = itemView.findViewById<TextView>(R.id.txt_text_one)
+                val partyName = itemView.findViewById<TextView>(R.id.txt_text_two)
+                val number = itemView.findViewById<TextView>(R.id.txt_text_three)
+
+                name.text = item.voterName.split(" ").first()
+                partyName.text = "${item.officeName} - ${item.partyInitials}"
+                number.text = item.numberCandidate
+
+                item.photoUri?.let {
+                    profileImg.setImageURI(it.toUri())
+                }
+
+
+                //name.text = item.voterName
+                //partyName.text = item.zone.zoneNumber
+                //candidateNumber.text = item.section.sectionNumber
+
+                imgDelete.setOnClickListener {
+                    actions.invoke(0,item,itemView)
+                }
+
+            }
+        }
+
     }
 }
