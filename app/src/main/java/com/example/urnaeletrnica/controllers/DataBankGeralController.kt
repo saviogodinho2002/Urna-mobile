@@ -123,5 +123,9 @@ class DataBankGeralController(private val applicationContext: Context, private v
         return dataBankCandidateController.saveCandidate(voterId,officeId,partyId,numberCandidate)
     }
     fun getCandidatesDto() = dataBankCandidateController.getCandidatesDto()
-
+    fun getCandidateById(id:Int) = dataBankCandidateController.getCandidateById(id)
+    fun deleteCandidate(candidate: Candidate){
+        dataBankCandidateController.deleteCandidate(candidate)
+    }
+    fun getCandidateDtoByVoterId(voterId: Int) = dataBankCandidateController.getCandidateDtoByVoterId(voterId)
 }

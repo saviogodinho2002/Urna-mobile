@@ -29,4 +29,5 @@
     <string name="number_candidate_hint">Resto do Número</string>
     <string name="empty_prefix">00</string>
     <string name="candidate_already_exist">Este eleitor ja é um candidato</string>
+    <string name="number_isnt_same_length">Preencha a quantidade de caracters necessária</string>
 </resources>

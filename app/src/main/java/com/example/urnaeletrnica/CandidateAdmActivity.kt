@@ -59,7 +59,7 @@ class CandidateAdmActivity : AppCompatActivity() {
         candidateDtoData = mutableListOf()
         adapter = ListCandidateAdapter(candidateDtoData){id,item,view ->
             when(id){
-                0->removeCandidate(item!!)
+                0->deleteCandidate(item!!)
             }
         }
 
@@ -153,8 +153,22 @@ class CandidateAdmActivity : AppCompatActivity() {
         }
         fetchCandidate()
     }
-    private fun removeCandidate(candidateDto: CandidateDto){
+    private fun deleteCandidate(candidateDto: CandidateDto){
+            Thread{
+                try {
+                    val index = candidateDtoData.indexOf(candidateDto);
+                    controller.deleteCandidate(controller.getCandidateById(candidateDto.id));
+                    candidateDtoData.remove(candidateDto)
+                    runOnUiThread {
+                        adapter.notifyItemRemoved(index)
+                    }
+                }catch (error:Exception){
+                    runOnUiThread {
+                        error.printStackTrace()
+                    }
+                }
 
+            }.start()
     }
     private fun fetchPartyAndOffice(){
         Thread{
@@ -210,7 +224,13 @@ class CandidateAdmActivity : AppCompatActivity() {
             }
         }.start()
     }
+    private fun formIsValid():Boolean = editCandidateNumber.text.toString().length == lengthLimit!! -2
     private fun saveCandidate(){
+        if(!formIsValid()){
+
+            Toast.makeText(this@CandidateAdmActivity,R.string.number_isnt_same_length,Toast.LENGTH_SHORT).show();
+            return;
+        }
         Thread{
             try {
 
@@ -218,13 +238,21 @@ class CandidateAdmActivity : AppCompatActivity() {
                 val office = mapOffice[dropOffice.text.toString()]
                 val voter = mapVoter[dropVoter.text.toString()]
                 val number = "${editCandidateNumberPrefix.text.toString()}${editCandidateNumber.text.toString()}"
-                controller.saveCandidate(partyId = party!!.id, officeId = office!!.id, voterId = voter!!.id, numberCandidate = number )
+                val candidate = controller.saveCandidate(partyId = party!!.id, officeId = office!!.id, voterId = voter!!.id, numberCandidate = number )
+
+                val candidateDto = controller.getCandidateDtoByVoterId(voter.id)
+                candidateDtoData.add(candidateDto)
+
+                runOnUiThread {
+                    adapter.notifyItemInserted(candidateDtoData.lastIndex)
+                }
             }catch (e:Exception){
                 runOnUiThread {
 
                     Toast.makeText(this@CandidateAdmActivity,e.message.toString(),Toast.LENGTH_SHORT).show()
                 }
             }
+
         }.start()
     }
     private inner class ListCandidateAdapter(

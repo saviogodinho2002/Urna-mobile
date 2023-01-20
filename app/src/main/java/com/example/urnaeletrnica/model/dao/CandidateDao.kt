@@ -27,6 +27,10 @@ interface CandidateDao {
             +" from Candidate join Voter on Candidate.voterID = Voter.id join Party on Candidate.partyId = Party.id join Office on Candidate.officeId = Office.id")
     fun getCandidatesDto():List<CandidateDto>
 
+    @Query("SELECT Candidate.id as id, Voter.name as voterName, Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
+            +" from Candidate join Voter on Candidate.voterID = Voter.id join Party on Candidate.partyId = Party.id join Office on Candidate.officeId = Office.id and Candidate.voterID = :voterId")
+    fun getCandidateDtoByVoterId(voterId:Int):CandidateDto
+
     @Query("SELECT * FROM Candidate Where officeId = :officeId")
     fun getCandidatesByOffice(officeId: Int):List<Candidate>;
 
