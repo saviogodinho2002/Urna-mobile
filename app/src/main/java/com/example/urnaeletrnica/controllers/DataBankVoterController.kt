@@ -20,4 +20,5 @@ class DataBankVoterController(private val applicationContext: Context, private v
     fun deleteVoter(voter: Voter){
         dao.deleteVoter(voter)
     }
+    fun getVoterByCandidateId(id:Int) = dao.getVoterByCandidateId(id);
 }

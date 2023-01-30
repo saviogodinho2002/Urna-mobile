@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.core.net.toUri
+import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.entities.Office
 import com.example.urnaeletrnica.model.relationship.CandidateDto
+import com.example.urnaeletrnica.model.relationship.PlateDto
 
 
 class PlateAdmActivity : AppCompatActivity() {
@@ -83,7 +85,8 @@ class PlateAdmActivity : AppCompatActivity() {
 
             runOnUiThread {
                 list.forEach {
-                    Log.i("teste_plate",it.plateName)
+
+
                 }
             }
         }.start()
@@ -128,6 +131,50 @@ class PlateAdmActivity : AppCompatActivity() {
         dropVice.setText("")
         dropMain.setAdapter(ArrayAdapter(this@PlateAdmActivity,android.R.layout.simple_list_item_1,mapCandidate.keys.toList()))
         dropVice.setAdapter(ArrayAdapter(this@PlateAdmActivity,android.R.layout.simple_list_item_1,mapCandidate.keys.toList()))
+
+    }
+    private inner class ListPlateAdapter(
+        private val plateList:List<PlateDto>,
+        private val actions:((Int, PlateDto?, View?)->Unit)
+    ): RecyclerView.Adapter<ListPlateAdapter.ListPlateDtoViewHolder>(){
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPlateDtoViewHolder {
+            val view = layoutInflater.inflate(R.layout.photo_three_text_layout,parent,false)
+            return ListPlateDtoViewHolder(view)
+        }
+
+        override fun onBindViewHolder(currentViewHolder: ListPlateAdapter.ListPlateDtoViewHolder, position: Int) {
+            val currentItem = plateList[position]
+            currentViewHolder.bind(currentItem)
+        }
+
+        override fun getItemCount(): Int {
+            return plateList.size
+        }
+
+        private inner class ListPlateDtoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+            fun bind(item: PlateDto){
+
+                val imgDelete = itemView.findViewById<ImageView>(R.id.img_icon_delet)
+
+                val profileImg = itemView.findViewById<ImageView>(R.id.img_photo_profile)
+                val name = itemView.findViewById<TextView>(R.id.txt_text_one)
+                val partyName = itemView.findViewById<TextView>(R.id.txt_text_two)
+                val number = itemView.findViewById<TextView>(R.id.txt_text_three)
+
+
+
+
+                //name.text = item.voterName
+                //partyName.text = item.zone.zoneNumber
+                //candidateNumber.text = item.section.sectionNumber
+
+                imgDelete.setOnClickListener {
+                    actions.invoke(0,item,itemView)
+                }
+
+            }
+        }
 
     }
 }

@@ -132,9 +132,13 @@ class DataBankGeralController(private val applicationContext: Context, private v
     }
     fun getCandidateDtoByVoterId(voterId: Int) = dataBankCandidateController.getCandidateDtoByVoterId(voterId)
 
+    fun getVoterByCandidateId(id:Int) = dataBankVoterController.getVoterByCandidateId(id)
+
     ///plate
     fun savePlate(mainCandidateId:Int,viceCandidateId:Int,officeId: Int,plateName:String)= dataBankPlateController.insertPlate(mainCandidateId,viceCandidateId,officeId,plateName);
 
     fun getPlatesDto() = dataBankPlateController.getPlatesDto()
+
+    fun getPlateDtoById(id:Int) = dataBankPlateController.getPlateDtoById(id)
 
 }
