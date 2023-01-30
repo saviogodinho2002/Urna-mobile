@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.entities.Office
 import com.example.urnaeletrnica.model.relationship.CandidateDto
@@ -25,6 +26,8 @@ class PlateAdmActivity : AppCompatActivity() {
 
     private lateinit var controller:DataBankGeralController
 
+    private lateinit var btnSave:Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,8 @@ class PlateAdmActivity : AppCompatActivity() {
         dropOffice = findViewById(R.id.auto_office_plate)
         dropMain = findViewById(R.id.auto_candidate_main)
         dropVice = findViewById(R.id.auto_candidate_vice)
+        btnSave = findViewById(R.id.btn_save_plate)
+
         candidateList = mutableListOf()
         fetchOffice()
         dropOffice.addTextChangedListener(object :TextWatcher{
@@ -53,6 +58,17 @@ class PlateAdmActivity : AppCompatActivity() {
             }
 
         })
+        btnSave.setOnClickListener {
+            savePlate();
+        }
+    }
+    private fun savePlate(){
+        Thread{
+
+            runOnUiThread {
+
+            }
+        }.start()
     }
     private fun fetchOffice(){
         Thread{
