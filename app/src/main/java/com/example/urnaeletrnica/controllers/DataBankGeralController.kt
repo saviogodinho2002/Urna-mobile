@@ -19,6 +19,8 @@ class DataBankGeralController(private val applicationContext: Context, private v
     private val dataBankSectionController = DataBankSectionController(applicationContext,contentResolver,db.SectionDao())
     private val dataBankVoterController = DataBankVoterController(applicationContext,contentResolver,db.VoterDao())
     private val dataBankCandidateController = DataBankCandidateController(applicationContext,contentResolver,db.CandidateDao())
+    private val dataBankPlateController = DataBankPlateController(applicationContext,contentResolver,db.PlateDao())
+
     private val directoryPartyPhotos = "party_photos";
     private val directoryVoterPhotos = "voter_photos";
 
@@ -129,4 +131,10 @@ class DataBankGeralController(private val applicationContext: Context, private v
         dataBankCandidateController.deleteCandidate(candidate)
     }
     fun getCandidateDtoByVoterId(voterId: Int) = dataBankCandidateController.getCandidateDtoByVoterId(voterId)
+
+    ///plate
+    fun savePlate(mainCandidateId:Int,viceCandidateId:Int,officeId: Int,plateName:String)= dataBankPlateController.insertPlate(mainCandidateId,viceCandidateId,officeId,plateName);
+
+    fun getPlatesDto() = dataBankPlateController.getPlatesDto()
+
 }

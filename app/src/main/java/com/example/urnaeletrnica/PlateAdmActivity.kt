@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.EditText
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.entities.Office
 import com.example.urnaeletrnica.model.relationship.CandidateDto
@@ -27,6 +28,7 @@ class PlateAdmActivity : AppCompatActivity() {
     private lateinit var controller:DataBankGeralController
 
     private lateinit var btnSave:Button
+    private lateinit var ediPlateName:EditText
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +42,7 @@ class PlateAdmActivity : AppCompatActivity() {
         dropMain = findViewById(R.id.auto_candidate_main)
         dropVice = findViewById(R.id.auto_candidate_vice)
         btnSave = findViewById(R.id.btn_save_plate)
+        ediPlateName = findViewById(R.id.editTextTextPlateName)
 
         candidateList = mutableListOf()
         fetchOffice()
@@ -64,9 +67,24 @@ class PlateAdmActivity : AppCompatActivity() {
     }
     private fun savePlate(){
         Thread{
+            val candidateMain = mapCandidate[dropMain.text.toString()]!!
+            val candidateVice = mapCandidate[dropVice.text.toString()]!!
+            val office = mapOffice[dropOffice.text.toString()]!!;
+            val text = ediPlateName.text.toString()
+
+            val plate = controller.savePlate(
+                mainCandidateId = candidateMain.id,
+                viceCandidateId = candidateVice.id,
+                officeId = office.id,
+                plateName = text
+            )
+            val list = controller.getPlatesDto()
+
 
             runOnUiThread {
-
+                list.forEach {
+                    Log.i("teste_plate",it.plateName)
+                }
             }
         }.start()
     }
@@ -78,7 +96,8 @@ class PlateAdmActivity : AppCompatActivity() {
                 mapOffice[it.name] = it
             }
             runOnUiThread {
-                dropOffice.setText( mapOffice.keys.first().toString() )
+                if( mapOffice.keys.isNotEmpty())
+                    dropOffice.setText( mapOffice.keys.first().toString() )
                 dropOffice.setAdapter(ArrayAdapter(this@PlateAdmActivity,android.R.layout.simple_list_item_1,mapOffice.keys.toList()))
 
                 fetchCandidate()

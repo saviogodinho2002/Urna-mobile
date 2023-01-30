@@ -1,11 +1,15 @@
 package com.example.urnaeletrnica.model.relationship
 
+import com.example.urnaeletrnica.model.entities.Party
+import com.example.urnaeletrnica.model.entities.Plate
+
 
 data class PlateDto(
-    val id:Int,
-    val mainName:String,
-    val viceName:String,
-    val plateName:String,
-    val partySignals:String,
     val partyName:String,
+    val partyInitials:String,
+    val partyNumber:String,
+    val partyPhotoUrl:String,
+    val plateName:String,
+
+
     )

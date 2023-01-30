@@ -33,4 +33,5 @@
     <string name="office">Cargo</string>
     <string name="main_candidate">Principal</string>
     <string name="vice_candidate">Vice</string>
+    <string name="plate_name">Nome da chapa</string>
 </resources>

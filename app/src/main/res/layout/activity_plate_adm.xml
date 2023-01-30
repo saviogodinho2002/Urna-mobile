@@ -97,7 +97,16 @@
                     tools:layout_editor_absoluteY="114dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
+            <EditText
+                android:id="@+id/editTextTextPlateName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:inputType="textPersonName"
+                android:hint="@string/plate_name"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayoutCandidateVice"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayoutCandidateVice"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCandidateVice" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
