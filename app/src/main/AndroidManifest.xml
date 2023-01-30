@@ -17,10 +17,14 @@
         android:theme="@style/Theme.UrnaEletrônica"
         tools:targetApi="31">
         <activity
-            android:name=".CandidateAdmActivity"
+            android:name=".PlateAdmActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
             />
+        <activity
+            android:name=".CandidateAdmActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".VoterAdmActivity"
             android:exported="false"

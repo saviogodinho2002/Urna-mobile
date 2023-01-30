@@ -20,6 +20,9 @@ interface OfficeDao {
     @Query("SELECT * FROM Office Where id = :id") //variavel dinamica, mesma da função de baixo
     fun getOfficeByID(id:Int): Office;
 
+    @Query("SELECT * FROM Office Where isExecutive = 1")
+    fun getOfficesExecutive():List<Office>
+
     @Delete
     fun deleteOffice(office: Office): Int
 

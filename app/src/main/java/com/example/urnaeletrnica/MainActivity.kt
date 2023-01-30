@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSectionAdmActivity: Button;
     private lateinit var btnVoterAdmActivity: Button;
     private lateinit var btnCandidateAdmActivity: Button
+    private lateinit var btnPlateAdmActivity: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main);
@@ -52,6 +53,8 @@ class MainActivity : AppCompatActivity() {
         btnSectionAdmActivity = findViewById(R.id.btn_section)
         btnVoterAdmActivity = findViewById(R.id.btn_voter_activity)
         btnCandidateAdmActivity = findViewById(R.id.btn_candidates)
+        btnPlateAdmActivity = findViewById(R.id.btn_plate)
+
 
         btnOfficeActivity.setOnClickListener {
             val intent = Intent(this@MainActivity,OfficeAdmActivity::class.java)
@@ -76,6 +79,10 @@ class MainActivity : AppCompatActivity() {
         }
         btnCandidateAdmActivity.setOnClickListener {
             val intent = Intent(this@MainActivity,CandidateAdmActivity::class.java)
+            startActivity(intent)
+        }
+        btnPlateAdmActivity.setOnClickListener {
+            val intent = Intent(this@MainActivity,PlateAdmActivity::class.java)
             startActivity(intent)
         }
     }

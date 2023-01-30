@@ -30,4 +30,7 @@
     <string name="empty_prefix">00</string>
     <string name="candidate_already_exist">Este eleitor ja é um candidato</string>
     <string name="number_isnt_same_length">Preencha a quantidade de caracters necessária</string>
+    <string name="office">Cargo</string>
+    <string name="main_candidate">Principal</string>
+    <string name="vice_candidate">Vice</string>
 </resources>

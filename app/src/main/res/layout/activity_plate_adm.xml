@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlateAdmActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_plate"
+            android:layout_width="380dp"
+            android:layout_height="match_parent"
+            tools:itemCount="3"
+            tools:listitem="@layout/photo_three_text_layout">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_save_plate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/btn_save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutOffice"
+
+                style="@style/AutoTextForm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_office_plate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" android:hint="@string/office"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutCandidateMain"
+
+                style="@style/AutoTextForm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minWidth="180dp"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayoutOffice"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayoutOffice"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutOffice">
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_candidate_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/main_candidate"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutCandidateVice"
+
+                style="@style/AutoTextForm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minWidth="180dp"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayoutCandidateMain"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayoutCandidateMain"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCandidateMain">
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_candidate_vice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/vice_candidate"
+                    android:inputType="none"
+                    tools:layout_editor_absoluteX="25dp"
+                    tools:layout_editor_absoluteY="114dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

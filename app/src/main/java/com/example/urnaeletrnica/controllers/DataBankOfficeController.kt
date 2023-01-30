@@ -24,4 +24,5 @@ class DataBankOfficeController (private val applicationContext: Context, private
         )
         return office;
     }
+    fun getOfficesExecutive() = dao.getOfficesExecutive()
 }
