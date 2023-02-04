@@ -34,4 +34,11 @@
     <string name="main_candidate">Principal</string>
     <string name="vice_candidate">Vice</string>
     <string name="plate_name">Nome da chapa</string>
+    <string name="autenticate">Autenticar</string>
+    <string name="zone_and_section">Zona e sessao</string>
+    <string name="drop_bank">Resetar Eleição</string>
+    <string name="gerate_reports">Gerar Relatorio</string>
+    <string name="incorrect_session">Eleitor nao pertence a essa sessao</string>
+    <string name="incorrect_tittle">Não existe nenhum eleitor com esse titulo</string>
+    <string name="voter_has_voted">O eleitor ja votou</string>
 </resources>

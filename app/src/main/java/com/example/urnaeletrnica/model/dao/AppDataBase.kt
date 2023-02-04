@@ -14,7 +14,9 @@ import com.example.urnaeletrnica.model.entities.*
     Plate::class,
     Voter::class,
     Zone::class,
-    Section::class], version = 11)
+    Section::class,
+    VotesElection::class,
+                     ], version = 12)
 //@TypeConverters(DateConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
@@ -25,6 +27,7 @@ abstract class AppDataBase : RoomDatabase() {
    abstract fun VoterDao():VoterDao
    abstract fun ZoneDao():ZoneDao
    abstract fun SectionDao():SectionDao
+   abstract fun VotesElectionDao():VotesElectionDao
 
     companion object {
 

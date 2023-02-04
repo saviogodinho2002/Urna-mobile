@@ -15,6 +15,10 @@ interface VoterDao {
     @Query("SELECT * FROM Voter Where id = :id")
     fun getVoterByID(id:Int): Voter;
 
+    @Query("SELECT * FROM Voter Where voterTitle = :tittle")
+    fun getVoterByTittle(tittle:String): Voter;
+
+
     @Query("SELECT * FROM Voter join Candidate on Voter.id = :id")
     fun getVoterByCandidateId(id:Int):Voter;
 

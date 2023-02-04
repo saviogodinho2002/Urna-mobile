@@ -20,6 +20,7 @@ class DataBankGeralController(private val applicationContext: Context, private v
     private val dataBankVoterController = DataBankVoterController(applicationContext,contentResolver,db.VoterDao())
     private val dataBankCandidateController = DataBankCandidateController(applicationContext,contentResolver,db.CandidateDao())
     private val dataBankPlateController = DataBankPlateController(applicationContext,contentResolver,db.PlateDao())
+    private val dataBankVotesElectionController = DataBankVotesElectionController(applicationContext,contentResolver,db.VotesElectionDao())
 
     private val directoryPartyPhotos = "party_photos";
     private val directoryVoterPhotos = "voter_photos";
@@ -119,6 +120,23 @@ class DataBankGeralController(private val applicationContext: Context, private v
     fun getZoneBySectionId(sectionId: Int):Zone =  dataBankZoneController.getZoneById(  dataBankSectionController.getSectionById(sectionId).zoneId )
 
     fun getVoters():List<Voter> = dataBankVoterController.getVoters()
+
+    fun getVoterByTittle(tittle:String) = dataBankVoterController.getVoterByTittle(tittle)
+
+    fun auntenticateVoterWithTittle(tittle:String, sectionId: Int):Int{
+        val voter = getVoterByTittle(tittle)
+        if(voter !is Voter)
+            throw Exception( applicationContext.getString( com.example.urnaeletrnica.R.string.incorrect_tittle))
+        if (voter.sectionId != sectionId)
+            throw Exception( applicationContext.getString( com.example.urnaeletrnica.R.string.incorrect_session))
+
+        val votesElection = dataBankVotesElectionController.getVotesElectionByVoterId(voter.id)
+        if(votesElection.isNotEmpty())
+            throw Exception( applicationContext.getString( com.example.urnaeletrnica.R.string.voter_has_voted))
+
+        return voter.id
+    }
+
     fun getCandidateByVoterId(voterId: Int) = dataBankCandidateController.getCandidateByVoterId(voterId)
     fun saveCandidate(voterId:Int,officeId:Int,partyId:Int,numberCandidate: String?):Candidate {
         if(getCandidateByVoterId(voterId) is Candidate)
