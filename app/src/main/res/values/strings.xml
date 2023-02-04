@@ -41,4 +41,18 @@
     <string name="incorrect_session">Eleitor nao pertence a essa sessao</string>
     <string name="incorrect_tittle">Não existe nenhum eleitor com esse titulo</string>
     <string name="voter_has_voted">O eleitor ja votou</string>
+    <string name="your_vote_to">SEU VOTO PARA</string>
+    <string name="number_vote">Numero</string>
+    <string name="name">Nome</string>
+    <string name="party_name">Partido</string>
+    <string name="numeral_1">1</string>
+    <string name="numeral_2">2</string>
+    <string name="numeral_3">3</string>
+    <string name="numeral_6">6</string>
+    <string name="numeral_7">7</string>
+    <string name="numeral_9">9</string>
+    <string name="numeral_0">0</string>
+    <string name="numeral_8">8</string>
+    <string name="numeral_5">5</string>
+    <string name="numeral_4">4</string>
 </resources>
