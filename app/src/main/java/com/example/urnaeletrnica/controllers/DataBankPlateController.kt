@@ -11,11 +11,12 @@ class DataBankPlateController (private val applicationContext: Context, private 
     fun getPlates(){
 
     }
-
+    fun deletePlate(plate: Plate) = dao.deletePlate(plate)
     fun getPlatesDto() = dao.getPlatesDto()
 
     fun getPlateDtoById(id:Int)= dao.getPlateDtoById(id)
 
+    fun getPlatesById(id:Int) = dao.getPlatesById(id);
 
     fun insertPlate(mainCandidateId:Int,viceCandidateId:Int,officeId: Int,plateName:String):Plate{
         val plate = Plate(

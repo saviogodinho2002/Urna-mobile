@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.entities.Office
@@ -32,6 +33,10 @@ class PlateAdmActivity : AppCompatActivity() {
     private lateinit var btnSave:Button
     private lateinit var ediPlateName:EditText
 
+    private lateinit var adapter: PlateAdmActivity.ListPlateAdapter
+    private lateinit var recyclerPlate:RecyclerView
+    private lateinit var plateDtoData:MutableList<PlateDto>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,16 @@ class PlateAdmActivity : AppCompatActivity() {
         val app = application as App
 
         controller = DataBankGeralController(applicationContext,contentResolver,app.db)
+
+        plateDtoData = mutableListOf()
+        recyclerPlate = findViewById(R.id.recycler_plate)
+        adapter = ListPlateAdapter(plateDtoData){id,item,view ->
+            when(id){
+                0->deletePlate(item!!)
+            }
+        }
+        recyclerPlate.layoutManager = LinearLayoutManager(this@PlateAdmActivity)
+        recyclerPlate.adapter = adapter;
 
         dropOffice = findViewById(R.id.auto_office_plate)
         dropMain = findViewById(R.id.auto_candidate_main)
@@ -66,6 +81,19 @@ class PlateAdmActivity : AppCompatActivity() {
         btnSave.setOnClickListener {
             savePlate();
         }
+        fetchPlate()
+    }
+    private fun deletePlate(plateDto: PlateDto){
+        Thread{
+            val plate = controller.getPlatesById(plateDto.id)
+            controller.deletePlate(plate)
+            val index = plateDtoData.indexOf(plateDto)
+            plateDtoData.remove(plateDto)
+            runOnUiThread {
+                adapter.notifyItemRemoved(index)
+            }
+        }.start()
+
     }
     private fun savePlate(){
         Thread{
@@ -80,14 +108,13 @@ class PlateAdmActivity : AppCompatActivity() {
                 officeId = office.id,
                 plateName = text
             )
-            val list = controller.getPlatesDto()
+            plateDtoData.clear()
+            plateDtoData.addAll(controller.getPlatesDto())
 
 
             runOnUiThread {
-                list.forEach {
+                adapter.notifyDataSetChanged()
 
-
-                }
             }
         }.start()
     }
@@ -118,6 +145,14 @@ class PlateAdmActivity : AppCompatActivity() {
 
             runOnUiThread {
                 changeCandidatesByOffice(office)
+            }
+        }.start()
+    }
+    private fun fetchPlate(){
+        Thread{
+            plateDtoData.addAll(controller.getPlatesDto())
+            runOnUiThread {
+                adapter.notifyDataSetChanged()
             }
         }.start()
     }
@@ -162,8 +197,13 @@ class PlateAdmActivity : AppCompatActivity() {
                 val partyName = itemView.findViewById<TextView>(R.id.txt_text_two)
                 val number = itemView.findViewById<TextView>(R.id.txt_text_three)
 
+                name.text = item.plateName
+                partyName.text = item.partyInitials
+                number.text = ""
 
-
+                item.partyPhotoUrl?.let {
+                    profileImg.setImageURI(it.toUri())
+                }
 
                 //name.text = item.voterName
                 //partyName.text = item.zone.zoneNumber

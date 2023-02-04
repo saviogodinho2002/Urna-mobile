@@ -141,4 +141,8 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
     fun getPlateDtoById(id:Int) = dataBankPlateController.getPlateDtoById(id)
 
+    fun getPlatesById(id:Int) = dataBankPlateController.getPlatesById(id)
+
+    fun deletePlate(plate: Plate) = dataBankPlateController.deletePlate(plate)
+
 }
