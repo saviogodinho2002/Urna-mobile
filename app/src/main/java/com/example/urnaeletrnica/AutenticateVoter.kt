@@ -68,6 +68,7 @@ class AutenticateVoter : AppCompatActivity() {
     }
     private  fun fetchSectionsOnDrop(){
         Thread{
+
             mapSectionAndZone = mutableMapOf()
             val items = controller.getZoneAndSections()   // daoZone.getZonesNumber()
             items.forEach { zoneAndSections ->
