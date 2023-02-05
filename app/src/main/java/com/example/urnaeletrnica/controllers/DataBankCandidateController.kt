@@ -5,6 +5,7 @@ import android.content.Context
 import com.example.urnaeletrnica.model.dao.CandidateDao
 import com.example.urnaeletrnica.model.dao.OfficeDao
 import com.example.urnaeletrnica.model.entities.Candidate
+import com.example.urnaeletrnica.model.relationship.CandidateDto
 
 class DataBankCandidateController(private val applicationContext: Context, private val contentResolver: ContentResolver, private val dao: CandidateDao) {
     fun getCandidates():List<Candidate> = dao.getCandidates()
@@ -26,5 +27,9 @@ class DataBankCandidateController(private val applicationContext: Context, priva
     }
     fun getCandidateById(id: Int) = dao.getCandidateByID(id)
     fun getCandidateDtoByVoterId(voterId:Int) = dao.getCandidateDtoByVoterId(voterId)
+    fun getCandidateByNumber(number:String) = dao.getCandidateByNumber(number)
+    fun getCandidateDtoByNumber(number: String) = dao.getCandidateDtoByNumber(number)
+
+    fun getCandidateDtoByNumberAndOffice(number: String,officeId: Int) = dao.getCandidateDtoByNumberAndOffice(number,officeId)
 
 }

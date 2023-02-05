@@ -18,6 +18,9 @@ interface PartyDao {
 
     @Query("SELECT * FROM Party Where id = :id") //variavel dinamica, mesma da função de baixo
     fun getPartyByID(id:Int): Party;
+    @Query("SELECT * FROM Party Where number = :number") //variavel dinamica, mesma da função de baixo
+    fun getPartyByNumber(number:String): Party;
+
 
     @Delete
     fun deleteParty(party: Party): Int

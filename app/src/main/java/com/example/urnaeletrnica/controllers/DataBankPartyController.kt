@@ -20,6 +20,8 @@ class DataBankPartyController(private val applicationContext:Context,private val
         return  response;
     }
 
+    fun getPartyByNumber(number:String) = dao.getPartyByNumber(number)
+
 
     fun saveParty(imgDirectory:String?, partyName:String,partyInitials:String,partyNumber:String):Party{
 

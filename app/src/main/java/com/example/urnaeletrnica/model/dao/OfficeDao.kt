@@ -26,10 +26,10 @@ interface OfficeDao {
     @Query("SELECT * FROM Office Where isExecutive = 0")
     fun getOfficesIsNotExecutive():List<Office>
 
-    @Query("SELECT * FROM Office join Plate on Plate.office_id = Office.id and isExecutive = 1 group by Office.id")
+    @Query("SELECT * FROM Office where isExecutive = 0 and (select count(*) from Plate join Candidate on  Candidate.officeId = Office.id and Plate.mainId = Candidate.id or  Plate.viceId = Candidate.id )")
     fun getOfficesExecutiveHasPlate():List<Office>
 
-    @Query("SELECT * FROM Office join Candidate on Candidate.officeId = Office.id and isExecutive = 0 group by Office.id")
+    @Query("SELECT * FROM Office where isExecutive = 0 and (select count(*) from Candidate where Candidate.officeId = Office.id )")
     fun getOfficesIsNotExecutiveHasCandidate():List<Office>
 
 

@@ -4,7 +4,9 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import com.example.urnaeletrnica.model.dao.AppDataBase
+import com.example.urnaeletrnica.model.dao.PartyDao
 import com.example.urnaeletrnica.model.entities.*
+import com.example.urnaeletrnica.model.relationship.PlateDto
 import com.example.urnaeletrnica.model.relationship.SectionAndVoters
 import com.example.urnaeletrnica.model.relationship.SectionAndZone
 import com.example.urnaeletrnica.model.relationship.ZoneAndSections
@@ -155,6 +157,12 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
     fun getVoterByCandidateId(id:Int) = dataBankVoterController.getVoterByCandidateId(id)
 
+    fun getCandidateByNumber(number:String) = dataBankCandidateController.getCandidateByNumber(number)
+
+    fun getCandidateDtoByNumber(number: String) = dataBankCandidateController.getCandidateDtoByNumber(number)
+
+    fun getCandidateDtoByNumberAndOffice(number: String,officeId: Int) = dataBankCandidateController.getCandidateDtoByNumberAndOffice(number,officeId)
+
     ///plate
     fun savePlate(mainCandidateId:Int,viceCandidateId:Int,officeId: Int,plateName:String)= dataBankPlateController.insertPlate(mainCandidateId,viceCandidateId,officeId,plateName);
 
@@ -165,5 +173,12 @@ class DataBankGeralController(private val applicationContext: Context, private v
     fun getPlatesById(id:Int) = dataBankPlateController.getPlatesById(id)
 
     fun deletePlate(plate: Plate) = dataBankPlateController.deletePlate(plate)
+    fun getPlateDtoByPartyOfMainCandidateAndOfficeId(partyId:Int,officeId: Int) = dataBankPlateController.getPlateDtoByPartyOfMainCandidateAndOfficeId(partyId,officeId)
+    fun getPlateDtoByPartyNumber(number: String,officeId: Int):PlateDto{
+        val party = dataBankPartyController.getPartyByNumber(number)
+        if(party is Party)
+            return getPlateDtoByPartyOfMainCandidateAndOfficeId(party.id,officeId)
+        throw Exception(applicationContext.getString(com.example.urnaeletrnica.R.string.non_existe_party))
+    }
 
 }

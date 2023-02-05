@@ -28,5 +28,6 @@ class DataBankPlateController (private val applicationContext: Context, private 
         dao.insertPlate(plate)
         return plate;
     }
+    fun getPlateDtoByPartyOfMainCandidateAndOfficeId(partyId:Int,officeId: Int) = dao.getPlateDtoByPartyOfMainCandidateAndOfficeId(partyId, officeId)
 
 }
