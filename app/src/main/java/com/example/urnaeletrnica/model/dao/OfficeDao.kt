@@ -23,6 +23,17 @@ interface OfficeDao {
     @Query("SELECT * FROM Office Where isExecutive = 1")
     fun getOfficesExecutive():List<Office>
 
+    @Query("SELECT * FROM Office Where isExecutive = 0")
+    fun getOfficesIsNotExecutive():List<Office>
+
+    @Query("SELECT * FROM Office join Plate on Plate.office_id = Office.id and isExecutive = 1 group by Office.id")
+    fun getOfficesExecutiveHasPlate():List<Office>
+
+    @Query("SELECT * FROM Office join Candidate on Candidate.officeId = Office.id and isExecutive = 0 group by Office.id")
+    fun getOfficesIsNotExecutiveHasCandidate():List<Office>
+
+
+
     @Delete
     fun deleteOffice(office: Office): Int
 

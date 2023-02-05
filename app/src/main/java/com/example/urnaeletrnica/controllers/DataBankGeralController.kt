@@ -36,6 +36,9 @@ class DataBankGeralController(private val applicationContext: Context, private v
         return  dataBankOfficeController.saveOffice(nameOffice,number,executive)
     }
     fun getOfficesExecutive() = dataBankOfficeController.getOfficesExecutive()
+    fun getOfficesIsNotExecutive() = dataBankOfficeController.getOfficesIsNotExecutive()
+
+    fun getOfficesIsNotExecutiveHasCandidate() = dataBankOfficeController.getOfficesIsNotExecutiveHasCandidate()
     private fun existSomePartyWithInitials(initials:String):Boolean{
         return  dataBankPartyController.existSomePartyWithInitials(initials)
     }

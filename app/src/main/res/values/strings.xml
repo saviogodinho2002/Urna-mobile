@@ -55,4 +55,7 @@
     <string name="numeral_8">8</string>
     <string name="numeral_5">5</string>
     <string name="numeral_4">4</string>
+    <string name="confirm">Confirmar</string>
+    <string name="corrects">CORRIGE</string>
+    <string name="blank">branco</string>
 </resources>

@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
+            android:textSize="18sp"
             android:text="@string/your_vote_to"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:maxWidth="200dp"
+            android:textSize="18sp"
             android:text="office"
             android:textColor="#000000"
             app:layout_constraintStart_toEndOf="@+id/txt_vote_to"
@@ -47,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
+            android:textSize="18sp"
             android:text="@string/number_vote"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textSize="18sp"
             android:text="@string/name"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="@+id/txt_number"
@@ -67,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textSize="18sp"
             android:text="@string/party_name"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="@+id/name"
@@ -100,11 +106,12 @@
             android:background="@drawable/bg_edittext"
             android:minWidth="40dp"
             android:paddingStart="5dp"
-            android:paddingTop="5dp"
+            android:paddingTop="2.5dp"
             android:paddingEnd="5dp"
             android:text=""
             android:textAlignment="center"
             android:textColor="#000000"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_number"
             app:layout_constraintStart_toEndOf="@+id/txt_number"
             app:layout_constraintTop_toTopOf="@+id/txt_number" />
@@ -244,6 +251,7 @@
             android:layout_width="50dp"
             android:layout_height="60dp"
 
+            android:layout_marginBottom="5dp"
             android:backgroundTint="#262627"
             android:text="@string/numeral_0"
             android:textAlignment="center"
@@ -252,7 +260,7 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_corrects"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:rippleColor="#FFFFFF" />
@@ -332,5 +340,50 @@
             app:layout_constraintEnd_toStartOf="@+id/btn_1"
             app:layout_constraintTop_toTopOf="@+id/btn_1"
             app:rippleColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btn_corrects"
+            android:layout_width="85dp"
+            android:layout_height="50dp"
+            android:paddingHorizontal="2dp"
+            android:textColor="@color/black"
+            android:backgroundTint="#f3994f"
+            android:text="@string/corrects"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="85dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#44c174"
+            android:paddingHorizontal="0dp"
+            android:text="@string/confirm"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_corrects"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_corrects"
+            app:layout_constraintTop_toTopOf="@+id/btn_corrects" />
+
+        <Button
+            android:id="@+id/btn_blank"
+            android:layout_width="85dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="2dp"
+            android:text="@string/blank"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_corrects"
+            app:layout_constraintEnd_toStartOf="@+id/btn_corrects"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_corrects" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
