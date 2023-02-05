@@ -180,5 +180,12 @@ class DataBankGeralController(private val applicationContext: Context, private v
             return getPlateDtoByPartyOfMainCandidateAndOfficeId(party.id,officeId)
         throw Exception(applicationContext.getString(com.example.urnaeletrnica.R.string.non_existe_party))
     }
+    fun saveVotesElections(votesElection: List<VotesElection>){
+        votesElection.forEach {
+            dataBankVotesElectionController.saveVoteElection(it)
+        }
+
+    }
+    fun truncateVotesElections() = dataBankVotesElectionController.truncateVotesElections()
 
 }

@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import com.example.urnaeletrnica.controllers.DataBankGeralController
 import com.example.urnaeletrnica.model.entities.Office
+import com.example.urnaeletrnica.model.entities.VotesElection
 import com.example.urnaeletrnica.model.relationship.CandidateDto
 import com.example.urnaeletrnica.model.relationship.PlateDto
 
@@ -24,6 +25,7 @@ class Urn : AppCompatActivity() {
 
     private lateinit var btnConfirm:Button
     private lateinit var btnCorrects:Button
+    private lateinit var btnBlank:Button
 
     private lateinit var buttonsNumberList: MutableList<Button>
     private lateinit var txtCandidateName:TextView
@@ -37,6 +39,9 @@ class Urn : AppCompatActivity() {
     private lateinit var txtMainName:TextView
     private lateinit var txtViceName:TextView
 
+    private lateinit var votesElectionList:MutableList<VotesElection>
+
+    private var currentVoterId:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_urn)
@@ -53,7 +58,10 @@ class Urn : AppCompatActivity() {
         imgMain = findViewById(R.id.img_main)
         imgVice = findViewById(R.id.img_vice)
 
+        votesElectionList = mutableListOf()
+
         btnConfirm = findViewById(R.id.btn_confirm)
+        btnBlank = findViewById(R.id.btn_blank)
         txtNumberToVote = findViewById(R.id.txt_digited_number)
         buttonsNumberList = mutableListOf(
             findViewById(R.id.btn_0),
@@ -68,6 +76,7 @@ class Urn : AppCompatActivity() {
             findViewById(R.id.btn_9),
 
             )
+        currentVoterId = intent.extras?.getInt("voter_id")!!
         btnCorrects = findViewById(R.id.btn_corrects)
         buttonsNumberList.forEach { btn->
             btn.setOnClickListener {
@@ -81,6 +90,11 @@ class Urn : AppCompatActivity() {
         fetchOffices()
 
         btnConfirm.setOnClickListener {
+            saveVote(false)
+            getNextOffice()
+        }
+        btnBlank.setOnClickListener {
+            saveVote(true)
             getNextOffice()
         }
         btnCorrects.setOnClickListener {
@@ -98,8 +112,9 @@ class Urn : AppCompatActivity() {
                     txtNumberToVote.text = text.toString().substring(0, text.toString().lastIndex)
                 }else if(text.toString().length == currentOffice.numberLength){
                     getCandidateOrPlateByNumber(text.toString());
-                }else if(currentCandidateDto != null || currentPlateDto != null){
-                    resetNamePartyNameAndImages()
+                }else if( (currentCandidateDto != null || currentPlateDto != null) && text.toString().isNotEmpty()){
+
+                    resetTextsAndImages()
                 }
             }
 
@@ -109,18 +124,20 @@ class Urn : AppCompatActivity() {
 
         })
     }
-    private fun resetNamePartyNameAndImages(){
+    private fun resetTextsAndImages(){
         currentCandidateDto = null
         currentPlateDto = null
         txtCandidateName.text = ""
         txtPartyName.text = ""
+
+
         txtMainName.text = ""
         txtViceName.text = ""
         imgMain.setImageURI(null)
         imgVice.setImageURI(null)
     }
     private fun getCandidateOrPlateByNumber(number:String){
-        resetNamePartyNameAndImages()
+        resetTextsAndImages()
 
         Thread{
             try{
@@ -192,13 +209,35 @@ class Urn : AppCompatActivity() {
     }
     private fun getNextOffice(){
         ///69420
+
         if(officeIterator.hasNext()){
             currentOffice = officeIterator.next()
             txtOfficeToVote.text =  currentOffice.name
+            resetTextsAndImages()
+            txtNumberToVote.text = ""
             //txtNumberToVote. =currentOffice.numberLength
         }else{
-            ///TODO: ENCERRAR ELEICAO
+            makeVotes()
         }
+    }
+    private fun makeVotes(){
+
+        Thread{
+            controller.saveVotesElections(votesElectionList)
+
+            runOnUiThread {
+                finish()
+            }
+
+        }.start()
+    }
+    private fun saveVote(blank:Boolean){
+
+        votesElectionList.add(VotesElection(
+            officeId = currentOffice.id,
+           votedNumber =   if(blank) null else txtNumberToVote.text.toString(),
+            voterId = currentVoterId
+        ))
     }
 
 }

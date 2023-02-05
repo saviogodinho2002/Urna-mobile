@@ -21,6 +21,8 @@ interface VotesElectionDao {
     @Query("SELECT * from VotesElection")
     fun getVotesElections():List<VotesElection>
 
+    @Query("delete from VotesElection")
+    fun truncateVotesElections()
 
     @Query("SELECT * from VotesElection where voter_id = :id")
     fun getVotesElectionByVoterId(id:Int):List<VotesElection>

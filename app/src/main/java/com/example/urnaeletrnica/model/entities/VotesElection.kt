@@ -9,6 +9,6 @@ data class VotesElection (///teste
     @PrimaryKey(autoGenerate = true) val id:Int = 0,
     @ColumnInfo(name = "voter_id") val voterId:Int,
     @ColumnInfo(name = "office_id") val officeId:Int,
-    @ColumnInfo(name = "voted_number") val votedNumber:String,
+    @ColumnInfo(name = "voted_number") val votedNumber:String?,
 
 )

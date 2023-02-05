@@ -20,6 +20,7 @@ class AutenticateVoter : AppCompatActivity() {
     private lateinit var controller: DataBankGeralController
 
     private lateinit var btnAutenticateVoter:Button
+    private lateinit var btnResetElection:Button
     private lateinit var editTittle:EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,7 @@ class AutenticateVoter : AppCompatActivity() {
         controller = DataBankGeralController(applicationContext,contentResolver,app.db)
 
         btnAutenticateVoter = findViewById(R.id.btn_autenticate)
+        btnResetElection = findViewById(R.id.btn_reset)
         editTittle = findViewById(R.id.autenticate_tittle)
 
         btnAutenticateVoter.setOnClickListener {
@@ -39,6 +41,15 @@ class AutenticateVoter : AppCompatActivity() {
         }
 
         fetchSectionsOnDrop()
+
+        btnResetElection.setOnClickListener {
+            resetElection()
+        }
+    }
+    private fun resetElection(){
+        Thread{
+            controller.truncateVotesElections()
+        }.start()
     }
     private fun auntenticate(){
         if(editTittle.text.toString().isEmpty() || editTittle.text.toString().length < 5)
