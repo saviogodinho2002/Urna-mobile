@@ -151,7 +151,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/btn_1"
+            android:id="@+id/btn_2"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"
@@ -164,13 +164,13 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/btn_7"
-            app:layout_constraintEnd_toEndOf="@+id/btn_7"
-            app:layout_constraintStart_toStartOf="@+id/btn_7"
+            app:layout_constraintBottom_toTopOf="@+id/btn_5"
+            app:layout_constraintEnd_toEndOf="@+id/btn_5"
+            app:layout_constraintStart_toStartOf="@+id/btn_5"
             app:rippleColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_2"
+            android:id="@+id/btn_3"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:layout_marginStart="10dp"
@@ -183,13 +183,13 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_1"
-            app:layout_constraintStart_toEndOf="@+id/btn_1"
-            app:layout_constraintTop_toTopOf="@+id/btn_1"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_2"
+            app:layout_constraintStart_toEndOf="@+id/btn_2"
+            app:layout_constraintTop_toTopOf="@+id/btn_2"
             app:rippleColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_3"
+            android:id="@+id/btn_6"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:layout_marginStart="10dp"
@@ -202,13 +202,13 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_7"
-            app:layout_constraintStart_toEndOf="@+id/btn_7"
-            app:layout_constraintTop_toTopOf="@+id/btn_7"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_5"
+            app:layout_constraintStart_toEndOf="@+id/btn_5"
+            app:layout_constraintTop_toTopOf="@+id/btn_5"
             app:rippleColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_5"
+            android:id="@+id/btn_7"
             android:layout_width="50dp"
             android:layout_height="60dp"
 
@@ -221,13 +221,13 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_6"
-            app:layout_constraintEnd_toStartOf="@+id/btn_6"
-            app:layout_constraintTop_toTopOf="@+id/btn_6"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_8"
+            app:layout_constraintEnd_toStartOf="@+id/btn_8"
+            app:layout_constraintTop_toTopOf="@+id/btn_8"
             app:rippleColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_8"
+            android:id="@+id/btn_9"
             android:layout_width="50dp"
             android:layout_height="60dp"
 
@@ -240,14 +240,14 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_6"
-            app:layout_constraintStart_toEndOf="@+id/btn_6"
-            app:layout_constraintTop_toTopOf="@+id/btn_6"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_8"
+            app:layout_constraintStart_toEndOf="@+id/btn_8"
+            app:layout_constraintTop_toTopOf="@+id/btn_8"
             app:layout_constraintVertical_bias="0.0"
             app:rippleColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_9"
+            android:id="@+id/btn_0"
             android:layout_width="50dp"
             android:layout_height="60dp"
 
@@ -266,7 +266,7 @@
             app:rippleColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_6"
+            android:id="@+id/btn_8"
             android:layout_width="50dp"
             android:layout_height="60dp"
 
@@ -279,13 +279,13 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/btn_9"
-            app:layout_constraintEnd_toEndOf="@+id/btn_9"
-            app:layout_constraintStart_toStartOf="@+id/btn_9"
+            app:layout_constraintBottom_toTopOf="@+id/btn_0"
+            app:layout_constraintEnd_toEndOf="@+id/btn_0"
+            app:layout_constraintStart_toStartOf="@+id/btn_0"
             app:rippleColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_7"
+            android:id="@+id/btn_5"
             android:layout_width="50dp"
             android:layout_height="60dp"
 
@@ -298,9 +298,9 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/btn_6"
-            app:layout_constraintEnd_toEndOf="@+id/btn_6"
-            app:layout_constraintStart_toStartOf="@+id/btn_6"
+            app:layout_constraintBottom_toTopOf="@+id/btn_8"
+            app:layout_constraintEnd_toEndOf="@+id/btn_8"
+            app:layout_constraintStart_toStartOf="@+id/btn_8"
             app:rippleColor="#FFFFFF" />
 
         <Button
@@ -317,13 +317,13 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_7"
-            app:layout_constraintEnd_toStartOf="@+id/btn_7"
-            app:layout_constraintTop_toTopOf="@+id/btn_7"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_5"
+            app:layout_constraintEnd_toStartOf="@+id/btn_5"
+            app:layout_constraintTop_toTopOf="@+id/btn_5"
             app:rippleColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_"
+            android:id="@+id/btn_1"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:layout_marginEnd="10dp"
@@ -336,9 +336,9 @@
             android:textColorHint="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:iconTint="#000000"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_1"
-            app:layout_constraintEnd_toStartOf="@+id/btn_1"
-            app:layout_constraintTop_toTopOf="@+id/btn_1"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_2"
+            app:layout_constraintEnd_toStartOf="@+id/btn_2"
+            app:layout_constraintTop_toTopOf="@+id/btn_2"
             app:rippleColor="#FFFFFF" />
 
         <Button
