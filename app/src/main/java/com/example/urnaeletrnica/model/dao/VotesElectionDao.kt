@@ -29,6 +29,17 @@ interface VotesElectionDao {
             "join Candidate on Candidate.numberCandidate = VotesElection.voted_number and Candidate.officeId = :officeId and VotesElection.office_id = :officeId" )
     fun totalValidVotesToOfficeExecutiveMatchCandidate(officeId: Int):Int
 
+    @Query("SELECT count(*)from VotesElection " +
+            "join Candidate on Candidate.numberCandidate = VotesElection.voted_number and Candidate.numberCandidate = :number " +
+            "and Candidate.officeId = :officeId and VotesElection.office_id = :officeId" )
+    fun getVotesSectionsToNumber(number: String, officeId: Int):Int
+
+    @Query("SELECT count(*) from VotesElection " +
+            "join Plate join Candidate on (Candidate.id = Plate.mainId and Candidate.officeId = :officeId) " +
+            "join Party on Party.id = Candidate.partyId and Party.number = VotesElection.voted_number" +
+            " and VotesElection.office_id = :officeId and Party.number = :number" )
+    fun getVotesSectionsToNumberExecutive(number: String, officeId: Int):Int
+
     @Query("SELECT count(*) from VotesElection " +
             "join Plate join Candidate on (Candidate.id = Plate.mainId and Candidate.officeId = :officeId) " +
             "join Party on Party.id = Candidate.partyId and Party.number = VotesElection.voted_number" +

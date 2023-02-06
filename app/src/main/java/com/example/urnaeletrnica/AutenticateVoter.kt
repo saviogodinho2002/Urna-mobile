@@ -103,12 +103,83 @@ class AutenticateVoter : AppCompatActivity() {
         }.start()
     }
 
-    private fun gerateUrn(){
+    private fun gerateReporAllUrn(){
         Thread{
-            val votes = controller.getVotesSections()
+            val sectionAndZone = mapSectionAndZone[dropSections.text.toString()]
+            val votes = controller.getVotesElectionsOfUrn(sectionAndZone!!.section!!.id)
+            val officesNotExecutive = controller.getOfficesIsNotExecutiveHasCandidate()
+            val officeIsExecutive = controller.getOfficesExecutiveHasPlate()
+            val report = StringBuilder()
+            report.append("Zona: ${sectionAndZone.zone!!.zoneNumber}\n")
+            report.append("Urna: ${sectionAndZone.section!!.sectionNumber}\n")
 
+            ///todo total votos
+            ///todo total votos para cada cargo
+            ///todo total votos pra candidato X
+            var totalValid = 0
+            report.append("\n----- Votos Válidos -----\n\n")
+            report.append("---------------------------------\n")
+            report.append("Cargos Não Executivos\n")
+            officesNotExecutive.forEach { office->
+                val current = controller.totalValidVotesToOfficeNotExecutive(office.id)
+                totalValid += current
+                report.append("${office.name} : ${current} \n")
+            }
 
+            report.append("\n---------------------------------\n")
+            report.append("Cargos Executivos\n")
+            officeIsExecutive.forEach {office ->
+                val current = controller.totalValidVotesToOfficeExecutive(office.id)
+                totalValid += current
+                report.append("${office.name} : ${current} \n")
 
+            }
+            val total = controller.totalVotes()
+            report.append("\n---------------------------------\n")
+            report.append("Cargos Executivos\n")
+            report.append("Total de votos: ${total}\n")
+            report.append("Total de votos válidos: ${totalValid}\n")
+            report.append("Total de votos brancos ou nulos: ${total - totalValid}\n")
+
+            report.append("\n---------------------------------\n")
+
+            val candidatesDto = controller.getCandidatesDto()
+
+            ///rodando pra nao executivo
+            report.append("\n----- Votos de cada Candidato -----\n\n")
+            officesNotExecutive.forEach { office->
+                report.append("Cargo: ${office.name}\n\n")
+                candidatesDto.forEach {candidateDto ->
+                    if(candidateDto.officeId == office.id && !candidateDto.isExecutive){
+                        val currentVotes = controller.getVotesSectionsToNumber(candidateDto.numberCandidate, officeId = office.id)
+                        report.append("* Nome: ${candidateDto.voterName}\n")
+                        report.append("* Votos: ${currentVotes}\n")
+                        report.append("\n")
+                    }
+
+                }
+                report.append("##########################\n")
+            }
+            ///rodando para executivos
+            val platesDto = controller.getPlatesDto()
+            report.append("\n----- Votos de cada Chapa -----\n\n")
+            officeIsExecutive.forEach { office->
+                report.append("Chapa para: ${office.name}\n\n")
+
+                platesDto.forEach {plateDto ->
+                    if(plateDto.officeId == office.id ){
+                        val currentVotes = controller.getVotesSectionsToNumberExecutive(plateDto.partyNumber, officeId = office.id)
+                        report.append("* Principal: ${controller.getVoterByCandidateId(plateDto.mainId).name}\n")
+                        report.append("* Vice: ${controller.getVoterByCandidateId(plateDto.viceId).name}\n")
+                        report.append("* Votos: ${currentVotes}\n")
+                        report.append("\n")
+                    }
+
+                }
+                report.append("##########################\n")
+            }
+
+            Log.i("reports",report.toString())
         }.start()
     }
     private fun gerateReportOfThisUrn(){
@@ -145,9 +216,47 @@ class AutenticateVoter : AppCompatActivity() {
             val total = controller.totalVotes()
             report.append("\n---------------------------------\n")
             report.append("Cargos Executivos\n")
-            report.append("Total: ${total}\n")
-            report.append("Total válidos: ${totalValid}\n")
-            report.append("Total inválidos: ${total - totalValid}\n")
+            report.append("Total de votos: ${total}\n")
+            report.append("Total de votos válidos: ${totalValid}\n")
+            report.append("Total de votos brancos ou nulos: ${total - totalValid}\n")
+
+            report.append("\n---------------------------------\n")
+
+            val candidatesDto = controller.getCandidatesDto()
+
+            ///rodando pra nao executivo
+            report.append("\n----- Votos de cada Candidato -----\n\n")
+            officesNotExecutive.forEach { office->
+                report.append("Cargo: ${office.name}\n\n")
+                candidatesDto.forEach {candidateDto ->
+                    if(candidateDto.officeId == office.id && !candidateDto.isExecutive){
+                        val votes = controller.getVotesSectionsToNumber(candidateDto.numberCandidate, officeId = office.id)
+                        report.append("* Nome: ${candidateDto.voterName}\n")
+                        report.append("* Votos: ${votes}\n")
+                        report.append("\n")
+                    }
+
+                }
+                report.append("##########################\n")
+            }
+            ///rodando para executivos
+            val platesDto = controller.getPlatesDto()
+            report.append("\n----- Votos de cada Chapa -----\n\n")
+            officeIsExecutive.forEach { office->
+                report.append("Chapa para: ${office.name}\n\n")
+
+                platesDto.forEach {plateDto ->
+                    if(plateDto.officeId == office.id ){
+                        val votes = controller.getVotesSectionsToNumberExecutive(plateDto.partyNumber, officeId = office.id)
+                        report.append("* Principal: ${controller.getVoterByCandidateId(plateDto.mainId).name}\n")
+                        report.append("* Vice: ${controller.getVoterByCandidateId(plateDto.viceId).name}\n")
+                        report.append("* Votos: ${votes}\n")
+                        report.append("\n")
+                    }
+
+                }
+                report.append("##########################\n")
+            }
 
             Log.i("reports",report.toString())
         }.start()

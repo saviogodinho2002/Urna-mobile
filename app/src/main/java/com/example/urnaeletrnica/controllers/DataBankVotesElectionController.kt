@@ -24,4 +24,7 @@ class DataBankVotesElectionController(private val applicationContext: Context, p
     }
 
     fun totalVotes() = dao.totalVotes()
+
+    fun getVotesSectionsToNumber(number:String,officeId: Int) = dao.getVotesSectionsToNumber(number,officeId)
+    fun getVotesSectionsToNumberExecutive(number:String,officeId: Int) = dao.getVotesSectionsToNumberExecutive(number,officeId)
 }

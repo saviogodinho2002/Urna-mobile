@@ -12,7 +12,8 @@ data class PlateDto(
     val partyPhotoUrl:String?,
     val plateName:String,
     val mainId:Int,
-    val viceId:Int
+    val viceId:Int,
+    val officeId:Int
 
 
     )

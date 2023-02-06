@@ -23,21 +23,22 @@ interface CandidateDao {
     @Query("SELECT * FROM Candidate Where numberCandidate = :number") //variavel dinamica, mesma da função de baixo
     fun getCandidateByNumber(number:String):Candidate;
 
-    @Query("SELECT Candidate.id as id, Voter.name as voterName,Voter.voterTitle as voterTittle, Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
+    @Query("SELECT Candidate.id as id, Voter.name as voterName,Voter.voterTitle as voterTittle,Office.isExecutive as isExecutive, Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
             +" from Candidate join Voter on Candidate.voterID = Voter.id join Party on Candidate.partyId = Party.id join Office on Candidate.officeId = Office.id")
     fun getCandidatesDto():List<CandidateDto>
 
-    @Query("SELECT Candidate.id as id, Voter.name as voterName,Voter.voterTitle as voterTittle, Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
+    @Query("SELECT Candidate.id as id, Voter.name as voterName,Voter.voterTitle as voterTittle, Office.isExecutive as isExecutive, " +
+            "Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
             +" from Candidate join Voter on Candidate.voterID = Voter.id join Party on Candidate.partyId = Party.id join Office on Candidate.officeId = Office.id and Candidate.numberCandidate = :number")
     fun getCandidateDtoByNumber(number: String):CandidateDto
 
-    @Query("SELECT Candidate.id as id, Voter.name as voterName,Voter.voterTitle as voterTittle, Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
+    @Query("SELECT Candidate.id as id, Voter.name as voterName,Voter.voterTitle as voterTittle, Office.isExecutive as isExecutive, Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
             +" from Candidate join Voter on Candidate.voterID = Voter.id  and Candidate.numberCandidate = :number join Party on Candidate.partyId = Party.id join Office on Candidate.officeId = Office.id and Office.id = :officeId")
     fun getCandidateDtoByNumberAndOffice(number: String,officeId: Int):CandidateDto
 
 
 
-    @Query("SELECT Candidate.id as id, Voter.name as voterName,Voter.voterTitle as voterTittle , Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
+    @Query("SELECT Candidate.id as id, Voter.name as voterName,Voter.voterTitle as voterTittle  , Office.isExecutive as isExecutive, Party.initials as partyInitials, Office.name as officeName, Candidate.numberCandidate as numberCandidate, Party.id as partyId, Office.id as officeId, Voter.photoUri as photoUri"
             +" from Candidate join Voter on Candidate.voterID = Voter.id join Party on Candidate.partyId = Party.id join Office on Candidate.officeId = Office.id and Candidate.voterID = :voterId")
     fun getCandidateDtoByVoterId(voterId:Int):CandidateDto
 

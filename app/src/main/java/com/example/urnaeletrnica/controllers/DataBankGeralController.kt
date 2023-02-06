@@ -157,6 +157,8 @@ class DataBankGeralController(private val applicationContext: Context, private v
         return dataBankCandidateController.saveCandidate(voterId,officeId,partyId,numberCandidate)
     }
     fun getCandidatesDto() = dataBankCandidateController.getCandidatesDto()
+
+    fun getCandidates() = dataBankCandidateController.getCandidates()
     fun getCandidateById(id:Int) = dataBankCandidateController.getCandidateById(id)
     fun deleteCandidate(candidate: Candidate){
         dataBankCandidateController.deleteCandidate(candidate)
@@ -198,5 +200,8 @@ class DataBankGeralController(private val applicationContext: Context, private v
     fun getVotesSections() = dataBankVotesElectionController.getVotesSections()
 
     fun getVotesElectionsOfUrn(sectionId:Int) = dataBankVotesElectionController.getVotesElectionsOfUrn(sectionId)
+
+    fun getVotesSectionsToNumber(number:String,officeId: Int) = dataBankVotesElectionController.getVotesSectionsToNumber(number,officeId)
+    fun getVotesSectionsToNumberExecutive(number:String,officeId: Int) = dataBankVotesElectionController.getVotesSectionsToNumberExecutive(number,officeId)
 
 }
