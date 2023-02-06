@@ -12,4 +12,16 @@ class DataBankVotesElectionController(private val applicationContext: Context, p
         dao.insertVotesElection(votesElection)
     }
     fun truncateVotesElections() = dao.truncateVotesElections()
+    fun getVotesSections() = dao.getVotesElections()
+    fun getVotesElectionsOfUrn(sectionId:Int) = dao.getVotesElectionsOfUrn(sectionId)
+    fun totalValidVotesToOfficeNotExecutive(officeId: Int):Int {
+
+        return dao.totalValidVotesToOfficeExecutiveMatchCandidate(officeId) //+ dao.totalValidVotesToOfficeMatchParty(officeId)
+    }
+    fun totalValidVotesToOfficeExecutive(officeId: Int):Int {
+
+        return dao.totalValidVotesToOfficeExecutiveMatchPlate(officeId) //+ dao.totalValidVotesToOfficeMatchParty(officeId)
+    }
+
+    fun totalVotes() = dao.totalVotes()
 }

@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import com.example.urnaeletrnica.model.dao.AppDataBase
-import com.example.urnaeletrnica.model.dao.PartyDao
 import com.example.urnaeletrnica.model.entities.*
 import com.example.urnaeletrnica.model.relationship.PlateDto
 import com.example.urnaeletrnica.model.relationship.SectionAndVoters
@@ -41,6 +40,15 @@ class DataBankGeralController(private val applicationContext: Context, private v
     fun getOfficesIsNotExecutive() = dataBankOfficeController.getOfficesIsNotExecutive()
 
     fun getOfficesIsNotExecutiveHasCandidate() = dataBankOfficeController.getOfficesIsNotExecutiveHasCandidate()
+    fun getOfficesExecutiveHasPlate() = dataBankOfficeController.getOfficesExecutiveHasPlate()
+
+    fun totalValidVotesToOfficeNotExecutive(officeId: Int):Int {
+      return dataBankVotesElectionController.totalValidVotesToOfficeNotExecutive(officeId)
+    }
+    fun totalValidVotesToOfficeExecutive(officeId: Int):Int {
+        return dataBankVotesElectionController.totalValidVotesToOfficeExecutive(officeId)
+    }
+    fun totalVotes() = dataBankVotesElectionController.totalVotes()
     private fun existSomePartyWithInitials(initials:String):Boolean{
         return  dataBankPartyController.existSomePartyWithInitials(initials)
     }
@@ -187,5 +195,8 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
     }
     fun truncateVotesElections() = dataBankVotesElectionController.truncateVotesElections()
+    fun getVotesSections() = dataBankVotesElectionController.getVotesSections()
+
+    fun getVotesElectionsOfUrn(sectionId:Int) = dataBankVotesElectionController.getVotesElectionsOfUrn(sectionId)
 
 }

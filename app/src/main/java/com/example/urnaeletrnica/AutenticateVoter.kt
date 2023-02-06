@@ -3,15 +3,14 @@ package com.example.urnaeletrnica
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.urnaeletrnica.controllers.DataBankGeralController
-import com.example.urnaeletrnica.model.entities.Voter
 import com.example.urnaeletrnica.model.relationship.SectionAndZone
-import java.util.TreeMap
 
 class AutenticateVoter : AppCompatActivity() {
 
@@ -22,6 +21,7 @@ class AutenticateVoter : AppCompatActivity() {
     private lateinit var btnAutenticateVoter:Button
     private lateinit var btnResetElection:Button
     private lateinit var editTittle:EditText
+    private lateinit var btnReportThis:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +34,7 @@ class AutenticateVoter : AppCompatActivity() {
 
         btnAutenticateVoter = findViewById(R.id.btn_autenticate)
         btnResetElection = findViewById(R.id.btn_reset)
+        btnReportThis = findViewById(R.id.btn_report_this)
         editTittle = findViewById(R.id.autenticate_tittle)
 
         btnAutenticateVoter.setOnClickListener {
@@ -44,6 +45,9 @@ class AutenticateVoter : AppCompatActivity() {
 
         btnResetElection.setOnClickListener {
             resetElection()
+        }
+        btnReportThis.setOnClickListener {
+            gerateReportOfThisUrn()
         }
     }
     private fun resetElection(){
@@ -96,6 +100,56 @@ class AutenticateVoter : AppCompatActivity() {
                 dropSections.setAdapter(adapterDrop)
 
             }
+        }.start()
+    }
+
+    private fun gerateUrn(){
+        Thread{
+            val votes = controller.getVotesSections()
+
+
+
+        }.start()
+    }
+    private fun gerateReportOfThisUrn(){
+        Thread{
+            val sectionAndZone = mapSectionAndZone[dropSections.text.toString()]
+            val votes = controller.getVotesElectionsOfUrn(sectionAndZone!!.section!!.id)
+            val officesNotExecutive = controller.getOfficesIsNotExecutiveHasCandidate()
+            val officeIsExecutive = controller.getOfficesExecutiveHasPlate()
+            val report = StringBuilder()
+            report.append("Zona: ${sectionAndZone.zone!!.zoneNumber}\n")
+            report.append("Urna: ${sectionAndZone.section!!.sectionNumber}\n")
+
+            ///todo total votos
+            ///todo total votos para cada cargo
+            ///todo total votos pra candidato X
+            var totalValid = 0
+            report.append("\n----- Votos Válidos -----\n\n")
+            report.append("---------------------------------\n")
+            report.append("Cargos Não Executivos\n")
+            officesNotExecutive.forEach { office->
+                val current = controller.totalValidVotesToOfficeNotExecutive(office.id)
+                totalValid += current
+                report.append("${office.name} : ${current} \n")
+            }
+
+            report.append("\n---------------------------------\n")
+            report.append("Cargos Executivos\n")
+            officeIsExecutive.forEach {office ->
+                val current = controller.totalValidVotesToOfficeExecutive(office.id)
+                totalValid += current
+                report.append("${office.name} : ${current} \n")
+
+            }
+            val total = controller.totalVotes()
+            report.append("\n---------------------------------\n")
+            report.append("Cargos Executivos\n")
+            report.append("Total: ${total}\n")
+            report.append("Total válidos: ${totalValid}\n")
+            report.append("Total inválidos: ${total - totalValid}\n")
+
+            Log.i("reports",report.toString())
         }.start()
     }
 }

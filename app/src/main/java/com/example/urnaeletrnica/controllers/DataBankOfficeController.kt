@@ -28,4 +28,7 @@ class DataBankOfficeController (private val applicationContext: Context, private
     fun getOfficesIsNotExecutive() = dao.getOfficesIsNotExecutive()
 
     fun getOfficesIsNotExecutiveHasCandidate() = dao.getOfficesIsNotExecutiveHasCandidate()
+    fun getOfficesExecutiveHasPlate() = dao.getOfficesExecutiveHasPlate()
+
+
 }

@@ -195,7 +195,7 @@ class Urn : AppCompatActivity() {
     private fun fetchOffices(){
         Thread{
             officesList.addAll(controller.getOfficesIsNotExecutiveHasCandidate())
-            officesList.addAll(controller.getOfficesExecutive())
+            officesList.addAll(controller.getOfficesExecutiveHasPlate())
             //officesList.addAll(controller.getOffices())
             runOnUiThread {
                 if(officesList.isNotEmpty()){

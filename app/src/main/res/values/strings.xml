@@ -59,4 +59,5 @@
     <string name="corrects">CORRIGE</string>
     <string name="blank">branco</string>
     <string name="non_existe_party">Nao existe partido com esse numero</string>
+    <string name="gerate_reports_this">Gerar relatório desta Urna</string>
 </resources>
