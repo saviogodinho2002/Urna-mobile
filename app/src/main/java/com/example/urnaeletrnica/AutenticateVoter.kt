@@ -186,6 +186,11 @@ class AutenticateVoter : AppCompatActivity() {
             }
 
             Log.i("reports",report.toString())
+            runOnUiThread {
+                val intent = Intent(this@AutenticateVoter,ReportActivity::class.java)
+                intent.putExtra("report",report.toString())
+                startActivity(intent)
+            }
         }.start()
     }
     private fun gerateReportOfThisUrn(){
@@ -265,6 +270,11 @@ class AutenticateVoter : AppCompatActivity() {
             }
 
             Log.i("reports",report.toString())
+            runOnUiThread {
+                val intent = Intent(this@AutenticateVoter,ReportActivity::class.java)
+                intent.putExtra("report",report.toString())
+                startActivity(intent)
+            }
         }.start()
     }
 }
