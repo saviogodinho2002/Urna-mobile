@@ -18,13 +18,22 @@ class DataBankVotesElectionController(private val applicationContext: Context, p
 
         return dao.totalValidVotesToOfficeExecutiveMatchCandidate(officeId) //+ dao.totalValidVotesToOfficeMatchParty(officeId)
     }
+    fun totalValidVotesToOfficeExecutiveMatchCandidateOnSection(officeId: Int,sectionId: Int) = dao.totalValidVotesToOfficeExecutiveMatchCandidateOnSection(officeId,sectionId)
     fun totalValidVotesToOfficeExecutive(officeId: Int):Int {
 
         return dao.totalValidVotesToOfficeExecutiveMatchPlate(officeId) //+ dao.totalValidVotesToOfficeMatchParty(officeId)
+    }
+    fun totalValidVotesToOfficeExecutiveOnSection(officeId: Int,sectionId: Int):Int {
+
+        return dao.totalValidVotesToOfficeExecutiveMatchPlateOnSection(officeId,sectionId) //+ dao.totalValidVotesToOfficeMatchParty(officeId)
     }
 
     fun totalVotes() = dao.totalVotes()
 
     fun getVotesSectionsToNumber(number:String,officeId: Int) = dao.getVotesSectionsToNumber(number,officeId)
+    fun getVotesSectionsToNumberOnSection(number:String,officeId: Int,sectionId: Int) = dao.getVotesSectionsToNumberOnSection(number,officeId,sectionId)
+
     fun getVotesSectionsToNumberExecutive(number:String,officeId: Int) = dao.getVotesSectionsToNumberExecutive(number,officeId)
+
+    fun getVotesSectionsToNumberExecutiveOnSection(number:String,officeId: Int,sectionId: Int) = dao.getVotesSectionsToNumberExecutiveOnSection(number,officeId,sectionId)
 }

@@ -22,6 +22,7 @@ class AutenticateVoter : AppCompatActivity() {
     private lateinit var btnResetElection:Button
     private lateinit var editTittle:EditText
     private lateinit var btnReportThis:Button
+    private lateinit var btnReportAll:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,7 @@ class AutenticateVoter : AppCompatActivity() {
         btnAutenticateVoter = findViewById(R.id.btn_autenticate)
         btnResetElection = findViewById(R.id.btn_reset)
         btnReportThis = findViewById(R.id.btn_report_this)
+        btnReportAll = findViewById(R.id.btn_report_all)
         editTittle = findViewById(R.id.autenticate_tittle)
 
         btnAutenticateVoter.setOnClickListener {
@@ -48,6 +50,10 @@ class AutenticateVoter : AppCompatActivity() {
         }
         btnReportThis.setOnClickListener {
             gerateReportOfThisUrn()
+
+        }
+        btnReportAll.setOnClickListener {
+            gerateReporAllUrn()
         }
     }
     private fun resetElection(){
@@ -105,13 +111,13 @@ class AutenticateVoter : AppCompatActivity() {
 
     private fun gerateReporAllUrn(){
         Thread{
-            val sectionAndZone = mapSectionAndZone[dropSections.text.toString()]
-            val votes = controller.getVotesElectionsOfUrn(sectionAndZone!!.section!!.id)
+            //val sectionAndZone = mapSectionAndZone[dropSections.text.toString()]
+            val votes = controller.getVotesSections()///controller.getVotesElectionsOfUrn(sectionAndZone!!.section!!.id)
             val officesNotExecutive = controller.getOfficesIsNotExecutiveHasCandidate()
             val officeIsExecutive = controller.getOfficesExecutiveHasPlate()
             val report = StringBuilder()
-            report.append("Zona: ${sectionAndZone.zone!!.zoneNumber}\n")
-            report.append("Urna: ${sectionAndZone.section!!.sectionNumber}\n")
+            //report.append("Zona: ${sectionAndZone!!.zone!!.zoneNumber}\n")
+            //report.append("Urna: ${sectionAndZone.section!!.sectionNumber}\n")
 
             ///todo total votos
             ///todo total votos para cada cargo
@@ -134,7 +140,7 @@ class AutenticateVoter : AppCompatActivity() {
                 report.append("${office.name} : ${current} \n")
 
             }
-            val total = controller.totalVotes()
+            val total = votes.size//controller.totalVotes()
             report.append("\n---------------------------------\n")
             report.append("Cargos Executivos\n")
             report.append("Total de votos: ${total}\n")
@@ -151,7 +157,7 @@ class AutenticateVoter : AppCompatActivity() {
                 report.append("Cargo: ${office.name}\n\n")
                 candidatesDto.forEach {candidateDto ->
                     if(candidateDto.officeId == office.id && !candidateDto.isExecutive){
-                        val currentVotes = controller.getVotesSectionsToNumber(candidateDto.numberCandidate, officeId = office.id)
+                        val currentVotes = controller.getVotesElectionsToNumber(candidateDto.numberCandidate, officeId = office.id)
                         report.append("* Nome: ${candidateDto.voterName}\n")
                         report.append("* Votos: ${currentVotes}\n")
                         report.append("\n")
@@ -168,7 +174,7 @@ class AutenticateVoter : AppCompatActivity() {
 
                 platesDto.forEach {plateDto ->
                     if(plateDto.officeId == office.id ){
-                        val currentVotes = controller.getVotesSectionsToNumberExecutive(plateDto.partyNumber, officeId = office.id)
+                        val currentVotes = controller.getVotesElectionsToNumberExecutive(plateDto.partyNumber, officeId = office.id)
                         report.append("* Principal: ${controller.getVoterByCandidateId(plateDto.mainId).name}\n")
                         report.append("* Vice: ${controller.getVoterByCandidateId(plateDto.viceId).name}\n")
                         report.append("* Votos: ${currentVotes}\n")
@@ -200,7 +206,7 @@ class AutenticateVoter : AppCompatActivity() {
             report.append("---------------------------------\n")
             report.append("Cargos Não Executivos\n")
             officesNotExecutive.forEach { office->
-                val current = controller.totalValidVotesToOfficeNotExecutive(office.id)
+                val current = controller.totalValidVotesToOfficeNotExecutiveOnSection(office.id,sectionAndZone.section.id)
                 totalValid += current
                 report.append("${office.name} : ${current} \n")
             }
@@ -208,12 +214,12 @@ class AutenticateVoter : AppCompatActivity() {
             report.append("\n---------------------------------\n")
             report.append("Cargos Executivos\n")
             officeIsExecutive.forEach {office ->
-                val current = controller.totalValidVotesToOfficeExecutive(office.id)
+                val current = controller.totalValidVotesToOfficeExecutiveOnSection(office.id, sectionAndZone.section.id)
                 totalValid += current
                 report.append("${office.name} : ${current} \n")
 
             }
-            val total = controller.totalVotes()
+            val total = votes.size
             report.append("\n---------------------------------\n")
             report.append("Cargos Executivos\n")
             report.append("Total de votos: ${total}\n")
@@ -230,9 +236,9 @@ class AutenticateVoter : AppCompatActivity() {
                 report.append("Cargo: ${office.name}\n\n")
                 candidatesDto.forEach {candidateDto ->
                     if(candidateDto.officeId == office.id && !candidateDto.isExecutive){
-                        val votes = controller.getVotesSectionsToNumber(candidateDto.numberCandidate, officeId = office.id)
+                        val currentVotes = controller.getVotesElectionsToNumberOnSection(candidateDto.numberCandidate, officeId = office.id,sectionAndZone.section.id)
                         report.append("* Nome: ${candidateDto.voterName}\n")
-                        report.append("* Votos: ${votes}\n")
+                        report.append("* Votos: ${currentVotes}\n")
                         report.append("\n")
                     }
 
@@ -247,10 +253,10 @@ class AutenticateVoter : AppCompatActivity() {
 
                 platesDto.forEach {plateDto ->
                     if(plateDto.officeId == office.id ){
-                        val votes = controller.getVotesSectionsToNumberExecutive(plateDto.partyNumber, officeId = office.id)
+                        val currentVotes = controller.getVotesElectionsToNumberExecutiveOnSection(plateDto.partyNumber, officeId = office.id,sectionAndZone.section.id)
                         report.append("* Principal: ${controller.getVoterByCandidateId(plateDto.mainId).name}\n")
                         report.append("* Vice: ${controller.getVoterByCandidateId(plateDto.viceId).name}\n")
-                        report.append("* Votos: ${votes}\n")
+                        report.append("* Votos: ${currentVotes}\n")
                         report.append("\n")
                     }
 

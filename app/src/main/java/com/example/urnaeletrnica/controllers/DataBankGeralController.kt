@@ -45,8 +45,12 @@ class DataBankGeralController(private val applicationContext: Context, private v
     fun totalValidVotesToOfficeNotExecutive(officeId: Int):Int {
       return dataBankVotesElectionController.totalValidVotesToOfficeNotExecutive(officeId)
     }
+    fun totalValidVotesToOfficeNotExecutiveOnSection(officeId: Int,sectionId: Int) = dataBankVotesElectionController.totalValidVotesToOfficeExecutiveMatchCandidateOnSection(officeId,sectionId)
     fun totalValidVotesToOfficeExecutive(officeId: Int):Int {
         return dataBankVotesElectionController.totalValidVotesToOfficeExecutive(officeId)
+    }
+    fun totalValidVotesToOfficeExecutiveOnSection(officeId: Int,sectionId: Int):Int {
+        return dataBankVotesElectionController.totalValidVotesToOfficeExecutiveOnSection(officeId,sectionId)
     }
     fun totalVotes() = dataBankVotesElectionController.totalVotes()
     private fun existSomePartyWithInitials(initials:String):Boolean{
@@ -201,7 +205,10 @@ class DataBankGeralController(private val applicationContext: Context, private v
 
     fun getVotesElectionsOfUrn(sectionId:Int) = dataBankVotesElectionController.getVotesElectionsOfUrn(sectionId)
 
-    fun getVotesSectionsToNumber(number:String,officeId: Int) = dataBankVotesElectionController.getVotesSectionsToNumber(number,officeId)
-    fun getVotesSectionsToNumberExecutive(number:String,officeId: Int) = dataBankVotesElectionController.getVotesSectionsToNumberExecutive(number,officeId)
+    fun getVotesElectionsToNumber(number:String, officeId: Int) = dataBankVotesElectionController.getVotesSectionsToNumber(number,officeId)
+    fun getVotesElectionsToNumberOnSection(number:String, officeId: Int,sectionId: Int) = dataBankVotesElectionController.getVotesSectionsToNumberOnSection(number,officeId,sectionId)
+
+    fun getVotesElectionsToNumberExecutive(number:String, officeId: Int) = dataBankVotesElectionController.getVotesSectionsToNumberExecutive(number,officeId)
+    fun getVotesElectionsToNumberExecutiveOnSection(number:String, officeId: Int,sectionId: Int) = dataBankVotesElectionController.getVotesSectionsToNumberExecutiveOnSection(number,officeId,sectionId)
 
 }

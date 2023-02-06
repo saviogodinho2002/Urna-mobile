@@ -29,10 +29,21 @@ interface VotesElectionDao {
             "join Candidate on Candidate.numberCandidate = VotesElection.voted_number and Candidate.officeId = :officeId and VotesElection.office_id = :officeId" )
     fun totalValidVotesToOfficeExecutiveMatchCandidate(officeId: Int):Int
 
+    @Query("SELECT count(*) from VotesElection " +
+            "join Candidate on (Candidate.numberCandidate = VotesElection.voted_number and Candidate.officeId = :officeId and VotesElection.office_id = :officeId)" +
+            "join Voter on VotesElection.voter_id = Voter.id and Voter.sectionId = :sectionId" )
+    fun totalValidVotesToOfficeExecutiveMatchCandidateOnSection(officeId: Int,sectionId: Int):Int
+
     @Query("SELECT count(*)from VotesElection " +
             "join Candidate on Candidate.numberCandidate = VotesElection.voted_number and Candidate.numberCandidate = :number " +
             "and Candidate.officeId = :officeId and VotesElection.office_id = :officeId" )
     fun getVotesSectionsToNumber(number: String, officeId: Int):Int
+
+    @Query("SELECT count(*)from VotesElection " +
+            "join Candidate on Candidate.numberCandidate = VotesElection.voted_number and Candidate.numberCandidate = :number " +
+            "and (Candidate.officeId = :officeId and VotesElection.office_id = :officeId)" +
+            "join Voter on VotesElection.voter_id = Voter.id and Voter.sectionId = :sectionId" )
+    fun getVotesSectionsToNumberOnSection(number: String, officeId: Int,sectionId: Int):Int
 
     @Query("SELECT count(*) from VotesElection " +
             "join Plate join Candidate on (Candidate.id = Plate.mainId and Candidate.officeId = :officeId) " +
@@ -42,9 +53,23 @@ interface VotesElectionDao {
 
     @Query("SELECT count(*) from VotesElection " +
             "join Plate join Candidate on (Candidate.id = Plate.mainId and Candidate.officeId = :officeId) " +
+            "join Party on (Party.id = Candidate.partyId and Party.number = VotesElection.voted_number)" +
+            "join Voter on VotesElection.voter_id = Voter.id and Voter.sectionId = :sectionId " +
+            "and VotesElection.office_id = :officeId and Party.number = :number" )
+    fun getVotesSectionsToNumberExecutiveOnSection(number: String, officeId: Int, sectionId: Int):Int
+
+    @Query("SELECT count(*) from VotesElection " +
+            "join Plate join Candidate on (Candidate.id = Plate.mainId and Candidate.officeId = :officeId) " +
             "join Party on Party.id = Candidate.partyId and Party.number = VotesElection.voted_number" +
             " and VotesElection.office_id = :officeId" )
     fun totalValidVotesToOfficeExecutiveMatchPlate(officeId: Int):Int
+
+    @Query("SELECT count(*) from VotesElection " +
+            "join Plate join Candidate on (Candidate.id = Plate.mainId and Candidate.officeId = :officeId) " +
+            "join Party on (Party.id = Candidate.partyId and Party.number = VotesElection.voted_number)" +
+            "join Voter on Voter.id = VotesElection.voter_id and Voter.sectionId = :sectionId" +
+            " and VotesElection.office_id = :officeId" )
+    fun totalValidVotesToOfficeExecutiveMatchPlateOnSection(officeId: Int,sectionId: Int):Int
 
     @Query("SELECT count(*) FROM VotesElection")
     fun totalVotes():Int
