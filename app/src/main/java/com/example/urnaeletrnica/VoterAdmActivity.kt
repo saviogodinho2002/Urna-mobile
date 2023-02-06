@@ -190,7 +190,7 @@ class VoterAdmActivity : AppCompatActivity() {
                 }
 
 
-                name.text = item.voter.name
+                name.text = item.voter.name+"\n"+item.voter.voterTitle
                 zone.text = item.zone.zoneNumber
                 section.text = item.section.sectionNumber
 
